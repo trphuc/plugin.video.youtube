@@ -47,6 +47,14 @@ class YouTube(LoginClient):
                   'mine': 'true'}
         return self._perform_v3_request(method='DELETE', path='playlists', params=params)
 
+    def rename_playlist(self, playlist_id, new_title, privacy_status='private'):
+        params = {'part': 'snippet,id,status'}
+        post_data = {'kind': 'youtube#playlist',
+                     'id': playlist_id,
+                     'snippet': {'title': new_title},
+                     'starus': {'privacyStatus': privacy_status}}
+        return self._perform_v3_request(method='PUT', path='playlists', params=params, post_data=post_data)
+
     def create_playlist(self, title, privacy_status='private'):
         params = {'part': 'snippet,status'}
         post_data = {'kind': 'youtube#playlist',
@@ -337,6 +345,11 @@ class YouTube(LoginClient):
             _headers['content-type'] = 'application/json'
             result = requests.post(_url, data=json.dumps(post_data), params=_params, headers=_headers, verify=False,
                                    allow_redirects=allow_redirects)
+            pass
+        elif method == 'PUT':
+            _headers['content-type'] = 'application/json'
+            result = requests.put(_url, data=json.dumps(post_data), params=_params, headers=_headers, verify=False,
+                                  allow_redirects=allow_redirects)
             pass
         elif method == 'DELETE':
             result = requests.delete(_url, params=_params, headers=_headers, verify=False,

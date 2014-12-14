@@ -118,11 +118,15 @@ def _process_list_response(provider, context, json_data):
 
                 if channel_id != 'mine':
                     # subscribe to the channel via the playlist item
-                    yt_context_menu.append_subscribe_to_channel(context_menu, provider, context, channel_id, channel_name)
+                    yt_context_menu.append_subscribe_to_channel(context_menu, provider, context, channel_id,
+                                                                channel_name)
                     pass
                 else:
                     # remove my playlist
                     yt_context_menu.append_remove_playlist(context_menu, provider, context, playlist_id)
+
+                    # rename playlist
+                    yt_context_menu.append_rename_playlist(context_menu, provider, context, playlist_id, title)
                     pass
 
                 playlist_item.set_context_menu(context_menu)

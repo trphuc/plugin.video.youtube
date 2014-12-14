@@ -107,6 +107,23 @@ def _process_select_playlist(provider, context, re_match):
     pass
 
 
+def _process_rename_playlist(provider, context, re_match):
+    playlist_id = context.get_param('playlist_id', '')
+    if not playlist_id:
+        raise kodion.KodimonException('Playlist/Remove: missing playlist_id')
+
+    current_playlist_name = context.get_param('title', '')
+    result, text = context.get_ui().on_keyboard_input(title='__RENAME', default=current_playlist_name)
+    if result and text:
+        json_data = provider.get_client(context).rename_playlist(playlist_id=playlist_id, new_title=text)
+        if not v3.handle_error(provider, context, json_data):
+            return
+
+        context.get_ui().refresh_container()
+        pass
+    pass
+
+
 def process(method, category, provider, context, re_match):
     if method == 'add' and category == 'video':
         return _process_add_video(provider, context, re_match)
@@ -116,6 +133,8 @@ def process(method, category, provider, context, re_match):
         return _process_remove_playlist(provider, context, re_match)
     elif method == 'select' and category == 'playlist':
         return _process_select_playlist(provider, context, re_match)
+    elif method == 'rename' and category == 'playlist':
+        return _process_rename_playlist(provider, context, re_match)
     else:
         raise kodion.KodimonException("Unknown category '%s' or method '%s'" % (category, method))
 
