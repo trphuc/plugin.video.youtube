@@ -304,7 +304,7 @@ class Provider(kodion.AbstractProvider):
             channel_params['search_type'] = 'channel'
             channel_item = DirectoryItem('[B]' + context.localize(self.LOCAL_MAP['youtube.channels']) + '[/B]',
                                          context.create_uri([context.get_path()], channel_params),
-                                         image=context.create_resource_path('media', 'channel.png'))
+                                         image=context.create_resource_path('media', 'channels.png'))
             channel_item.set_fanart(self.get_fanart(context))
             result.append(channel_item)
 
@@ -337,7 +337,8 @@ class Provider(kodion.AbstractProvider):
         # sign in
         if not self.is_logged_in() and settings.get_bool('youtube.folder.sign.in.show', True):
             sign_in_item = DirectoryItem('[B]%s[/B]' % context.localize(self.LOCAL_MAP['youtube.sign.in']),
-                                         context.create_uri(['sign', 'in']))
+                                         context.create_uri(['sign', 'in']),
+                                         image=context.create_resource_path('media', 'sign_in.png'))
             sign_in_item.set_fanart(self.get_fanart(context))
             result.append(sign_in_item)
             pass
@@ -424,7 +425,7 @@ class Provider(kodion.AbstractProvider):
             if settings.get_bool('youtube.folder.subscriptions.show', True):
                 subscriptions_item = DirectoryItem(context.localize(self.LOCAL_MAP['youtube.subscriptions']),
                                                    context.create_uri(['subscriptions', 'list']),
-                                                   image=context.create_resource_path('media', 'channel.png'))
+                                                   image=context.create_resource_path('media', 'channels.png'))
                 subscriptions_item.set_fanart(self.get_fanart(context))
                 result.append(subscriptions_item)
                 pass
@@ -441,7 +442,8 @@ class Provider(kodion.AbstractProvider):
         # sign out
         if self.is_logged_in() and settings.get_bool('youtube.folder.sign.out.show', True):
             sign_out_item = DirectoryItem(context.localize(self.LOCAL_MAP['youtube.sign.out']),
-                                          context.create_uri(['sign', 'out']))
+                                          context.create_uri(['sign', 'out']),
+                                          image=context.create_resource_path('media', 'sign_out.png'))
             sign_out_item.set_fanart(self.get_fanart(context))
             result.append(sign_out_item)
             pass

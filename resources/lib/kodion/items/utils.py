@@ -23,7 +23,7 @@ def create_search_history_item(context, text):
 def create_new_search_item(context):
     new_search_item = DirectoryItem('[B]' + context.localize(constants.localize.SEARCH_NEW) + '[/B]',
                                     context.create_uri([constants.paths.SEARCH, 'new']),
-                                    image=context.create_resource_path('media/search.png'))
+                                    image=context.create_resource_path('media/new_search.png'))
     new_search_item.set_fanart(context.get_fanart())
     return new_search_item
 
