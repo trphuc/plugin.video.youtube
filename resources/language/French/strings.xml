@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <strings>
-    <!-- Kodimon Settings -->
+    <!-- Kodion Settings -->
     <string id="30000">Géneral</string>
     <string id="30001">Login</string>
     <string id="30002">Mot de passe</string>
@@ -16,7 +16,7 @@
     <string id="30023">Taille de l'historique de recherche</string>
     <string id="30024">Taille du cache (Mo)</string>
 
-    <!-- Kodimon Common -->
+    <!-- Kodion Common -->
     <string id="30100">Favoris</string>
     <string id="30101">Ajouter au plugins favoris</string>
     <string id="30102">Rechercher</string>

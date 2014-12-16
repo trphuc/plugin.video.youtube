@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <strings>
-    <!-- Kodimon Settings -->
+    <!-- Kodion Settings -->
     <string id="30000">Allgemein</string>
     <string id="30001">Benutzername</string>
     <string id="30002">Passwort</string>
@@ -16,7 +16,7 @@
     <string id="30023">Größe der Suchhistorie</string>
     <string id="30024">Cache-Größe (MB)</string>
 
-    <!-- Kodimon Common -->
+    <!-- Kodion Common -->
     <string id="30100">Favoriten</string>
     <string id="30101">Zu Addon Favs hinzufügen</string>
     <string id="30102">Suche</string>
