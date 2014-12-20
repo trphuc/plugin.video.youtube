@@ -50,6 +50,12 @@ class Provider(kodion.AbstractProvider):
         self._is_logged_in = False
         pass
 
+    def on_setup_wizard(self):
+        #super(Provider, self).on_setup_wizard()
+
+        #TODO: select language and country
+        pass
+
     def is_logged_in(self):
         return self._is_logged_in
 

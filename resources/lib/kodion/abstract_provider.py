@@ -48,6 +48,12 @@ class AbstractProvider(object):
         self._dict_path[re_path] = method_name
 
     def navigate(self, context):
+        # start the setup wizard
+        if context.get_settings().is_setup_wizard():
+            context.get_settings().set_bool(constants.setting.SETUP_WIZARD, False)
+            self.on_setup_wizard()
+            pass
+
         path = context.get_path()
 
         for key in self._dict_path:
@@ -89,6 +95,10 @@ class AbstractProvider(object):
         :param re_match:
         :return:
         """
+        raise NotImplementedError()
+
+    def on_setup_wizard(self):
+        #TODO: start view mode settings
         raise NotImplementedError()
 
     def on_root(self, context, re_match):
