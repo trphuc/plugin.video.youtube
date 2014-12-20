@@ -9,7 +9,7 @@ from . import utils
 
 def _process_list_response(provider, context, json_data):
     video_id_dict = {}
-    channel_item_dict = {}
+    channel_id_dict = {}
     playlist_item_id_dict = {}
 
     result = []
@@ -32,12 +32,6 @@ def _process_list_response(provider, context, json_data):
             video_item.set_fanart(provider.get_fanart(context))
             result.append(video_item)
             video_id_dict[video_id] = video_item
-
-            # map video to channel
-            channel_id = snippet['channelId']
-            if not channel_id in channel_item_dict:
-                channel_item_dict[channel_id] = []
-            channel_item_dict[channel_id].append(video_item)
             pass
         elif yt_kind == u'youtube#channel':
             channel_id = yt_item['id']
@@ -59,9 +53,9 @@ def _process_list_response(provider, context, json_data):
             result.append(channel_item)
 
             # map channel
-            if not channel_id in channel_item_dict:
-                channel_item_dict[channel_id] = []
-            channel_item_dict[channel_id].append(channel_item)
+            if not channel_id in channel_id_dict:
+                channel_id_dict[channel_id] = []
+            channel_id_dict[channel_id].append(channel_item)
             pass
         elif yt_kind == u'youtube#guideCategory':
             guide_id = yt_item['id']
@@ -91,9 +85,9 @@ def _process_list_response(provider, context, json_data):
             result.append(playlist_item)
 
             # map playlist to channel
-            if not channel_id in channel_item_dict:
-                channel_item_dict[channel_id] = []
-            channel_item_dict[channel_id].append(playlist_item)
+            if not channel_id in channel_id_dict:
+                channel_id_dict[channel_id] = []
+            channel_id_dict[channel_id].append(playlist_item)
             pass
         elif yt_kind == u'youtube#playlist':
             playlist_id = yt_item['id']
@@ -135,9 +129,9 @@ def _process_list_response(provider, context, json_data):
             result.append(playlist_item)
 
             # map playlist to channel
-            if not channel_id in channel_item_dict:
-                channel_item_dict[channel_id] = []
-            channel_item_dict[channel_id].append(playlist_item)
+            if not channel_id in channel_id_dict:
+                channel_id_dict[channel_id] = []
+            channel_id_dict[channel_id].append(playlist_item)
             pass
         elif yt_kind == u'youtube#playlistItem':
             snippet = yt_item['snippet']
@@ -154,12 +148,6 @@ def _process_list_response(provider, context, json_data):
             video_item.set_fanart(provider.get_fanart(context))
             result.append(video_item)
             video_id_dict[video_id] = video_item
-
-            # map video to channel
-            channel_id = snippet['channelId']
-            if not channel_id in channel_item_dict:
-                channel_item_dict[channel_id] = []
-            channel_item_dict[channel_id].append(video_item)
             pass
         elif yt_kind == 'youtube#searchResult':
             yt_kind = yt_item.get('id', {}).get('kind', '')
@@ -176,12 +164,6 @@ def _process_list_response(provider, context, json_data):
                 video_item.set_fanart(provider.get_fanart(context))
                 result.append(video_item)
                 video_id_dict[video_id] = video_item
-
-                # map video to channel
-                channel_id = snippet['channelId']
-                if not channel_id in channel_item_dict:
-                    channel_item_dict[channel_id] = []
-                channel_item_dict[channel_id].append(video_item)
                 pass
             # playlist
             elif yt_kind == 'youtube#playlist':
@@ -215,9 +197,9 @@ def _process_list_response(provider, context, json_data):
                 result.append(playlist_item)
 
                 # map playlist to channel
-                if not channel_id in channel_item_dict:
-                    channel_item_dict[channel_id] = []
-                channel_item_dict[channel_id].append(playlist_item)
+                if not channel_id in channel_id_dict:
+                    channel_id_dict[channel_id] = []
+                channel_id_dict[channel_id].append(playlist_item)
                 pass
             elif yt_kind == 'youtube#channel':
                 channel_id = yt_item['id']['channelId']
@@ -240,9 +222,9 @@ def _process_list_response(provider, context, json_data):
                 result.append(channel_item)
 
                 # map channel
-                if not channel_id in channel_item_dict:
-                    channel_item_dict[channel_id] = []
-                channel_item_dict[channel_id].append(channel_item)
+                if not channel_id in channel_id_dict:
+                    channel_id_dict[channel_id] = []
+                channel_id_dict[channel_id].append(channel_item)
                 pass
             else:
                 raise kodion.KodimonException("Unknown kind '%s'" % yt_kind)
@@ -251,8 +233,9 @@ def _process_list_response(provider, context, json_data):
             raise kodion.KodimonException("Unknown kind '%s'" % yt_kind)
         pass
 
-    utils.update_video_infos(provider, context, video_id_dict, playlist_item_id_dict)
-    utils.update_channel_infos(provider, context, channel_item_dict)
+    # this will also update the channel_id_dict with the correct channel id for each video.
+    utils.update_video_infos(provider, context, video_id_dict, playlist_item_id_dict, channel_id_dict)
+    utils.update_channel_infos(provider, context, channel_id_dict)
     return result
 
 

@@ -7,7 +7,7 @@ from resources.lib.kodion import iso8601
 from resources.lib.youtube.helper import yt_context_menu
 
 
-def update_video_infos(provider, context, video_id_dict, playlist_item_id_dict=None):
+def update_video_infos(provider, context, video_id_dict, playlist_item_id_dict=None, channel_id_dict=None):
     video_ids = list(video_id_dict.keys())
     if len(video_ids) == 0:
         return
@@ -86,8 +86,13 @@ def update_video_infos(provider, context, video_id_dict, playlist_item_id_dict=N
                 break
             pass
 
-        # update context menu
+        # update context menu and channel mapping
         channel_id = snippet.get('channelId', '')
+        if channel_id_dict is not None:
+            if not channel_id in channel_id_dict:
+                channel_id_dict[channel_id] = []
+            channel_id_dict[channel_id].append(video_item)
+            pass
         if channel_id and channel_name:
             context_menu = []
             # only if we are not directly in the channel provide a jump to the channel
