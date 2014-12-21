@@ -47,19 +47,33 @@ class YouTube(LoginClient):
                   'mine': 'true'}
         return self._perform_v3_request(method='DELETE', path='playlists', params=params)
 
+    def get_supported_languages(self):
+        params = {'part': 'snippet',
+                  'hl': self._language.split('_')[0]}
+        return self._perform_v3_request(method='GET', path='i18nLanguages', params=params)
+
+    def get_supported_regions(self, language=None):
+        _language = language
+        if not _language:
+            _language = self._language
+            pass
+        params = {'part': 'snippet',
+                  'hl': _language}
+        return self._perform_v3_request(method='GET', path='i18nRegions', params=params)
+
     def rename_playlist(self, playlist_id, new_title, privacy_status='private'):
         params = {'part': 'snippet,id,status'}
         post_data = {'kind': 'youtube#playlist',
                      'id': playlist_id,
                      'snippet': {'title': new_title},
-                     'starus': {'privacyStatus': privacy_status}}
+                     'status': {'privacyStatus': privacy_status}}
         return self._perform_v3_request(method='PUT', path='playlists', params=params, post_data=post_data)
 
     def create_playlist(self, title, privacy_status='private'):
         params = {'part': 'snippet,status'}
         post_data = {'kind': 'youtube#playlist',
                      'snippet': {'title': title},
-                     'starus': {'privacyStatus': privacy_status}}
+                     'status': {'privacyStatus': privacy_status}}
         return self._perform_v3_request(method='POST', path='playlists', params=params, post_data=post_data)
 
     def add_video_to_playlist(self, playlist_id, video_id):

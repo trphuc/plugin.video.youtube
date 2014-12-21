@@ -15,7 +15,7 @@
     <string id="30022">Items per page</string>
     <string id="30023">Search History Size</string>
     <string id="30024">Cache Size (MB)</string>
-    <string id="30025">Start Setup-Wizard</string>
+    <string id="30025">Enable setup-wizard</string>
 
     <!-- Kodion Common -->
     <string id="30100">Favorites</string>
@@ -57,4 +57,7 @@
     <string id="30520">Add to...</string>
     <string id="30521">Select playlist</string>
     <string id="30522">New playlist...</string>
+    <string id="30523">Language</string>
+    <string id="30524">Select language</string>
+    <string id="30525">Select region</string>
 </strings>

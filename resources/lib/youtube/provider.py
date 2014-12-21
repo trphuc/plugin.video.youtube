@@ -10,7 +10,7 @@ from resources.lib import kodion
 from resources.lib.kodion.utils import FunctionCache
 from resources.lib.kodion.items import *
 from resources.lib.youtube.client import YouTube
-from .helper import v3, ResourceManager, yt_specials, yt_playlist, yt_login
+from .helper import v3, ResourceManager, yt_specials, yt_playlist, yt_login, yt_setup_wizard
 from .youtube_exceptions import YouTubeException, LoginException
 
 
@@ -40,7 +40,9 @@ class Provider(kodion.AbstractProvider):
                  'youtube.video.add_to_playlist': 30520,
                  'youtube.playlist.select': 30521,
                  'youtube.rename': 30113,
-                 'youtube.playlist.create': 30522}
+                 'youtube.playlist.create': 30522,
+                 'youtube.setup_wizard.select_language': 30524,
+                 'youtube.setup_wizard.select_region': 30525}
 
     def __init__(self):
         kodion.AbstractProvider.__init__(self)
@@ -50,10 +52,9 @@ class Provider(kodion.AbstractProvider):
         self._is_logged_in = False
         pass
 
-    def on_setup_wizard(self):
-        #super(Provider, self).on_setup_wizard()
-
-        #TODO: select language and country
+    def on_setup_wizard(self, context):
+        # super(Provider, self).on_setup_wizard()
+        yt_setup_wizard.process(self, context)
         pass
 
     def is_logged_in(self):
@@ -79,8 +80,7 @@ class Provider(kodion.AbstractProvider):
             pass
 
         if not self._client:
-            # because Kodi doesn't return reliable language codes, we set 'en-US' for now
-            language = 'en-US'  # context.get_language()
+            language = context.get_settings().get_string('youtube.language', 'en-US')
 
             # remove the old login.
             if access_manager.has_login_credentials():

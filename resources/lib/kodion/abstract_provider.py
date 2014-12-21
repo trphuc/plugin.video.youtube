@@ -51,7 +51,7 @@ class AbstractProvider(object):
         # start the setup wizard
         if context.get_settings().is_setup_wizard():
             context.get_settings().set_bool(constants.setting.SETUP_WIZARD, False)
-            self.on_setup_wizard()
+            self.on_setup_wizard(context)
             pass
 
         path = context.get_path()
@@ -97,8 +97,9 @@ class AbstractProvider(object):
         """
         raise NotImplementedError()
 
-    def on_setup_wizard(self):
+    def on_setup_wizard(self, context):
         #TODO: start view mode settings
+        #call super(<YOUR-CALL-NAME>, self).on_setup_wizard()
         raise NotImplementedError()
 
     def on_root(self, context, re_match):

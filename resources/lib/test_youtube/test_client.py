@@ -10,6 +10,16 @@ class TestClient(unittest.TestCase):
     USERNAME = ''
     PASSWORD = ''
 
+    def test_get_supported_regions(self):
+        client = YouTube(language='de-DE')
+        json_data = client.get_supported_regions()
+        pass
+
+    def test_get_supported_languages(self):
+        client = YouTube(language='de-DE')
+        json_data = client.get_supported_languages()
+        pass
+
     def test_generate_user_code(self):
         client = YouTube(language='de-DE')
         json_data = client.generate_user_code()
