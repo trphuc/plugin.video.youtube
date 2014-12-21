@@ -47,9 +47,14 @@ class YouTube(LoginClient):
                   'mine': 'true'}
         return self._perform_v3_request(method='DELETE', path='playlists', params=params)
 
-    def get_supported_languages(self):
+    def get_supported_languages(self, language=None):
+        _language = language
+        if not _language:
+            _language = self._language
+            pass
+        _language = _language.replace('-', '_')
         params = {'part': 'snippet',
-                  'hl': self._language.split('_')[0]}
+                  'hl': _language.split('_')[0]}
         return self._perform_v3_request(method='GET', path='i18nLanguages', params=params)
 
     def get_supported_regions(self, language=None):
@@ -57,6 +62,7 @@ class YouTube(LoginClient):
         if not _language:
             _language = self._language
             pass
+        _language = _language.replace('-', '_')
         params = {'part': 'snippet',
                   'hl': _language}
         return self._perform_v3_request(method='GET', path='i18nRegions', params=params)

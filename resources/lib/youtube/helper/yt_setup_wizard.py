@@ -3,7 +3,8 @@ __author__ = 'bromix'
 
 def process(provider, context):
     client = provider.get_client(context)
-    json_data = client.get_supported_languages()
+    kodi_language = context.get_language()
+    json_data = client.get_supported_languages(kodi_language)
     items = json_data['items']
     language_list = []
     for item in items:
