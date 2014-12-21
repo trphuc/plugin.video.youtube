@@ -1,11 +1,6 @@
-import time
-from resources.lib.youtube.client.youtube import YouTube
-
-from resources.lib.youtube.helper import yt_subscriptions
-
-
 __author__ = 'bromix'
 
+from resources.lib.youtube.helper import yt_subscriptions
 from resources.lib import kodion
 from resources.lib.kodion.utils import FunctionCache
 from resources.lib.kodion.items import *
