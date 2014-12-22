@@ -1,6 +1,9 @@
 1.0.0~alpha30 (2014-12-22)
-UPD: internal tests
-ADD: support for view modes
+ADD: rename your playlists
+ADD: setup default view modes (default and videos)
+ADD: setup correct language and region for YouTube
+UPD: new icons
+FIX: show fanarts in 'Watch Later' and 'Liked Videos'
 
 1.0.0~alpha29 (2014-12-14)
 UPD: new login mechanism (removed the old one)
