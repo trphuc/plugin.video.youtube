@@ -146,6 +146,7 @@ class XbmcContext(AbstractContext):
         new_context._favorite_list = self._favorite_list
         new_context._watch_later_list = self._watch_later_list
         new_context._access_manager = self._access_manager
+        new_context._ui = self._ui
 
         return new_context
 

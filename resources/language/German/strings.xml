@@ -16,6 +16,12 @@
     <string id="30023">Größe der Suchhistorie</string>
     <string id="30024">Cache-Größe (MB)</string>
     <string id="30025">Setup-Assistenten aktivieren</string>
+    <string id="30026">Ansicht überschreiben</string>
+    <string id="30027">Ansicht: Default</string>
+    <string id="30028">Ansicht: Videos</string>
+    <string id="30029">Ausführen</string>
+    <string id="30030">Setup-Assistenten</string>
+    <string id="30031">Fortgeschritten</string>
 
     <!-- Kodion Common -->
     <string id="30100">Favoriten</string>
@@ -31,7 +37,6 @@
     <string id="30110">Neue Suche</string>
     <string id="30111">Anmelden</string>
     <string id="30112">Abmelden</string>
-    <string id="30113">Umbenennen</string>
 
     <!-- YouTube -->
     <string id="30500">Kanäle</string>
@@ -60,4 +65,6 @@
     <string id="30523">Sprache</string>
     <string id="30524">Sprache wählen</string>
     <string id="30525">Region auswählen</string>
+    <string id="30526">Anpassen</string>
+    <string id="30527">Sprache und Region?</string>
 </strings>

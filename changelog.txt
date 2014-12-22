@@ -1,3 +1,6 @@
+1.0.0~alpha30 (2014-12-22)
+UPD: internal tests
+
 1.0.0~alpha29 (2014-12-14)
 UPD: new login mechanism (removed the old one)
 ADD: translation fr-FR (thanks to roondar)

@@ -1,7 +1,12 @@
 __author__ = 'bromix'
 
 
-def process(provider, context):
+def _process_language(provider, context):
+    if not context.get_ui().on_yes_no_input(context.localize(provider.LOCAL_MAP['youtube.setup_wizard.adjust']),
+                                            context.localize(provider.LOCAL_MAP[
+                                                'youtube.setup_wizard.adjust.language_and_region'])):
+        return
+
     client = provider.get_client(context)
     kodi_language = context.get_language()
     json_data = client.get_supported_languages(kodi_language)
@@ -36,4 +41,9 @@ def process(provider, context):
     language_id = language_id + '-' + region_id
     context.get_settings().set_string('youtube.language', language_id)
     provider.reset_client()
+    pass
+
+
+def process(provider, context):
+    _process_language(provider, context)
     pass

@@ -16,6 +16,12 @@
     <string id="30023">Search History Size</string>
     <string id="30024">Cache Size (MB)</string>
     <string id="30025">Enable setup-wizard</string>
+    <string id="30026">Override View</string>
+    <string id="30027">View: Default</string>
+    <string id="30028">View: Videos</string>
+    <string id="30029">Execute</string>
+    <string id="30030">Setup-wizard</string>
+    <string id="30031">Advanced</string>
 
     <!-- Kodion Common -->
     <string id="30100">Favorites</string>
@@ -31,7 +37,6 @@
     <string id="30110">New Search</string>
     <string id="30111">Sign In</string>
     <string id="30112">Sign Out</string>
-    <string id="30113">Rename</string>
 
     <!-- YouTube -->
     <string id="30500">Channels</string>
@@ -60,4 +65,6 @@
     <string id="30523">Language</string>
     <string id="30524">Select language</string>
     <string id="30525">Select region</string>
+    <string id="30526">Adjust</string>
+    <string id="30527">Language and region?</string>
 </strings>

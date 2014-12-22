@@ -37,7 +37,9 @@ class Provider(kodion.AbstractProvider):
                  'youtube.rename': 30113,
                  'youtube.playlist.create': 30522,
                  'youtube.setup_wizard.select_language': 30524,
-                 'youtube.setup_wizard.select_region': 30525}
+                 'youtube.setup_wizard.select_region': 30525,
+                 'youtube.setup_wizard.adjust': 30526,
+                 'youtube.setup_wizard.adjust.language_and_region': 30527}
 
     def __init__(self):
         kodion.AbstractProvider.__init__(self)
@@ -48,7 +50,7 @@ class Provider(kodion.AbstractProvider):
         pass
 
     def on_setup_wizard(self, context):
-        # super(Provider, self).on_setup_wizard()
+        super(Provider, self).on_setup_wizard(context)
         yt_setup_wizard.process(self, context)
         pass
 
@@ -130,6 +132,7 @@ class Provider(kodion.AbstractProvider):
 
     @kodion.RegisterProviderPath('^/channel/(?P<channel_id>.*)/playlist/(?P<playlist_id>.*)/$')
     def _on_channel_playlist(self, context, re_match):
+        context.get_ui().set_view_mode('videos')
         self.set_content_type(context, kodion.constants.content_type.EPISODES)
 
         result = []
@@ -176,6 +179,7 @@ class Provider(kodion.AbstractProvider):
 
     @kodion.RegisterProviderPath('^/channel/(?P<channel_id>.*)/$')
     def _on_channel(self, context, re_match):
+        context.get_ui().set_view_mode('videos')
         self.set_content_type(context, kodion.constants.content_type.EPISODES)
 
         resource_manager = ResourceManager(context, self.get_client(context))
@@ -300,6 +304,10 @@ class Provider(kodion.AbstractProvider):
         search_type = context.get_param('search_type', 'video')
         page = int(context.get_param('page', 1))
 
+        if search_type == 'video':
+            context.get_ui().set_view_mode('videos')
+            pass
+
         if page == 1 and search_type == 'video':
             channel_params = {}
             channel_params.update(context.get_params())
@@ -325,7 +333,6 @@ class Provider(kodion.AbstractProvider):
         if not v3.handle_error(self, context, json_data):
             return False
         result.extend(v3.response_to_items(self, context, json_data))
-
         return result
 
     def on_root(self, context, re_match):
