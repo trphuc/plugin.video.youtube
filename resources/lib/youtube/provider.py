@@ -366,9 +366,8 @@ class Provider(kodion.AbstractProvider):
             pass
 
         # search
-        search_item = kodion.items.create_search_item(context)
-        search_item.set_image(context.create_resource_path('media', 'search.png'))
-        search_item.set_fanart(self.get_fanart(context))
+        search_item = kodion.items.SearchItem(context, image=context.create_resource_path('media', 'search.png'),
+                                              fanart=self.get_fanart(context))
         result.append(search_item)
 
         # subscriptions

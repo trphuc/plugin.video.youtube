@@ -73,7 +73,10 @@ class AbstractSettings(object):
     def get_search_history_size(self):
         return self.get_int(constants.setting.SEARCH_SIZE, 50, lambda x: x * 10)
 
-    def is_setup_wizard(self):
+    def is_setup_wizard_enabled(self):
         return self.get_bool(constants.setting.SETUP_WIZARD, False)
+
+    def is_override_view_enabled(self):
+        return self.get_bool(constants.setting.VIEW_OVERRIDE, False)
 
     pass

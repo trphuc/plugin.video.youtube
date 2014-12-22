@@ -25,6 +25,7 @@ class AbstractContext(object):
         self._path = create_path(path)
         self._params = params
         self._utils = None
+        self._view_mode = None
 
         # create valid uri
         self._uri = self.create_uri(self._path, self._params)

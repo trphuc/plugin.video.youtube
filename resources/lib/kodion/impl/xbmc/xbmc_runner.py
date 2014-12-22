@@ -1,5 +1,6 @@
 __author__ = 'bromix'
 
+import xbmc
 import xbmcgui
 import xbmcplugin
 
@@ -52,6 +53,14 @@ class XbmcRunner(AbstractProviderRunner):
             xbmcplugin.endOfDirectory(
                 context.get_handle(), succeeded=True,
                 cacheToDisc=options.get(AbstractProvider.RESULT_CACHE_TO_DISC, True))
+
+            # set alternative view mode
+            if context.get_settings().is_override_view_enabled():
+                view_mode = context.get_ui().get_view_mode()
+                if view_mode is not None:
+                    xbmc.executebuiltin('Container.SetViewMode(%d)' % view_mode)
+                    pass
+                pass
             pass
         else:
             # handle exception

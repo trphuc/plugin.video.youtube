@@ -25,6 +25,10 @@ class MockContext(AbstractContext):
         self._language = 'en-US'
         pass
 
+    def set_localization(self, text_id, value):
+        self._dict_localization[text_id] = value
+        pass
+
     def set_language(self, language):
         self._language = language
         pass

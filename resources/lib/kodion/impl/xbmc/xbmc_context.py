@@ -101,6 +101,19 @@ class XbmcContext(AbstractContext):
         return self._settings
 
     def localize(self, text_id, default_text=u''):
+        if isinstance(text_id, int):
+            """
+            We want to use all localization strings!
+            Addons should only use the range 30000 thru 30999 (see: http://kodi.wiki/view/Language_support) but we
+            do it anyway. I want some of the localized strings for the views of a skin.
+            """
+            if text_id >= 0 and (text_id < 30000 or text_id > 30999):
+                result = xbmc.getLocalizedString(text_id)
+                if result is not None and result:
+                    return result
+                pass
+            pass
+
         result = self._addon.getLocalizedString(int(text_id))
         if result is not None and result:
             return result

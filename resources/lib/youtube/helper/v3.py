@@ -262,8 +262,7 @@ def response_to_items(provider, context, json_data):
         new_context = context.clone(new_params=new_params)
 
         current_page = int(new_context.get_param('page', 1))
-        next_page_item = items.create_next_page_item(new_context, current_page)
-        next_page_item.set_fanart(provider.get_fanart(new_context))
+        next_page_item = items.NextPageItem(new_context, current_page, fanart=provider.get_fanart(new_context))
         result.append(next_page_item)
         pass
 

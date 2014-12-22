@@ -7,7 +7,18 @@ from ...logging import *
 class MockContextUI(AbstractContextUI):
     def __init__(self):
         AbstractContextUI.__init__(self)
+        self._view_mode = None
         pass
+
+    def set_view_mode(self, view_mode):
+        self._view_mode = view_mode
+        pass
+
+    def get_view_mode(self):
+        return self._view_mode
+
+    def get_skin_id(self):
+        return 'skin.kodion.dummy'
 
     def on_keyboard_input(self, title, default='', hidden=False):
         print '[' + title + ']'
