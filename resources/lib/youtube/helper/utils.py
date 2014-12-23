@@ -101,20 +101,20 @@ def update_video_infos(provider, context, video_id_dict, playlist_item_id_dict=N
                 pass
             pass
 
+        # find related videos
+        yt_context_menu.append_related_videos(context_menu, provider, context, video_id)
+
         if provider.is_logged_in():
             # add 'Watch Later' only if we are not in my 'Watch Later' list
             watch_later_playlist_id = my_playlists.get('watchLater', '')
             yt_context_menu.append_watch_later(context_menu, provider, context, watch_later_playlist_id, video_id)
 
-            # add video to a selected playlist
-            yt_context_menu.append_add_video_to_playlist(context_menu, provider, context, video_id)
-
             # add 'Like Video' only if we are not in my 'Liked Videos' list
             liked_videos_playlist = my_playlists.get('likes', '')
             yt_context_menu.append_like_video(context_menu, provider, context, liked_videos_playlist, video_id)
 
-            # subscribe to the channel of the video
-            yt_context_menu.append_subscribe_to_channel(context_menu, provider, context, channel_id, channel_name)
+            # add video to a selected playlist
+            yt_context_menu.append_add_video_to_playlist(context_menu, provider, context, video_id)
 
             # provide 'remove' for videos in my playlists
             if video_id in playlist_item_id_dict:
@@ -128,10 +128,10 @@ def update_video_infos(provider, context, video_id_dict, playlist_item_id_dict=N
                                              {'playlist_id': playlist_id, 'video_id': playlist_item_id})))
                     pass
                 pass
-            pass
 
-        # find related videos
-        yt_context_menu.append_related_videos(context_menu, provider, context, video_id)
+            # subscribe to the channel of the video
+            yt_context_menu.append_subscribe_to_channel(context_menu, provider, context, channel_id, channel_name)
+            pass
 
         if len(context_menu) > 0:
             video_item.set_context_menu(context_menu)
