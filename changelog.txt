@@ -1,8 +1,10 @@
-1.0.0~alpha30 (2014-12-22)
+5.0.0~beta1 (2014-12-23)
 ADD: rename your playlists
 ADD: setup default view modes (default and videos)
 ADD: setup correct language and region for YouTube
+ADD: support for old YouTube url calls (plugin://plugin.video.youtube/?action=play_video&videoid=[ID])
 UPD: new icons
+UPD: reorganized context menu
 FIX: show fanarts in 'Watch Later' and 'Liked Videos'
 
 1.0.0~alpha29 (2014-12-14)
