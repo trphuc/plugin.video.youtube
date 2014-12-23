@@ -340,8 +340,6 @@ class Provider(kodion.AbstractProvider):
         Support old YouTube url call, but also log a deprecation warning.
         plugin://plugin.video.youtube/?action=play_video&videoid=[ID]
         """
-        from ..kodion import debug
-        debug.debug_here()
         old_action = context.get_param('action', '')
         old_video_id = context.get_param('videoid', '')
         if old_action and old_video_id:
