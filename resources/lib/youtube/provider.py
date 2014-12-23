@@ -336,6 +336,22 @@ class Provider(kodion.AbstractProvider):
         return result
 
     def on_root(self, context, re_match):
+        """
+        Support old YouTube url call, but also log a deprecation warning.
+        plugin://plugin.video.youtube/?action=play_video&videoid=[ID]
+        """
+        from ..kodion import debug
+        debug.debug_here()
+        old_action = context.get_param('action', '')
+        old_video_id = context.get_param('videoid', '')
+        if old_action and old_video_id:
+            context.log_warning('DEPRECATED "%s"' % context.get_uri())
+            context.log_warning('USE INSTEAD "plugin://%s/play/?video_id=%s"' % (context.get_id(), old_video_id))
+            new_params = {'video_id': old_video_id}
+            new_path = '/play/'
+            new_context = context.clone(new_path=new_path, new_params=new_params)
+            return self._on_play(new_context, re_match)
+
         self.get_client(context)
         resource_manager = self.get_resource_manager(context)
 
