@@ -202,14 +202,16 @@ class VideoInfo(object):
         itag_map.update(self.DEFAULT_ITAG_MAP)
 
         # update itag map
-        fmt_list = params['fmt_list']
-        fmt_list = fmt_list.split(',')
-        for item in fmt_list:
-            data = item.split('/')
+        fmt_list = params.get('fmt_list', '')
+        if fmt_list:
+            fmt_list = fmt_list.split(',')
+            for item in fmt_list:
+                data = item.split('/')
 
-            size = data[1].split('x')
-            itag_map[data[0]] = {'width': int(size[0]),
-                                 'height': int(size[1])}
+                size = data[1].split('x')
+                itag_map[data[0]] = {'width': int(size[0]),
+                                     'height': int(size[1])}
+                pass
             pass
 
         # read adaptive_fmts
@@ -228,22 +230,24 @@ class VideoInfo(object):
         """
 
         # extract streams from map
-        url_encoded_fmt_stream_map = params['url_encoded_fmt_stream_map']
-        url_encoded_fmt_stream_map = url_encoded_fmt_stream_map.split(',')
-        for item in url_encoded_fmt_stream_map:
-            stream_map = dict(urlparse.parse_qsl(item))
+        url_encoded_fmt_stream_map = params.get('url_encoded_fmt_stream_map', '')
+        if url_encoded_fmt_stream_map:
+            url_encoded_fmt_stream_map = url_encoded_fmt_stream_map.split(',')
+            for item in url_encoded_fmt_stream_map:
+                stream_map = dict(urlparse.parse_qsl(item))
 
-            url = stream_map['url']
-            if 'sig' in stream_map:
-                url += '&signature=%s' % stream_map['sig']
-            elif 's' in stream_map:
-                # fuck!!! in this case we must call the web page
-                return self._method_watch(video_id)
+                url = stream_map['url']
+                if 'sig' in stream_map:
+                    url += '&signature=%s' % stream_map['sig']
+                elif 's' in stream_map:
+                    # fuck!!! in this case we must call the web page
+                    return self._method_watch(video_id)
 
-            video_stream = {'url': url,
-                            'format': itag_map[stream_map['itag']]}
+                video_stream = {'url': url,
+                                'format': itag_map[stream_map['itag']]}
 
-            stream_list.append(video_stream)
+                stream_list.append(video_stream)
+                pass
             pass
 
         return stream_list

@@ -124,17 +124,18 @@ class TestClient(unittest.TestCase):
 
         context = kodion.Context()
 
+        #Live
+        streams = client.get_video_streams(context, 'RqbyYOCAFJU')
+        #streams = client.get_video_streams(context, 'pvEWZY3Eqsg')
+
         # VEVO
-        streams = client.get_video_streams(context, 'nfWlot6h_JM')
+        #streams = client.get_video_streams(context, 'nfWlot6h_JM')
 
         # 60fps
         # streams = client.get_video_streams(context, '_zPm3SSj6W8')
 
         # 1080p ?!?
         # streams = client.get_video_streams(context, 'qfPUVz_Hpqo')
-
-        #Live
-        #streams = client.get_video_streams(context, 'pvEWZY3Eqsg')
 
         # Restricted?
         #streams = client.get_video_streams(context, 'U4DbJWA9JEw')
