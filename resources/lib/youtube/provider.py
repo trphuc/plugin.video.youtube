@@ -23,6 +23,7 @@ class Provider(kodion.AbstractProvider):
                  'youtube.my_subscriptions': 30510,
                  'youtube.like': 30511,
                  'youtube.remove': 30108,
+                 'youtube.delete': 30118,
                  'youtube.browse_channels': 30512,
                  'youtube.what_to_watch': 30513,
                  'youtube.related_videos': 30514,

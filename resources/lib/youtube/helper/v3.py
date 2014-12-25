@@ -117,7 +117,7 @@ def _process_list_response(provider, context, json_data):
                     pass
                 else:
                     # remove my playlist
-                    yt_context_menu.append_remove_playlist(context_menu, provider, context, playlist_id)
+                    yt_context_menu.append_delete_playlist(context_menu, provider, context, playlist_id, title)
 
                     # rename playlist
                     yt_context_menu.append_rename_playlist(context_menu, provider, context, playlist_id, title)

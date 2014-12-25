@@ -125,7 +125,8 @@ def update_video_infos(provider, context, video_id_dict, playlist_item_id_dict=N
                     context_menu.append((context.localize(provider.LOCAL_MAP['youtube.remove']),
                                          'RunPlugin(%s)' % context.create_uri(
                                              ['playlist', 'remove', 'video'],
-                                             {'playlist_id': playlist_id, 'video_id': playlist_item_id})))
+                                             {'playlist_id': playlist_id, 'video_id': playlist_item_id,
+                                              'video_name': video_item.get_name()})))
                     pass
                 pass
 

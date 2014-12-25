@@ -10,18 +10,19 @@ def append_add_video_to_playlist(context_menu, provider, context, video_id):
     pass
 
 
-def append_rename_playlist(context_menu, provider, context, playlist_id, title):
+def append_rename_playlist(context_menu, provider, context, playlist_id, playlist_name):
     context_menu.append((context.localize(provider.LOCAL_MAP['youtube.rename']),
                          'RunPlugin(%s)' % context.create_uri(['playlist', 'rename', 'playlist'],
                                                               {'playlist_id': playlist_id,
-                                                               'title': title})))
+                                                               'playlist_name': playlist_name})))
     pass
 
 
-def append_remove_playlist(context_menu, provider, context, playlist_id):
-    context_menu.append((context.localize(provider.LOCAL_MAP['youtube.remove']),
+def append_delete_playlist(context_menu, provider, context, playlist_id, playlist_name):
+    context_menu.append((context.localize(provider.LOCAL_MAP['youtube.delete']),
                          'RunPlugin(%s)' % context.create_uri(['playlist', 'remove', 'playlist'],
-                                                              {'playlist_id': playlist_id})))
+                                                              {'playlist_id': playlist_id,
+                                                               'playlist_name': playlist_name})))
     pass
 
 

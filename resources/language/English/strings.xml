@@ -39,6 +39,11 @@
     <string id="30111">Sign In</string>
     <string id="30112">Sign Out</string>
     <string id="30113">Rename</string>
+    <string id="30114">Confirm delete</string>
+    <string id="30115">Confirm remove</string>
+    <string id="30116">Delete "%s"?</string>
+    <string id="30117">Remove "%s"?</string>
+    <string id="30118">Delete</string>
 
     <!-- YouTube -->
     <string id="30500">Channels</string>
