@@ -10,6 +10,7 @@
 	<string id="30012">HD</string>
 	<string id="30013">Full HD</string>
     <string id="30014">Ultra HD</string>
+
     <string id="30020">Allow 3D</string>
     <string id="30021">Show Fanart</string>
     <string id="30022">Items per page</string>
@@ -19,8 +20,8 @@
     <string id="30026">Override View</string>
     <string id="30027">View: Default</string>
     <string id="30028">View: Videos</string>
-    <string id="30029">Execute</string>
-    <string id="30030">Setup-wizard</string>
+
+    <string id="30030">Execute setup-wizard?</string>
     <string id="30031">Advanced</string>
 
     <!-- Kodion Common -->

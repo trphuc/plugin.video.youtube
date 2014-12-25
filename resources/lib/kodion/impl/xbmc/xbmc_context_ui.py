@@ -17,11 +17,10 @@ class XbmcContextUI(AbstractContextUI):
         pass
 
     def set_view_mode(self, view_mode):
-        print "################################# set view %s" % view_mode
         if isinstance(view_mode, basestring):
             view_mode = self._context.get_settings().get_int(constants.setting.VIEW_X % view_mode, 50)
-            print "################################# new view %d" % view_mode
             pass
+
         self._view_mode = view_mode
         pass
 
