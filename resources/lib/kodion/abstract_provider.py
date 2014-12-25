@@ -50,8 +50,8 @@ class AbstractProvider(object):
     def navigate(self, context):
         # start the setup wizard
         if context.get_settings().is_setup_wizard_enabled():
-            if context.get_ui().on_yes_no_input(context.localize(constants.localize.SETUP_WIZARD_EXECUTE),
-                                                context.localize(constants.localize.SETUP_WIZARD_LABEL)):
+            if context.get_ui().on_yes_no_input(context.get_name(),
+                                                context.localize(constants.localize.SETUP_WIZARD_EXECUTE)):
                 self.on_setup_wizard(context)
                 pass
             context.get_settings().set_bool(constants.setting.SETUP_WIZARD, False)

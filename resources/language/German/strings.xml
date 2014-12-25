@@ -10,6 +10,7 @@
 	<string id="30012">HD</string>
 	<string id="30013">Full HD</string>
     <string id="30014">Ultra HD</string>
+
     <string id="30020">Allow 3D</string>
     <string id="30021">Fanart anzeigen</string>
     <string id="30022">Einträge pro Seite</string>
@@ -19,8 +20,8 @@
     <string id="30026">Ansicht überschreiben</string>
     <string id="30027">Ansicht: Default</string>
     <string id="30028">Ansicht: Videos</string>
-    <string id="30029">Ausführen</string>
-    <string id="30030">Setup-Assistenten</string>
+
+    <string id="30030">Setup-Assistenten ausführen?</string>
     <string id="30031">Fortgeschritten</string>
 
     <!-- Kodion Common -->
