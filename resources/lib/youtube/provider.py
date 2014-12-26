@@ -208,7 +208,9 @@ class Provider(kodion.AbstractProvider):
                                                          page_token=page_token)
             if not v3.handle_error(self, context, json_data):
                 return False
-            result.extend(v3.response_to_items(self, context, json_data))
+
+            result.extend(
+                v3.response_to_items(self, context, json_data, sort=lambda x: x.get_aired(), reverse_sort=True))
             pass
 
         return result
