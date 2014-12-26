@@ -50,10 +50,8 @@ class Provider(kodion.AbstractProvider):
         self._is_logged_in = False
         pass
 
-    def on_setup_wizard(self, context):
-        super(Provider, self).on_setup_wizard(context)
-        yt_setup_wizard.process(self, context)
-        pass
+    def get_wizard_steps(self, context):
+        return [(yt_setup_wizard.process, [self, context])]
 
     def is_logged_in(self):
         return self._is_logged_in
