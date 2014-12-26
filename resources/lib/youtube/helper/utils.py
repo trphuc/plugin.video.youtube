@@ -115,8 +115,8 @@ def update_video_infos(provider, context, video_id_dict, playlist_item_id_dict=N
 
         if provider.is_logged_in():
             # add 'Like Video' only if we are not in my 'Liked Videos' list
-            liked_videos_playlist = my_playlists.get('likes', '')
-            yt_context_menu.append_like_video(context_menu, provider, context, liked_videos_playlist, video_id)
+            refresh_container = context.get_path().startswith('/channel/mine/playlist/LL')
+            yt_context_menu.append_rate_video(context_menu, provider, context, video_id, refresh_container)
 
             # add video to a selected playlist
             yt_context_menu.append_add_video_to_playlist(context_menu, provider, context, video_id)

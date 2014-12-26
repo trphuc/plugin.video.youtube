@@ -57,7 +57,7 @@
     <string id="30508">Liked Videos</string>
     <string id="30509">History</string>
     <string id="30510">My Subscriptions</string>
-    <string id="30511">Like Video</string>
+
     <string id="30512">Browse Channels</string>
     <string id="30513">What to watch</string>
     <string id="30514">Related Videos</string>
@@ -74,4 +74,7 @@
     <string id="30525">Select region</string>
     <string id="30526">Adjust</string>
     <string id="30527">Language and region?</string>
+    <string id="30528">Rate...</string>
+    <string id="30529">I like this</string>
+    <string id="30530">I dislike this</string>
 </strings>

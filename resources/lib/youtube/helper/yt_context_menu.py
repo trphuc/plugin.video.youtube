@@ -26,13 +26,17 @@ def append_delete_playlist(context_menu, provider, context, playlist_id, playlis
     pass
 
 
-def append_like_video(context_menu, provider, context, playlist_id, video_id):
-    playlist_path = kodion.utils.create_path('channel', 'mine', 'playlist', playlist_id)
-    if playlist_id and playlist_path != context.get_path():
-        context_menu.append((context.localize(provider.LOCAL_MAP['youtube.like']),
-                             'RunPlugin(%s)' % context.create_uri(['playlist', 'add', 'video'],
-                                                                  {'playlist_id': playlist_id, 'video_id': video_id})))
+def append_rate_video(context_menu, provider, context, video_id, refresh_container=False):
+    if refresh_container:
+        refresh_container = '1'
         pass
+    else:
+        refresh_container = '0'
+        pass
+    context_menu.append((context.localize(provider.LOCAL_MAP['youtube.video.rate']),
+                         'RunPlugin(%s)' % context.create_uri(['video', 'rate'],
+                                                              {'video_id': video_id,
+                                                               'refresh_container': refresh_container})))
     pass
 
 
