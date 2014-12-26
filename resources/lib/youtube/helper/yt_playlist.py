@@ -65,7 +65,8 @@ def _process_remove_playlist(provider, context, re_match):
 
 
 def _process_select_playlist(provider, context, re_match):
-    json_data = context.get_function_cache().get(FunctionCache.ONE_MINUTE/3, provider.get_client(context).get_playlists,
+    json_data = context.get_function_cache().get(FunctionCache.ONE_MINUTE / 3,
+                                                 provider.get_client(context).get_playlists,
                                                  channel_id='mine')
     playlists = json_data.get('items', [])
 
@@ -123,10 +124,11 @@ def _process_select_playlist(provider, context, re_match):
 def _process_rename_playlist(provider, context, re_match):
     playlist_id = context.get_param('playlist_id', '')
     if not playlist_id:
-        raise kodion.KodimonException('Playlist/Remove: missing playlist_id')
+        raise kodion.KodimonException('playlist/rename: missing playlist_id')
 
     current_playlist_name = context.get_param('playlist_name', '')
-    result, text = context.get_ui().on_keyboard_input(title='__RENAME', default=current_playlist_name)
+    result, text = context.get_ui().on_keyboard_input(context.localize(provider.LOCAL_MAP['youtube.rename']),
+                                                      default=current_playlist_name)
     if result and text:
         json_data = provider.get_client(context).rename_playlist(playlist_id=playlist_id, new_title=text)
         if not v3.handle_error(provider, context, json_data):
