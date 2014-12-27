@@ -1,3 +1,6 @@
+5.0.0 (2014-12-27)
+DEL: removed beta
+
 5.0.0~beta3 (2014-12-27)
 UPD: some minor tests
 
