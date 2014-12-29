@@ -65,6 +65,9 @@ def update_video_infos(provider, context, video_id_dict, playlist_item_id_dict=N
         description = kodion.utils.strip_html_from_text(snippet['description'])
         if channel_name:
             description = '[UPPERCASE][B]%s[/B][/UPPERCASE][CR][CR]%s' % (channel_name, description)
+            video_item.set_studio(channel_name)
+            #video_item.add_cast(channel_name)
+            video_item.add_artist(channel_name)
             pass
         video_item.set_plot(description)
 
