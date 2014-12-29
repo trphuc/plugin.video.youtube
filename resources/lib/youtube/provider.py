@@ -237,7 +237,11 @@ class Provider(kodion.AbstractProvider):
             client = self.get_client(context)
             video_streams = client.get_video_streams(context, video_id)
             video_stream = kodion.utils.find_best_fit(video_streams, _compare)
+
+            from .helper import utils
             video_item = VideoItem(video_id, video_stream['url'])
+            video_id_dict = {video_id: video_item}
+            utils.update_video_infos(self, context, video_id_dict)
 
             # Auto-Remove video from 'Watch Later' playlist - this should run asynchronous
             if self.is_logged_in() and context.get_settings().get_bool('youtube.playlist.watchlater.autoremove', True):

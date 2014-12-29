@@ -67,9 +67,10 @@ class XbmcRunner(AbstractProviderRunner):
             pass
         pass
 
-    def _set_resolved_url(self, context, base_item, succeeded=True):
-        list_item = xbmcgui.ListItem(path=base_item.get_uri())
-        xbmcplugin.setResolvedUrl(context.get_handle(), succeeded=succeeded, listitem=list_item)
+    def _set_resolved_url(self, context, video_item, succeeded=True):
+        item = self._create_video_item(context, video_item)
+        item.setPath(video_item.get_uri())
+        xbmcplugin.setResolvedUrl(context.get_handle(), succeeded=succeeded, listitem=item)
 
         """
         # just to be sure :)
@@ -104,7 +105,7 @@ class XbmcRunner(AbstractProviderRunner):
                                     totalItems=item_count)
         pass
 
-    def _add_video(self, context, video_item, item_count=0):
+    def _create_video_item(self, context, video_item):
         item = xbmcgui.ListItem(label=video_item.get_name(),
                                 iconImage=u'DefaultVideo.png',
                                 thumbnailImage=video_item.get_image())
@@ -121,6 +122,10 @@ class XbmcRunner(AbstractProviderRunner):
         item.setProperty(u'IsPlayable', u'true')
 
         item.setInfo(type=u'video', infoLabels=info_labels.create_from_item(video_item))
+        return item
+
+    def _add_video(self, context, video_item, item_count=0):
+        item = self._create_video_item(context, video_item)
 
         xbmcplugin.addDirectoryItem(handle=context.get_handle(),
                                     url=video_item.get_uri(),

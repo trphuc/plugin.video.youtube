@@ -30,6 +30,9 @@ def update_video_infos(provider, context, video_id_dict, playlist_item_id_dict=N
 
         snippet = yt_item['snippet']  # crash if not conform
 
+        # set the title
+        video_item.set_title(snippet['title'])
+
         """
         This is experimental. We try to get the most information out of the title of a video.
         This is not based on any language. In some cases this won't work at all.
