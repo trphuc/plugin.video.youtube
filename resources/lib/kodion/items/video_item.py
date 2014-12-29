@@ -23,7 +23,15 @@ class VideoItem(BaseItem):
         self._track_number = None
         self._studio = None
         self._artist = None
+        self._play_count = None
         pass
+
+    def set_play_count(self, play_count):
+        self._play_count = int(play_count)
+        pass
+
+    def get_play_count(self):
+        return self._play_count
 
     def add_artist(self, artist):
         if self._artist is None:

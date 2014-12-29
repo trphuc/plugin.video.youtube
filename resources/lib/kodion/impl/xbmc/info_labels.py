@@ -123,6 +123,9 @@ def create_from_item(base_item):
 
     # Video
     if isinstance(base_item, VideoItem):
+        # play count
+        _process_int_value(info_labels, 'playcount', base_item.get_play_count())
+
         # studio
         _process_string_value(info_labels, 'studio', base_item.get_studio())
 
