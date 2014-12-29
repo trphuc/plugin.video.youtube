@@ -10,6 +10,12 @@ class TestClient(unittest.TestCase):
     USERNAME = ''
     PASSWORD = ''
 
+    def test_playlist_item_id_of_video_id(self):
+        client = YouTube(language='de-DE')
+
+        json_data = client.get_playlist_item_id_of_video_id(playlist_id='PL3tRBEVW0hiBMoF9ihuu-x_aQVXvFYHIH', video_id='KpjgZ8xAeLI')
+        pass
+
     def test_get_supported_regions(self):
         client = YouTube(language='de-DE')
         json_data = client.get_supported_regions()
