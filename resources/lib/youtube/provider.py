@@ -5,7 +5,7 @@ from resources.lib import kodion
 from resources.lib.kodion.utils import FunctionCache
 from resources.lib.kodion.items import *
 from resources.lib.youtube.client import YouTube
-from .helper import v3, ResourceManager, yt_specials, yt_playlist, yt_login, yt_setup_wizard, yt_video
+from .helper import v3, ResourceManager, yt_specials, yt_playlist, yt_login, yt_setup_wizard, yt_video, yt_context_menu
 from .youtube_exceptions import YouTubeException, LoginException
 
 
@@ -34,6 +34,11 @@ class Provider(kodion.AbstractProvider):
                  'youtube.sign.enter_code': 30519,
                  'youtube.video.add_to_playlist': 30520,
                  'youtube.playlist.select': 30521,
+                 'youtube.playlist.play.all': 30531,
+                 'youtube.playlist.play.default': 30532,
+                 'youtube.playlist.play.reverse': 30533,
+                 'youtube.playlist.play.shuffle': 30534,
+                 'youtube.playlist.play.select': 30535,
                  'youtube.rename': 30113,
                  'youtube.playlist.create': 30522,
                  'youtube.setup_wizard.select_language': 30524,
@@ -424,6 +429,9 @@ class Provider(kodion.AbstractProvider):
                                                      ['channel', 'mine', 'playlist', playlists['watchLater']]),
                                                  context.create_resource_path('media', 'watch_later.png'))
                 watch_later_item.set_fanart(self.get_fanart(context))
+                context_menu = []
+                yt_context_menu.append_add_play_all(context_menu, self, context, playlists['watchLater'])
+                watch_later_item.set_context_menu(context_menu)
                 result.append(watch_later_item)
                 pass
 
@@ -434,6 +442,9 @@ class Provider(kodion.AbstractProvider):
                                                       ['channel', 'mine', 'playlist', playlists['likes']]),
                                                   context.create_resource_path('media', 'likes.png'))
                 liked_videos_item.set_fanart(self.get_fanart(context))
+                context_menu = []
+                yt_context_menu.append_add_play_all(context_menu, self, context, playlists['likes'])
+                liked_videos_item.set_context_menu(context_menu)
                 result.append(liked_videos_item)
                 pass
 
