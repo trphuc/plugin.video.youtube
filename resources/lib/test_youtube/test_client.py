@@ -131,7 +131,8 @@ class TestClient(unittest.TestCase):
         context = kodion.Context()
 
         #Live
-        streams = client.get_video_streams(context, 'RqbyYOCAFJU')
+        streams = client.get_video_streams(context, '7UFbGKo21lc')
+        #streams = client.get_video_streams(context, 'RqbyYOCAFJU')
         #streams = client.get_video_streams(context, 'pvEWZY3Eqsg')
 
         # VEVO
