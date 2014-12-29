@@ -1,3 +1,6 @@
+5.0.1~beta (2014-12-29)
+REV: reverted to requests
+
 5.0.0 (2014-12-27)
 DEL: removed beta
 
