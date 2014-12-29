@@ -1,4 +1,5 @@
 5.0.1~beta5 (2014-12-29)
+ADD: Portuguese (thx 2 enen92)
 ADD: Polish (thx 2 D.K.)
 ADD: Russian (thx 2 BytEvil)
 ADD: Spanish (thx 2 PatOso)
