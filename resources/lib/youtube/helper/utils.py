@@ -146,7 +146,7 @@ def update_video_infos(provider, context, video_id_dict, playlist_item_id_dict=N
             pass
 
         if len(context_menu) > 0:
-            video_item.set_context_menu(context_menu)
+            video_item.set_context_menu(context_menu, replace=False)
             pass
         pass
 

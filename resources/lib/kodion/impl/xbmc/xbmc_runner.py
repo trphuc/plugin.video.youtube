@@ -95,7 +95,8 @@ class XbmcRunner(AbstractProviderRunner):
             item.setProperty(u'fanart_image', directory_item.get_fanart())
             pass
         if directory_item.get_context_menu() is not None:
-            item.addContextMenuItems(directory_item.get_context_menu())
+            item.addContextMenuItems(directory_item.get_context_menu(),
+                                     replaceItems=directory_item.replace_context_menu())
             pass
 
         xbmcplugin.addDirectoryItem(handle=context.get_handle(),
@@ -116,7 +117,7 @@ class XbmcRunner(AbstractProviderRunner):
             item.setProperty(u'fanart_image', video_item.get_fanart())
             pass
         if video_item.get_context_menu() is not None:
-            item.addContextMenuItems(video_item.get_context_menu())
+            item.addContextMenuItems(video_item.get_context_menu(), replaceItems=video_item.replace_context_menu())
             pass
 
         item.setProperty(u'IsPlayable', u'true')
@@ -144,7 +145,7 @@ class XbmcRunner(AbstractProviderRunner):
             item.setProperty(u'fanart_image', image_item.get_fanart())
             pass
         if image_item.get_context_menu() is not None:
-            item.addContextMenuItems(image_item.get_context_menu())
+            item.addContextMenuItems(image_item.get_context_menu(), replaceItems=image_item.replace_context_menu())
             pass
 
         item.setInfo(type=u'picture', infoLabels=info_labels.create_from_item(image_item))
@@ -166,7 +167,7 @@ class XbmcRunner(AbstractProviderRunner):
             item.setProperty(u'fanart_image', audio_item.get_fanart())
             pass
         if audio_item.get_context_menu() is not None:
-            item.addContextMenuItems(audio_item.get_context_menu())
+            item.addContextMenuItems(audio_item.get_context_menu(), replaceItems=audio_item.replace_context_menu())
             pass
 
         item.setProperty(u'IsPlayable', u'true')
