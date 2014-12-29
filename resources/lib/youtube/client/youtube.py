@@ -240,7 +240,10 @@ class YouTube(LoginClient):
         return self._perform_v3_request(method='GET', path='playlists', params=params)
 
     def get_playlist_item_id_of_video_id(self, playlist_id, video_id, page_token=''):
+        old_max_results = self._max_results
+        self._max_results = 50
         json_data = self.get_playlist_items(playlist_id=playlist_id, page_token=page_token)
+        self._max_results = old_max_results
 
         items = json_data.get('items', [])
         for item in items:
@@ -297,7 +300,7 @@ class YouTube(LoginClient):
             video_id = ','.join(video_id)
             pass
 
-        params = {'part': 'snippet,contentDetails',
+        params = {'part': 'snippet,contentDetails,statistics',
                   'id': video_id}
         return self._perform_v3_request(method='GET', path='videos', params=params)
 
