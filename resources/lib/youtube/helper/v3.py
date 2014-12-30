@@ -247,7 +247,7 @@ def _process_list_response(provider, context, json_data):
     return result
 
 
-def response_to_items(provider, context, json_data, sort=None, reverse_sort=False):
+def response_to_items(provider, context, json_data, sort=None, reverse_sort=False, process_next_page=True):
     result = []
 
     kind = json_data.get('kind', '')
@@ -266,7 +266,7 @@ def response_to_items(provider, context, json_data, sort=None, reverse_sort=Fals
 
     # next page
     yt_next_page_token = json_data.get('nextPageToken', '')
-    if yt_next_page_token:
+    if process_next_page and yt_next_page_token:
         new_params = {}
         new_params.update(context.get_params())
         new_params['page_token'] = yt_next_page_token

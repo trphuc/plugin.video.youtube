@@ -52,30 +52,33 @@ def play_playlist(provider, context, re_match):
     def _load_videos(_page_token=''):
         json_data = client.get_playlist_items(playlist_id, page_token=_page_token)
         next_page_token = json_data.get('nextPageToken', '')
-        if next_page_token:
-            del json_data['nextPageToken']
-            pass
-
         if not v3.handle_error(provider, context, json_data):
             return False
-        videos.extend(v3.response_to_items(provider, context, json_data))
+        videos.extend(v3.response_to_items(provider, context, json_data, process_next_page=False))
 
         if next_page_token:
             _load_videos(next_page_token)
             pass
         pass
 
+    # start the loop and fill the list with video items
     _load_videos()
+
+    # reverse the list
     if order == 'reverse':
         videos = videos[::-1]
         pass
+
+    # clear the playlist
     playlist = context.get_video_playlist()
     playlist.clear()
 
+    # add videos to playlist
     for video in videos:
         playlist.add(video)
         pass
 
+    # we use the shuffle implementation of the playlist
     if order == 'shuffle':
         playlist.shuffle()
         pass
