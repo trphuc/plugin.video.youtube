@@ -300,7 +300,7 @@ class YouTube(LoginClient):
             video_id = ','.join(video_id)
             pass
 
-        params = {'part': 'snippet,contentDetails,liveStreamingDetails',
+        params = {'part': 'snippet,contentDetails',
                   'id': video_id}
         return self._perform_v3_request(method='GET', path='videos', params=params)
 

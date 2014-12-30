@@ -53,7 +53,7 @@ class XbmcContext(AbstractContext):
 
         self._ui = None
         self._video_playlist = None
-        self._player = None
+        self._video_player = None
         self._plugin_handle = int(sys.argv[1])
         self._plugin_id = plugin_id or self._addon.getAddonInfo('id')
         self._plugin_name = plugin_name or self._addon.getAddonInfo('name')
@@ -92,10 +92,10 @@ class XbmcContext(AbstractContext):
         return self._video_playlist
 
     def get_video_player(self):
-        if not self._player:
-            self._player = XbmcPlayer('video', weakref.proxy(self))
+        if not self._video_player:
+            self._video_player = XbmcPlayer('video', weakref.proxy(self))
             pass
-        return self._player
+        return self._video_player
 
     def get_ui(self):
         if not self._ui:
@@ -162,6 +162,8 @@ class XbmcContext(AbstractContext):
         new_context._watch_later_list = self._watch_later_list
         new_context._access_manager = self._access_manager
         new_context._ui = self._ui
+        new_context._video_playlist = self._video_playlist
+        new_context._video_player = self._video_player
 
         return new_context
 
