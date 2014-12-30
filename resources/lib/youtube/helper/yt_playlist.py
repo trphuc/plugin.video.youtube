@@ -152,7 +152,8 @@ def _process_play_playlist(provider, context, re_match):
 
     result = context.get_ui().on_select(context.localize(provider.LOCAL_MAP['youtube.playlist.play.select']), items)
     if result in order_list:
-
+        command = 'RunPlugin(%s)' % context.create_uri(['play'], {'playlist_id': playlist_id, 'order': result})
+        context.execute(command)
         pass
     pass
 

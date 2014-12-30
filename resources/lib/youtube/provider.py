@@ -5,7 +5,8 @@ from resources.lib import kodion
 from resources.lib.kodion.utils import FunctionCache
 from resources.lib.kodion.items import *
 from resources.lib.youtube.client import YouTube
-from .helper import v3, ResourceManager, yt_specials, yt_playlist, yt_login, yt_setup_wizard, yt_video, yt_context_menu
+from .helper import v3, ResourceManager, yt_specials, yt_playlist, yt_login, yt_setup_wizard, yt_video, \
+    yt_context_menu, yt_play
 from .youtube_exceptions import YouTubeException, LoginException
 
 
@@ -231,36 +232,16 @@ class Provider(kodion.AbstractProvider):
 
     @kodion.RegisterProviderPath('^/play/$')
     def _on_play(self, context, re_match):
-        vq = context.get_settings().get_video_quality()
-
-        def _compare(item):
-            return vq - item['format']['height']
-
-        video_id = context.get_param('video_id')
-
-        try:
-            client = self.get_client(context)
-            video_streams = client.get_video_streams(context, video_id)
-            video_stream = kodion.utils.find_best_fit(video_streams, _compare)
-
-            from .helper import utils
-            video_item = VideoItem(video_id, video_stream['url'])
-            video_id_dict = {video_id: video_item}
-            utils.update_video_infos(self, context, video_id_dict)
-
-            # Auto-Remove video from 'Watch Later' playlist - this should run asynchronous
-            if self.is_logged_in() and context.get_settings().get_bool('youtube.playlist.watchlater.autoremove', True):
-                command = 'RunPlugin(%s)' % context.create_uri(['internal', 'auto_remove_watch_later'],
-                                                               {'video_id': video_id})
-                context.execute(command)
-                pass
-
-            return video_item
-        except YouTubeException, ex:
-            message = ex.get_message()
-            message = kodion.utils.strip_html_from_text(message)
-            context.get_ui().show_notification(message, time_milliseconds=30000)
+        def _play_playlist():
+            playlist_id = context.get_param('playlist_id')
+            order = context.get_param('order', 'default')
             pass
+
+        params = context.get_params()
+        if 'video_id' in params:
+            return yt_play.play_video(self, context, re_match)
+        elif 'playlist_id' in params:
+            return yt_play.play_playlist(self, context, re_match)
 
         return False
 
