@@ -41,13 +41,6 @@ def play_video(provider, context, re_match):
 
 
 def play_playlist(provider, context, re_match):
-    player = context.get_video_player()
-    player.stop()
-
-    playlist_id = context.get_param('playlist_id')
-    order = context.get_param('order', 'default')
-    client = provider.get_client(context)
-
     videos = []
 
     def _load_videos(_page_token='', _progress_dialog=None):
@@ -72,6 +65,13 @@ def play_playlist(provider, context, re_match):
             pass
 
         return _progress_dialog
+
+    player = context.get_video_player()
+    player.stop()
+
+    playlist_id = context.get_param('playlist_id')
+    order = context.get_param('order', 'default')
+    client = provider.get_client(context)
 
     # start the loop and fill the list with video items
     progress_dialog = _load_videos()
