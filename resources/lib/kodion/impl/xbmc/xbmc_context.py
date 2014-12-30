@@ -69,6 +69,10 @@ class XbmcContext(AbstractContext):
             pass
         pass
 
+    def __del__(self):
+        AbstractContext.__del__(self)
+        pass
+
     def get_language(self):
         if self.get_system_version().get_name() == 'Frodo':
             return 'en-US'

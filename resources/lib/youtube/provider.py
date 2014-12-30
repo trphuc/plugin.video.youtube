@@ -1,3 +1,5 @@
+import weakref
+
 __author__ = 'bromix'
 
 from resources.lib.youtube.helper import yt_subscriptions
@@ -55,7 +57,6 @@ class Provider(kodion.AbstractProvider):
         kodion.AbstractProvider.__init__(self)
 
         self._client = None
-        self._resource_manager = None
         self._is_logged_in = False
         pass
 
@@ -120,10 +121,7 @@ class Provider(kodion.AbstractProvider):
         return self._client
 
     def get_resource_manager(self, context):
-        if not self._resource_manager:
-            self._resource_manager = ResourceManager(context, self.get_client(context))
-            pass
-        return self._resource_manager
+        return ResourceManager(weakref.proxy(context), weakref.proxy(self.get_client(context)))
 
     def get_alternative_fanart(self, context):
         return self.get_fanart(context)

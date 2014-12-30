@@ -18,6 +18,10 @@ class XbmcPlaylist(AbstractPlaylist):
             pass
         pass
 
+    def __del__(self):
+        AbstractPlaylist.__del__(self)
+        pass
+
     def clear(self):
         self._playlist.clear()
         pass

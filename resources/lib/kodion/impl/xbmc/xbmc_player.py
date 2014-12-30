@@ -12,7 +12,19 @@ class XbmcPlayer(AbstractPlayer):
         self._context = context
         pass
 
+    def __del__(self):
+        AbstractPlayer.__del__(self)
+        pass
+
     def play(self, playlist_index=-1):
+        """
+        We call the player in this way, because 'Player.play(...)' will call the addon again while the instance is
+        running.  This is somehow shitty, because we couldn't release any resources and in our case we couldn't release
+        the cache. So this is the solution to prevent a locked database (sqlite).
+        """
+        self._context.execute('Playlist.PlayOffset(%s,%d)' % (self._player_type, playlist_index))
+
+        """
         playlist = None
         if self._player_type == 'video':
             playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
@@ -26,6 +38,7 @@ class XbmcPlayer(AbstractPlayer):
         else:
             xbmc.Player().play(item=playlist)
             pass
+        """
         pass
 
     def stop(self):
