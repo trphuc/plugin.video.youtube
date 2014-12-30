@@ -52,6 +52,7 @@ class VideoItem(BaseItem):
 
     def set_title(self, title):
         self._title = unicode(title)
+        self._name = self._title
         pass
 
     def get_title(self):
