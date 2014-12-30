@@ -40,6 +40,9 @@ def play_video(provider, context, re_match):
 
 
 def play_playlist(provider, context, re_match):
+    player = context.get_video_player()
+    player.stop()
+
     playlist_id = context.get_param('playlist_id')
     order = context.get_param('order', 'default')
     client = provider.get_client(context)
@@ -66,7 +69,16 @@ def play_playlist(provider, context, re_match):
     if order == 'reverse':
         videos = videos[::-1]
         pass
+    playlist = context.get_video_playlist()
+    playlist.clear()
+
     for video in videos:
-        print video
+        playlist.add(video)
         pass
+
+    if order == 'shuffle':
+        playlist.shuffle()
+        pass
+
+    player.play(playlist_index=0)
     pass

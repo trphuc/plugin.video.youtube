@@ -11,7 +11,8 @@ from ..abstract_context import AbstractContext
 from .xbmc_plugin_settings import XbmcPluginSettings
 from .xbmc_context_ui import XbmcContextUI
 from .xbmc_system_version import XbmcSystemVersion
-
+from .xbmc_playlist import XbmcPlaylist
+from .xbmc_player import XbmcPlayer
 
 class XbmcContext(AbstractContext):
     def __init__(self, path='/', params=None, plugin_name=u'', plugin_id=u'', override=True):
@@ -51,6 +52,8 @@ class XbmcContext(AbstractContext):
             pass
 
         self._ui = None
+        self._video_playlist = None
+        self._player = None
         self._plugin_handle = int(sys.argv[1])
         self._plugin_id = plugin_id or self._addon.getAddonInfo('id')
         self._plugin_name = plugin_name or self._addon.getAddonInfo('name')
@@ -81,6 +84,18 @@ class XbmcContext(AbstractContext):
 
     def get_system_version(self):
         return self._system_version
+
+    def get_video_playlist(self):
+        if not self._video_playlist:
+            self._video_playlist = XbmcPlaylist('video', weakref.proxy(self))
+            pass
+        return self._video_playlist
+
+    def get_video_player(self):
+        if not self._player:
+            self._player = XbmcPlayer('video', weakref.proxy(self))
+            pass
+        return self._player
 
     def get_ui(self):
         if not self._ui:

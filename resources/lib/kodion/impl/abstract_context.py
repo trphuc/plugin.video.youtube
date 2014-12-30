@@ -75,6 +75,12 @@ class AbstractContext(object):
             pass
         return self._access_manager
 
+    def get_video_playlist(self):
+        raise NotImplementedError()
+
+    def get_video_player(self):
+        raise NotImplementedError()
+
     def get_ui(self):
         raise NotImplementedError()
 
