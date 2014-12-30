@@ -1,9 +1,7 @@
-import re
-
 __author__ = 'bromix'
 
 import xbmc
-
+import re
 from ..abstract_system_version import AbstractSystemVersion
 
 

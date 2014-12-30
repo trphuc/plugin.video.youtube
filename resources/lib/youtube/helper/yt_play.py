@@ -1,6 +1,7 @@
 __author__ = 'bromix'
 
 from resources.lib import kodion
+from resources.lib.kodion import constants
 from resources.lib.kodion.items import VideoItem
 from resources.lib.youtube.youtube_exceptions import YouTubeException
 from resources.lib.youtube.helper import utils, v3
@@ -49,20 +50,31 @@ def play_playlist(provider, context, re_match):
 
     videos = []
 
-    def _load_videos(_page_token=''):
+    def _load_videos(_page_token='', _progress_dialog=None):
+        if not _progress_dialog:
+            _progress_dialog = context.get_ui().create_progress_dialog(
+                context.localize(provider.LOCAL_MAP['youtube.playlist.progress.updating']),
+                context.localize(constants.localize.COMMON_PLEASE_WAIT), background=True)
+            pass
         json_data = client.get_playlist_items(playlist_id, page_token=_page_token)
-        next_page_token = json_data.get('nextPageToken', '')
         if not v3.handle_error(provider, context, json_data):
             return False
-        videos.extend(v3.response_to_items(provider, context, json_data, process_next_page=False))
+        _progress_dialog.set_total(int(json_data.get('pageInfo', {}).get('totalResults', 0)))
+        result = v3.response_to_items(provider, context, json_data, process_next_page=False)
+        videos.extend(result)
+        progress_text = '%s %d/%d' % (
+            context.localize(constants.localize.COMMON_PLEASE_WAIT), len(videos), _progress_dialog.get_total())
+        _progress_dialog.update(steps=len(result), text=progress_text)
 
+        next_page_token = json_data.get('nextPageToken', '')
         if next_page_token:
-            _load_videos(next_page_token)
+            _load_videos(_page_token=next_page_token, _progress_dialog=_progress_dialog)
             pass
-        pass
+
+        return _progress_dialog
 
     # start the loop and fill the list with video items
-    _load_videos()
+    progress_dialog = _load_videos()
 
     # reverse the list
     if order == 'reverse':
@@ -84,4 +96,8 @@ def play_playlist(provider, context, re_match):
         pass
 
     player.play(playlist_index=0)
+
+    if progress_dialog:
+        progress_dialog.close()
+        pass
     pass

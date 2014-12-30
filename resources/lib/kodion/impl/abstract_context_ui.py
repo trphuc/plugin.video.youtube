@@ -8,6 +8,9 @@ class AbstractContextUI(object):
     def __del__(self):
         pass
 
+    def create_progress_dialog(self, heading, text=None, background=False):
+        raise NotImplementedError()
+
     def set_view_mode(self, view_mode):
         raise NotImplementedError()
 

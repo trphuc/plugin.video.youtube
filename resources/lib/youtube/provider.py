@@ -42,6 +42,7 @@ class Provider(kodion.AbstractProvider):
                  'youtube.playlist.play.reverse': 30533,
                  'youtube.playlist.play.shuffle': 30534,
                  'youtube.playlist.play.select': 30535,
+                 'youtube.playlist.progress.updating': 30536,
                  'youtube.rename': 30113,
                  'youtube.playlist.create': 30522,
                  'youtube.setup_wizard.select_language': 30524,
