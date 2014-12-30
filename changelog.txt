@@ -1,4 +1,5 @@
 5.0.1~beta6 (2014-12-30)
+ADD: Portuguese (Brazil) (thx 2 ASH_Macedo)
 ADD: Hungarian (thx 2 gyeben)
 ADD: Portuguese (thx 2 enen92)
 ADD: Polish (thx 2 D.K.)
