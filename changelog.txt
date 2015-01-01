@@ -1,4 +1,6 @@
 5.0.2 (2015-01-01)
+FIX: German translation
+FIX: Portuguese (Brazil) (thx 2 ASH_Macedo)
 
 5.0.1 (2014-12-31)
 ADD: 'Play all' (default, reverse, shuffle)
