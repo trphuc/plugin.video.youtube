@@ -102,11 +102,14 @@ def update_video_infos(provider, context, video_id_dict, playlist_item_id_dict=N
 
         context_menu = []
 
+        # Queue item
+        yt_context_menu.append_queue_video(context_menu, provider, context)
+
         # play all videos of the playlist
         some_playlist_match = re.match('^/channel/(.+)/playlist/(?P<playlist_id>.*)/$', context.get_path())
         if some_playlist_match:
             playlist_id = some_playlist_match.group('playlist_id')
-            yt_context_menu.append_add_play_all(context_menu, provider, context, playlist_id)
+            yt_context_menu.append_play_all_from_playlist(context_menu, provider, context, playlist_id)
             pass
 
         if provider.is_logged_in():

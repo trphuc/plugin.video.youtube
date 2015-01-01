@@ -36,6 +36,7 @@ class Provider(kodion.AbstractProvider):
                  'youtube.sign.go_to': 30518,
                  'youtube.sign.enter_code': 30519,
                  'youtube.video.add_to_playlist': 30520,
+                 'youtube.video.queue': 30511,
                  'youtube.playlist.select': 30521,
                  'youtube.playlist.play.all': 30531,
                  'youtube.playlist.play.default': 30532,
@@ -410,7 +411,7 @@ class Provider(kodion.AbstractProvider):
                                                  context.create_resource_path('media', 'watch_later.png'))
                 watch_later_item.set_fanart(self.get_fanart(context))
                 context_menu = []
-                yt_context_menu.append_add_play_all(context_menu, self, context, playlists['watchLater'])
+                yt_context_menu.append_play_all_from_playlist(context_menu, self, context, playlists['watchLater'])
                 watch_later_item.set_context_menu(context_menu)
                 result.append(watch_later_item)
                 pass
@@ -423,7 +424,7 @@ class Provider(kodion.AbstractProvider):
                                                   context.create_resource_path('media', 'likes.png'))
                 liked_videos_item.set_fanart(self.get_fanart(context))
                 context_menu = []
-                yt_context_menu.append_add_play_all(context_menu, self, context, playlists['likes'])
+                yt_context_menu.append_play_all_from_playlist(context_menu, self, context, playlists['likes'])
                 liked_videos_item.set_context_menu(context_menu)
                 result.append(liked_videos_item)
                 pass
