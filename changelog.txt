@@ -1,4 +1,5 @@
 5.0.2 (2015-01-01)
+ADD: 'Queue Video'
 FIX: German translation
 FIX: Portuguese (Brazil) (thx 2 ASH_Macedo)
 
