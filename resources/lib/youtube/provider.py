@@ -8,7 +8,7 @@ from resources.lib.kodion.utils import FunctionCache
 from resources.lib.kodion.items import *
 from resources.lib.youtube.client import YouTube
 from .helper import v3, ResourceManager, yt_specials, yt_playlist, yt_login, yt_setup_wizard, yt_video, \
-    yt_context_menu, yt_play
+    yt_context_menu, yt_play, yt_old_actions
 from .youtube_exceptions import YouTubeException, LoginException
 
 
@@ -231,12 +231,7 @@ class Provider(kodion.AbstractProvider):
     """
 
     @kodion.RegisterProviderPath('^/play/$')
-    def _on_play(self, context, re_match):
-        def _play_playlist():
-            playlist_id = context.get_param('playlist_id')
-            order = context.get_param('order', 'default')
-            pass
-
+    def on_play(self, context, re_match):
         params = context.get_params()
         if 'video_id' in params:
             return yt_play.play_video(self, context, re_match)
@@ -336,18 +331,11 @@ class Provider(kodion.AbstractProvider):
 
     def on_root(self, context, re_match):
         """
-        Support old YouTube url call, but also log a deprecation warning.
-        plugin://plugin.video.youtube/?action=play_video&videoid=[ID]
+        Support old YouTube url calls, but also log a deprecation warnings.
         """
         old_action = context.get_param('action', '')
-        old_video_id = context.get_param('videoid', '')
-        if old_action and old_video_id:
-            context.log_warning('DEPRECATED "%s"' % context.get_uri())
-            context.log_warning('USE INSTEAD "plugin://%s/play/?video_id=%s"' % (context.get_id(), old_video_id))
-            new_params = {'video_id': old_video_id}
-            new_path = '/play/'
-            new_context = context.clone(new_path=new_path, new_params=new_params)
-            return self._on_play(new_context, re_match)
+        if old_action:
+            return yt_old_actions.process_old_action(self, context, re_match)
 
         self.get_client(context)
         resource_manager = self.get_resource_manager(context)

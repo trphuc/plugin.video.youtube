@@ -69,8 +69,22 @@ def play_playlist(provider, context, re_match):
     player = context.get_video_player()
     player.stop()
 
+    # select order
+    order = context.get_param('order', '')
+    if not order:
+        order_list = ['default', 'reverse', 'shuffle']
+        items = []
+        for order in order_list:
+            items.append((context.localize(provider.LOCAL_MAP['youtube.playlist.play.%s' % order]), order))
+            pass
+
+        order = context.get_ui().on_select(context.localize(provider.LOCAL_MAP['youtube.playlist.play.select']), items)
+        if not order in order_list:
+            order = 'default'
+            pass
+        pass
+
     playlist_id = context.get_param('playlist_id')
-    order = context.get_param('order', 'default')
     client = provider.get_client(context)
 
     # start the loop and fill the list with video items
@@ -95,9 +109,12 @@ def play_playlist(provider, context, re_match):
         playlist.shuffle()
         pass
 
-    player.play(playlist_index=0)
+    if context.get_param('play', '') == '1':
+        player.play(playlist_index=0)
+        pass
 
     if progress_dialog:
         progress_dialog.close()
         pass
-    pass
+
+    return True
