@@ -101,6 +101,7 @@ def update_video_infos(provider, context, video_id_dict, playlist_item_id_dict=N
             pass
 
         context_menu = []
+        replace_context_menu = False
 
         # Queue Video
         yt_context_menu.append_queue_video(context_menu, provider, context)
@@ -108,7 +109,10 @@ def update_video_infos(provider, context, video_id_dict, playlist_item_id_dict=N
         # play all videos of the playlist
         some_playlist_match = re.match('^/channel/(.+)/playlist/(?P<playlist_id>.*)/$', context.get_path())
         if some_playlist_match:
+            replace_context_menu = True
             playlist_id = some_playlist_match.group('playlist_id')
+
+            yt_context_menu.append_play_all_from_playlist(context_menu, provider, context, playlist_id, video_id)
             yt_context_menu.append_play_all_from_playlist(context_menu, provider, context, playlist_id)
             pass
 
@@ -156,7 +160,7 @@ def update_video_infos(provider, context, video_id_dict, playlist_item_id_dict=N
             pass
 
         if len(context_menu) > 0:
-            video_item.set_context_menu(context_menu, replace=False)
+            video_item.set_context_menu(context_menu, replace=replace_context_menu)
             pass
         pass
 

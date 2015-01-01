@@ -43,6 +43,7 @@ class Provider(kodion.AbstractProvider):
                  'youtube.playlist.play.reverse': 30533,
                  'youtube.playlist.play.shuffle': 30534,
                  'youtube.playlist.play.select': 30535,
+                 'youtube.playlist.play.from_here': 30537,
                  'youtube.playlist.progress.updating': 30536,
                  'youtube.rename': 30113,
                  'youtube.playlist.create': 30522,
@@ -233,7 +234,7 @@ class Provider(kodion.AbstractProvider):
     @kodion.RegisterProviderPath('^/play/$')
     def on_play(self, context, re_match):
         params = context.get_params()
-        if 'video_id' in params:
+        if 'video_id' in params and not 'playlist_id' in params:
             return yt_play.play_video(self, context, re_match)
         elif 'playlist_id' in params:
             return yt_play.play_playlist(self, context, re_match)

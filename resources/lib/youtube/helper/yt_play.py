@@ -1,3 +1,6 @@
+import random
+import re
+
 __author__ = 'bromix'
 
 from resources.lib import kodion
@@ -66,13 +69,15 @@ def play_playlist(provider, context, re_match):
 
         return _progress_dialog
 
-    player = context.get_video_player()
-    player.stop()
-
     # select order
+    video_id = context.get_param('video_id', '')
     order = context.get_param('order', '')
     if not order:
-        order_list = ['default', 'reverse', 'shuffle']
+        order_list = ['default', 'reverse']
+        # we support shuffle only without a starting video position
+        if not video_id:
+            order_list.append('shuffle')
+            pass
         items = []
         for order in order_list:
             items.append((context.localize(provider.LOCAL_MAP['youtube.playlist.play.%s' % order]), order))
@@ -80,9 +85,11 @@ def play_playlist(provider, context, re_match):
 
         order = context.get_ui().on_select(context.localize(provider.LOCAL_MAP['youtube.playlist.play.select']), items)
         if not order in order_list:
-            order = 'default'
-            pass
+            return False
         pass
+
+    player = context.get_video_player()
+    player.stop()
 
     playlist_id = context.get_param('playlist_id')
     client = provider.get_client(context)
@@ -93,6 +100,18 @@ def play_playlist(provider, context, re_match):
     # reverse the list
     if order == 'reverse':
         videos = videos[::-1]
+        pass
+
+    playlist_position = 0
+    # check if we have a video as starting point for the playlist
+    if video_id:
+        find_video_id = re.compile(r'video_id=(?P<video_id>[^&]+)')
+        for video in videos:
+            video_id_match = find_video_id.search(video.get_uri())
+            if video_id_match and video_id_match.group('video_id') == video_id:
+                break
+            playlist_position += 1
+            pass
         pass
 
     # clear the playlist
@@ -110,7 +129,7 @@ def play_playlist(provider, context, re_match):
         pass
 
     if context.get_param('play', '') == '1':
-        player.play(playlist_index=0)
+        player.play(playlist_index=playlist_position)
         pass
 
     if progress_dialog:

@@ -22,13 +22,21 @@ def _process_play_video(provider, context, re_match):
 def _process_play_all(provider, context, re_match):
     """
     plugin://plugin.video.youtube/?path=/root/video&action=play_all&playlist=PL8_6CHho8Tq4Iie-oNxb-g0ECxIhq3CxW
+    plugin://plugin.video.youtube/?action=play_all&playlist=PLZRRxQcaEjA5fgfW3a3Q0rzm6NgbmICtg&videoid=qmlYe2KS0-Y
     """
     playlist_id = context.get_param('playlist', '')
     if not playlist_id:
         raise kodion.KodimonException('old_actions/play_all: missing playlist_id')
 
-    context.log_warning('DEPRECATED "%s"' % context.get_uri())
-    context.log_warning('USE INSTEAD "plugin://%s/play/?playlist_id=%s"' % (context.get_id(), playlist_id))
+    # optional starting video id of the playlist
+    video_id = context.get_param('videoid', '')
+    if video_id:
+        context.log_warning(
+            'USE INSTEAD "plugin://%s/play/?playlist_id=%s&video_id"' % (context.get_id(), playlist_id, video_id))
+        pass
+    else:
+        context.log_warning('USE INSTEAD "plugin://%s/play/?playlist_id=%s"' % (context.get_id(), playlist_id))
+        pass
     new_params = {'playlist_id': playlist_id}
     new_path = '/play/'
     new_context = context.clone(new_path=new_path, new_params=new_params)

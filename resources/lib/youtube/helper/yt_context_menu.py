@@ -8,11 +8,20 @@ def append_queue_video(context_menu, provider, context):
     pass
 
 
-def append_play_all_from_playlist(context_menu, provider, context, playlist_id):
-    context_menu.append((context.localize(provider.LOCAL_MAP['youtube.playlist.play.all']),
-                         'RunPlugin(%s)' % context.create_uri(['play'],
-                                                              {'playlist_id': playlist_id,
-                                                               'play': '1'})))
+def append_play_all_from_playlist(context_menu, provider, context, playlist_id, video_id=''):
+    if video_id:
+        context_menu.append((context.localize(provider.LOCAL_MAP['youtube.playlist.play.from_here']),
+                             'RunPlugin(%s)' % context.create_uri(['play'],
+                                                                  {'playlist_id': playlist_id,
+                                                                   'video_id': video_id,
+                                                                   'play': '1'})))
+        pass
+    else:
+        context_menu.append((context.localize(provider.LOCAL_MAP['youtube.playlist.play.all']),
+                             'RunPlugin(%s)' % context.create_uri(['play'],
+                                                                  {'playlist_id': playlist_id,
+                                                                   'play': '1'})))
+        pass
     pass
 
 
