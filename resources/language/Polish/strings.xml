@@ -44,6 +44,7 @@
     <string id="30116">Usunąć "%s"?</string>
     <string id="30117">Przenieść "%s"?</string>
     <string id="30118">Usuń</string>
+    <string id="30119">Proszę czekać...</string>
 
     <!-- YouTube -->
     <string id="30500">Kanały</string>
@@ -57,13 +58,13 @@
     <string id="30508">Polubione</string>
     <string id="30509">Historia</string>
     <string id="30510">Moje subskrybcje</string>
-
+    <string id="30511">Dodaj do kolejki</string>
     <string id="30512">Przeglądaj kanały</string>
     <string id="30513">Co obejrzeć</string>
     <string id="30514">Podobne filmy</string>
     <string id="30515">Automatycznie usuwaj 'Do obejrzenia'</string>
     <string id="30516">Foldery</string>
-    <string id="30517">Subskrybuj do %s</string>
+    <string id="30517">Subskrybuj %s</string>
     <string id="30518">Idź do '%s'</string>
     <string id="30519">i wpisz następujący kod:</string>
     <string id="30520">Dodaj do...</string>
@@ -77,4 +78,11 @@
     <string id="30528">Oceń...</string>
     <string id="30529">To mi się podoba</string>
     <string id="30530">To mi się nie podoba</string>
+    <string id="30531">Odtwarzaj wszystko</string>
+    <string id="30532">Domyślne</string>
+    <string id="30533">Odwrócone</string>
+    <string id="30534">Mieszane</string>
+    <string id="30535">Wybierz kolejność</string>
+    <string id="30536">Aktualizacja playlisty...</string>
+    <string id="30537">Odtwórz z tego miejsca</string>
 </strings>
