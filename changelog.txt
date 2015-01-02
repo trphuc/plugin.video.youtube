@@ -1,4 +1,6 @@
 5.0.3~beta1 (2015-01-02)
+UPD: Polish (thx 2 D.K.)
+FIX: German translation
 FIX: some Frodo updates
 
 5.0.2 (2015-01-01)
