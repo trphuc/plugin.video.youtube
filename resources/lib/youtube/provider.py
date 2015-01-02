@@ -21,7 +21,6 @@ class Provider(kodion.AbstractProvider):
                  'youtube.subscribe': 30506,
                  'youtube.my_channel': 30507,
                  'youtube.watch_later': 30107,
-                 'youtube.liked.videos': 30508,
                  'youtube.history': 30509,
                  'youtube.my_subscriptions': 30510,
                  'youtube.remove': 30108,
@@ -35,8 +34,6 @@ class Provider(kodion.AbstractProvider):
                  'youtube.sign.out': 30112,
                  'youtube.sign.go_to': 30518,
                  'youtube.sign.enter_code': 30519,
-                 'youtube.video.add_to_playlist': 30520,
-                 'youtube.video.queue': 30511,
                  'youtube.playlist.select': 30521,
                  'youtube.playlist.play.all': 30531,
                  'youtube.playlist.play.default': 30532,
@@ -51,6 +48,10 @@ class Provider(kodion.AbstractProvider):
                  'youtube.setup_wizard.select_region': 30525,
                  'youtube.setup_wizard.adjust': 30526,
                  'youtube.setup_wizard.adjust.language_and_region': 30527,
+                 'youtube.video.add_to_playlist': 30520,
+                 'youtube.video.liked': 30508,
+                 'youtube.video.disliked': 30538,
+                 'youtube.video.queue': 30511,
                  'youtube.video.rate': 30528,
                  'youtube.video.rate.like': 30529,
                  'youtube.video.rate.dislike': 30530,
@@ -407,7 +408,7 @@ class Provider(kodion.AbstractProvider):
 
             # liked videos
             if 'likes' in playlists and settings.get_bool('youtube.folder.liked_videos.show', True):
-                liked_videos_item = DirectoryItem(context.localize(self.LOCAL_MAP['youtube.liked.videos']),
+                liked_videos_item = DirectoryItem(context.localize(self.LOCAL_MAP['youtube.video.liked']),
                                                   context.create_uri(
                                                       ['channel', 'mine', 'playlist', playlists['likes']]),
                                                   context.create_resource_path('media', 'likes.png'))
@@ -416,6 +417,15 @@ class Provider(kodion.AbstractProvider):
                 yt_context_menu.append_play_all_from_playlist(context_menu, self, context, playlists['likes'])
                 liked_videos_item.set_context_menu(context_menu)
                 result.append(liked_videos_item)
+                pass
+
+            # disliked videos
+            if settings.get_bool('youtube.folder.disliked_videos.show', True):
+                disliked_videos_item = DirectoryItem(context.localize(self.LOCAL_MAP['youtube.video.disliked']),
+                                                     context.create_uri(['special', 'disliked_videos']),
+                                                     context.create_resource_path('media', 'dislikes.png'))
+                disliked_videos_item.set_fanart(self.get_fanart(context))
+                result.append(disliked_videos_item)
                 pass
 
             # history

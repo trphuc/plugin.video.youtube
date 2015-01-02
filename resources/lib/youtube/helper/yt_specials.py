@@ -59,6 +59,17 @@ def _process_new_uploaded_videos(provider, context, re_match):
     return result
 
 
+def _process_disliked_videos(provider, context, re_match):
+    result = []
+
+    page_token = context.get_param('page_token', '')
+    json_data = provider.get_client(context).get_disliked_videos(page_token=page_token)
+    if not v3.handle_error(provider, context, json_data):
+        return False
+    result.extend(v3.response_to_items(provider, context, json_data))
+    return result
+
+
 def process(category, provider, context, re_match):
     result = []
 
@@ -77,7 +88,11 @@ def process(category, provider, context, re_match):
         context.get_ui().set_view_mode('videos')
         result.extend(_process_new_uploaded_videos(provider, context, re_match))
         pass
+    elif category == 'disliked_videos':
+        context.get_ui().set_view_mode('videos')
+        result.extend(_process_disliked_videos(provider, context, re_match))
+        pass
     else:
-        raise kodion.KodimonException("YouTube category '%s' not found" % category)
+        raise kodion.KodimonException("YouTube special category '%s' not found" % category)
 
     return result

@@ -66,7 +66,7 @@ def update_video_infos(provider, context, video_id_dict, playlist_item_id_dict=N
         if channel_name:
             description = '[UPPERCASE][B]%s[/B][/UPPERCASE][CR][CR]%s' % (channel_name, description)
             video_item.set_studio(channel_name)
-            #video_item.add_cast(channel_name)
+            # video_item.add_cast(channel_name)
             video_item.add_artist(channel_name)
             pass
         video_item.set_plot(description)
@@ -135,7 +135,8 @@ def update_video_infos(provider, context, video_id_dict, playlist_item_id_dict=N
 
         if provider.is_logged_in():
             # add 'Like Video' only if we are not in my 'Liked Videos' list
-            refresh_container = context.get_path().startswith('/channel/mine/playlist/LL')
+            refresh_container = context.get_path().startswith(
+                '/channel/mine/playlist/LL') or context.get_path() == '/special/disliked_videos/'
             yt_context_menu.append_rate_video(context_menu, provider, context, video_id, refresh_container)
 
             # add video to a selected playlist
