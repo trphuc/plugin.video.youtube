@@ -37,6 +37,18 @@ class TestClient(unittest.TestCase):
         json_data = client.get_popular_videos()
         pass
 
+    def test_video_categories(self):
+        client = YouTube(language='de-DE')
+        json_data = client.get_video_categories()
+        pass
+
+    def test_video_category(self):
+        client = YouTube(language='de-DE')
+
+        # 10 Music
+        json_data = client.get_video_category(10)
+        pass
+
     """
     def test_create_playlist(self):
         client = YouTube()
@@ -53,22 +65,6 @@ class TestClient(unittest.TestCase):
         client = YouTube(access_token=token)
         #json_data = client.get_uploaded_videos_of_subscriptions()
         json_data = client.get_activities(channel_id='home')
-        pass
-
-    def test_video_category(self):
-        client = YouTube(language='de-DE')
-
-        token, expires = client.authenticate(self.USERNAME, self.PASSWORD)
-        client = YouTube(language='en-US', access_token=token)
-        json_data = client.get_video_category(20)
-        pass
-
-    def test_video_categories(self):
-        client = YouTube(language='de-DE')
-
-        token, expires = client.authenticate(self.USERNAME, self.PASSWORD)
-        client = YouTube(language='de-DE', access_token=token)
-        json_data = client.get_video_categories()
         pass
 
     def test_guide_category(self):
