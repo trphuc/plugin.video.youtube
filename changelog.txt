@@ -1,4 +1,6 @@
-5.0.3~beta2 (2015-01-XX)
+5.0.3~beta2 (2015-01-06)
+UPD: Russian (thx 2 BytEvil)
+UPD: Spanish (thx 2 PatOso)
 
 5.0.3~beta1 (2015-01-02)
 ADD: 'Disliked Videos'
