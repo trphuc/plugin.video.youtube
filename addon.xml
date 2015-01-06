@@ -16,6 +16,8 @@
         <description lang="pl">YouTube jest jednym z największych na świecie serwisów do udostępniania wideo w sieci.</description>
 		<summary lang="hu">Kiegészítő  a YouTube-hoz</summary>
         <description lang="hu">A YouTube a világ egyik legnagyobb videómegosztó weboldala.</description>
+        <summary lang="es">Plugin para YouTube</summary>
+        <description lang="es">YouTube es un uno de los mayores sitios web de intercambio de vídeos del mundo.</description>
 		<disclaimer lang="en"></disclaimer>
 		<language></language>
 		<platform>all</platform>
