@@ -26,9 +26,6 @@ class AbstractSystemVersion(object):
         obj_str = "%s (%d.%d)" % (self._name, self._major, self._minor)
         return obj_str
 
-    def __del__(self):
-        pass
-
     def get_name(self):
         return self._name
 
