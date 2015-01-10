@@ -74,22 +74,18 @@ def process(category, provider, context, re_match):
     result = []
 
     if category == 'related_videos':
-        context.get_ui().set_view_mode('videos')
         result.extend(_process_related_videos(provider, context, re_match))
         pass
     elif category == 'what_to_watch':
-        context.get_ui().set_view_mode('videos')
         result.extend(_process_what_to_watch(provider, context, re_match))
         pass
     elif category == 'browse_channels':
         result.extend(_process_browse_channels(provider, context, re_match))
         pass
     elif category == 'new_uploaded_videos':
-        context.get_ui().set_view_mode('videos')
         result.extend(_process_new_uploaded_videos(provider, context, re_match))
         pass
     elif category == 'disliked_videos':
-        context.get_ui().set_view_mode('videos')
         result.extend(_process_disliked_videos(provider, context, re_match))
         pass
     else:

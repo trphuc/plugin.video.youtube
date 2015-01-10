@@ -22,10 +22,14 @@
     <string id="30025">Setup-Assistenten aktivieren</string>
     <string id="30026">Ansicht überschreiben</string>
     <string id="30027">Ansicht: Default</string>
-    <string id="30028">Ansicht: Videos</string>
-
+    <string id="30028">Ansicht: Episoden</string>
+    <string id="30029">Ansicht: Filme</string>
     <string id="30030">Setup-Assistenten ausführen?</string>
     <string id="30031">Fortgeschritten</string>
+    <string id="30032">Ansicht: TV Shows</string>
+    <string id="30033">Ansicht: Songs</string>
+    <string id="30034">Ansicht: Interpreten</string>
+    <string id="30035">Ansicht: Alben</string>
 
     <!-- Kodion Common -->
     <string id="30100">Favoriten</string>

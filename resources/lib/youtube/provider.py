@@ -64,6 +64,9 @@ class Provider(kodion.AbstractProvider):
         self._is_logged_in = False
         pass
 
+    def get_wizard_supported_views(self):
+        return ['default', 'episodes']
+
     def get_wizard_steps(self, context):
         return [(yt_setup_wizard.process, [self, context])]
 
@@ -142,7 +145,6 @@ class Provider(kodion.AbstractProvider):
 
     @kodion.RegisterProviderPath('^/channel/(?P<channel_id>.*)/playlist/(?P<playlist_id>.*)/$')
     def _on_channel_playlist(self, context, re_match):
-        context.get_ui().set_view_mode('videos')
         self.set_content_type(context, kodion.constants.content_type.EPISODES)
 
         result = []
@@ -189,7 +191,6 @@ class Provider(kodion.AbstractProvider):
 
     @kodion.RegisterProviderPath('^/channel/(?P<channel_id>.*)/$')
     def _on_channel(self, context, re_match):
-        context.get_ui().set_view_mode('videos')
         self.set_content_type(context, kodion.constants.content_type.EPISODES)
 
         resource_manager = ResourceManager(context, self.get_client(context))
@@ -292,8 +293,6 @@ class Provider(kodion.AbstractProvider):
         return True
 
     def on_search(self, search_text, context, re_match):
-        self.set_content_type(context, kodion.constants.content_type.EPISODES)
-
         result = []
 
         page_token = context.get_param('page_token', '')
@@ -301,7 +300,7 @@ class Provider(kodion.AbstractProvider):
         page = int(context.get_param('page', 1))
 
         if search_type == 'video':
-            context.get_ui().set_view_mode('videos')
+            self.set_content_type(context, kodion.constants.content_type.EPISODES)
             pass
 
         if page == 1 and search_type == 'video':
