@@ -1,3 +1,6 @@
+5.0.4~beta1 (2015-01-11)
+UPD: Setup-Wizard views based on content type (KODION update)
+
 5.0.3 (2015-01-08)
 ADD: 'Disliked Videos'
 ADD: 240p, 360p and 480p
