@@ -271,6 +271,17 @@ class YouTube(LoginClient):
 
         return self._perform_v3_request(method='GET', path='playlistItems', params=params)
 
+    def get_channel_by_username(self, username):
+        """
+        Returns a collection of zero or more channel resources that match the request criteria.
+        :param channel_id: list or comma-separated list of the YouTube channel ID(s)
+        :return:
+        """
+        params = {'part': 'id',
+                  'forUsername': username}
+
+        return self._perform_v3_request(method='GET', path='channels', params=params)
+
     def get_channels(self, channel_id):
         """
         Returns a collection of zero or more channel resources that match the request criteria.

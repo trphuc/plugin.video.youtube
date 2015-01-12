@@ -185,11 +185,11 @@ class Provider(kodion.AbstractProvider):
 
     """
     Lists a playlist folder and all uploaded videos of a channel.
-    path      :'/channel/(?P<channel_id>.*)/'
+    path      :'/channel|user/(?P<channel_id|username>.*)/'
     channel_id: <CHANNEL_ID>
     """
 
-    @kodion.RegisterProviderPath('^/channel/(?P<channel_id>.*)/$')
+    @kodion.RegisterProviderPath('^/(?P<method>channel|user)/(?P<channel_id>.*)/$')
     def _on_channel(self, context, re_match):
         self.set_content_type(context, kodion.constants.content_type.EPISODES)
 
@@ -197,7 +197,32 @@ class Provider(kodion.AbstractProvider):
 
         result = []
 
+        method = re_match.group('method')
         channel_id = re_match.group('channel_id')
+
+        """
+        This is a helper routine if we only have the username of a channel. This will retrieve the correct channel id
+        based on the username.
+        """
+        if method == 'user':
+            context.log_debug('Trying to get channel id for user "%s"' % channel_id)
+
+            # the data should be valid for at least a week
+            json_data = context.get_function_cache().get(FunctionCache.ONE_WEEK,
+                                                         self.get_client(context).get_channel_by_username, channel_id)
+            if not v3.handle_error(self, context, json_data):
+                return False
+
+            # we correct the channel id based on the username
+            items = json_data.get('items', [])
+            if len(items) > 0:
+                channel_id = items[0]['id']
+                pass
+            else:
+                context.log_warning('Could not find channel ID for user "%s"' % channel_id)
+                return False
+            pass
+
         channel_fanarts = resource_manager.get_fanarts([channel_id])
         page = int(context.get_param('page', 1))
         page_token = context.get_param('page_token', '')
