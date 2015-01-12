@@ -1,3 +1,6 @@
+5.0.4~beta2 (2015-01-12)
+FIX: Pagination in APIv2
+
 5.0.4~beta1 (2015-01-11)
 UPD: Setup-Wizard views based on content type (KODION update)
 
