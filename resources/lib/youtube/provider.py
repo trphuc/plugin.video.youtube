@@ -492,7 +492,7 @@ class Provider(kodion.AbstractProvider):
             pass
 
         # live events
-        if settings.get_bool('youtube.folder.live_events.show', True):
+        if settings.get_bool('youtube.folder.live.show', True):
             live_events_item = DirectoryItem(context.localize(self.LOCAL_MAP['youtube.live']),
                                              context.create_uri(['special', 'live']),
                                              image=context.create_resource_path('media', 'live.png'))
