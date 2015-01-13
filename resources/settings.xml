@@ -25,6 +25,7 @@
         <setting id="youtube.folder.playlists.show" type="bool" label="30501" default="true"/>
         <setting id="youtube.folder.subscriptions.show" type="bool" label="30504" default="true"/>
         <setting id="youtube.folder.browse_channels.show" type="bool" label="30512" default="true"/>
+        <setting id="youtube.folder.live.show" type="bool" label="30539" default="true"/>
         <setting id="youtube.folder.sign.out.show" type="bool" label="30112" default="true"/>
     </category>
 

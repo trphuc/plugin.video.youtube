@@ -331,11 +331,14 @@ class YouTube(LoginClient):
                   'id': video_id}
         return self._perform_v3_request(method='GET', path='videos', params=params)
 
-    def get_live_events(self, event_type=['live', 'completed', 'upcoming'], page_token=''):
-        if isinstance(event_type, list):
-            event_type = ','.join(event_type)
-            pass
+    def get_live_events(self, event_type='live', order='relevance', page_token=''):
+        """
 
+        :param event_type: one of: 'live', 'completed', 'upcoming'
+        :param order: one of: 'date', 'rating', 'relevance', 'title', 'videoCount', 'viewCount'
+        :param page_token:
+        :return:
+        """
         # prepare page token
         if not page_token:
             page_token = ''
@@ -344,10 +347,10 @@ class YouTube(LoginClient):
         # prepare params
         params = {'part': 'snippet',
                   'type': 'video',
+                  'order': order,
                   'eventType': event_type,
                   'regionCode': self._country,
                   'hl': self._language,
-                  'publishedAfter': '2015-01-01T00:00:00Z',
                   'maxResults': str(self._max_results)}
         if page_token:
             params['pageToken'] = page_token

@@ -70,6 +70,24 @@ def _process_disliked_videos(provider, context, re_match):
     return result
 
 
+def _process_live_events(provider, context, re_match):
+    def _sort(x):
+        return x.get_aired()
+
+    provider.set_content_type(context, kodion.constants.content_type.EPISODES)
+
+    result = []
+
+    # TODO: cache result
+    page_token = context.get_param('page_token', '')
+    json_data = provider.get_client(context).get_live_events(event_type='live', page_token=page_token)
+    if not v3.handle_error(provider, context, json_data):
+        return False
+    result.extend(v3.response_to_items(provider, context, json_data, sort=_sort, reverse_sort=True))
+
+    return result
+
+
 def process(category, provider, context, re_match):
     result = []
 
@@ -87,6 +105,9 @@ def process(category, provider, context, re_match):
         pass
     elif category == 'disliked_videos':
         result.extend(_process_disliked_videos(provider, context, re_match))
+        pass
+    elif category == 'live':
+        result.extend(_process_live_events(provider, context, re_match))
         pass
     else:
         raise kodion.KodimonException("YouTube special category '%s' not found" % category)

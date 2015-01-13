@@ -55,7 +55,8 @@ class Provider(kodion.AbstractProvider):
                  'youtube.video.rate': 30528,
                  'youtube.video.rate.like': 30529,
                  'youtube.video.rate.dislike': 30530,
-                 'youtube.video.rate.none': 30108}
+                 'youtube.video.rate.none': 30108,
+                 'youtube.live': 30539}
 
     def __init__(self):
         kodion.AbstractProvider.__init__(self)
@@ -481,12 +482,22 @@ class Provider(kodion.AbstractProvider):
                 pass
             pass
 
+        # browse channels
         if settings.get_bool('youtube.folder.browse_channels.show', True):
             browse_channels_item = DirectoryItem(context.localize(self.LOCAL_MAP['youtube.browse_channels']),
                                                  context.create_uri(['special', 'browse_channels']),
                                                  image=context.create_resource_path('media', 'browse_channels.png'))
             browse_channels_item.set_fanart(self.get_fanart(context))
             result.append(browse_channels_item)
+            pass
+
+        # live events
+        if settings.get_bool('youtube.folder.live_events.show', True):
+            live_events_item = DirectoryItem(context.localize(self.LOCAL_MAP['youtube.live']),
+                                             context.create_uri(['special', 'live']),
+                                             image=context.create_resource_path('media', 'live.png'))
+            live_events_item.set_fanart(self.get_fanart(context))
+            result.append(live_events_item)
             pass
 
         # sign out
