@@ -189,7 +189,7 @@ class Provider(kodion.AbstractProvider):
     channel_id: <CHANNEL_ID>
     """
 
-    @kodion.RegisterProviderPath('^/(?P<method>channel|user)/(?P<channel_id>.*)/$')
+    @kodion.RegisterProviderPath('^/(?P<method>(channel|user))/(?P<channel_id>.*)/$')
     def _on_channel(self, context, re_match):
         self.set_content_type(context, kodion.constants.content_type.EPISODES)
 
