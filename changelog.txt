@@ -1,3 +1,5 @@
+5.0.4~beta5 (2015-01-13)
+
 5.0.4~beta4 (2015-01-13)
 FIX: Playlist should work again
 
