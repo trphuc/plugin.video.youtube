@@ -10,6 +10,12 @@ class TestClient(unittest.TestCase):
     USERNAME = ''
     PASSWORD = ''
 
+    def test_get_live_events(self):
+        client = YouTube()
+
+        json_data = client.get_live_events(event_type='live')
+        pass
+
     def test_get_channel_by_username(self):
         client = YouTube()
 
@@ -130,6 +136,7 @@ class TestClient(unittest.TestCase):
         context = kodion.Context()
 
         #Live
+        streams = client.get_video_streams(context, 'y1knc30OqKQ')
         #streams = client.get_video_streams(context, '7UFbGKo21lc')
         #streams = client.get_video_streams(context, 'RqbyYOCAFJU')
         #streams = client.get_video_streams(context, 'pvEWZY3Eqsg')

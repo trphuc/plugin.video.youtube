@@ -331,6 +331,30 @@ class YouTube(LoginClient):
                   'id': video_id}
         return self._perform_v3_request(method='GET', path='videos', params=params)
 
+    def get_live_events(self, event_type=['live', 'completed', 'upcoming'], page_token=''):
+        if isinstance(event_type, list):
+            event_type = ','.join(event_type)
+            pass
+
+        # prepare page token
+        if not page_token:
+            page_token = ''
+            pass
+
+        # prepare params
+        params = {'part': 'snippet',
+                  'type': 'video',
+                  'eventType': event_type,
+                  'regionCode': self._country,
+                  'hl': self._language,
+                  'publishedAfter': '2015-01-01T00:00:00Z',
+                  'maxResults': str(self._max_results)}
+        if page_token:
+            params['pageToken'] = page_token
+            pass
+
+        return self._perform_v3_request(method='GET', path='search', params=params)
+
     def get_related_videos(self, video_id, page_token=''):
         # prepare page token
         if not page_token:
