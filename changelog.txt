@@ -1,3 +1,6 @@
+5.0.4~beta6 (2015-01-13)
+FIX: settings for hiding 'Live' menu
+
 5.0.4~beta5 (2015-01-13)
 ADD: live events (needed some tests and feedback)
 
