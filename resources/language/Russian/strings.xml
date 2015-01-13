@@ -21,15 +21,15 @@
     <string id="30024">Размер кэша (Мб)</string>
     <string id="30025">Запустить мастер настройки</string>
     <string id="30026">Пользовательские настройки вида</string>
-    <string id="30027">Основной вид</string>
-    <string id="30028">View: Episodes</string>
-    <string id="30029">View: Movies</string>
+    <string id="30027">Вид: Обычный</string>
+    <string id="30028">Вид: Серии</string>
+    <string id="30029">Вид: Фильмы</string>
     <string id="30030">Запустить мастер настройки?</string>
     <string id="30031">Расширенные</string>
-    <string id="30032">View: TV Shows</string>
-    <string id="30033">View: Songs</string>
-    <string id="30034">View: Artists</string>
-    <string id="30035">View: Albums</string>
+    <string id="30032">Вид: Сериалы</string>
+    <string id="30033">Вид: Композиции</string>
+    <string id="30034">Вид: Исполнители</string>
+    <string id="30035">Вид: Альбомы</string>
 
     <!-- Kodion Common -->
     <string id="30100">Избранное</string>
