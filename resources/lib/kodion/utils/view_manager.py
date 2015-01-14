@@ -1,4 +1,4 @@
-c__author__ = 'bromix'
+__author__ = 'bromix'
 
 from .. import constants
 

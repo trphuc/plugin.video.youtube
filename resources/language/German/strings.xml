@@ -30,6 +30,7 @@
     <string id="30033">Ansicht: Songs</string>
     <string id="30034">Ansicht: Interpreten</string>
     <string id="30035">Ansicht: Alben</string>
+    <string id="30036">Alternativen Player unterstützen</string>
 
     <!-- Kodion Common -->
     <string id="30100">Favoriten</string>
@@ -94,4 +95,5 @@
     <string id="30537">Ab hier abspielen</string>
     <string id="30538">Disliked Videos</string>
     <string id="30539">Live</string>
+    <string id="30540">Abspielen mit...</string>
 </strings>

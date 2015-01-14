@@ -30,6 +30,7 @@
     <string id="30033">View: Songs</string>
     <string id="30034">View: Artists</string>
     <string id="30035">View: Albums</string>
+    <string id="30036">Support alternative player</string>
 
     <!-- Kodion Common -->
     <string id="30100">Favorites</string>
@@ -94,4 +95,5 @@
     <string id="30537">Play from here</string>
     <string id="30538">Disliked Videos</string>
     <string id="30539">Live</string>
+    <string id="30540">Play with...</string>
 </strings>

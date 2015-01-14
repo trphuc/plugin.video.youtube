@@ -56,6 +56,7 @@ class Provider(kodion.AbstractProvider):
                  'youtube.video.rate.like': 30529,
                  'youtube.video.rate.dislike': 30530,
                  'youtube.video.rate.none': 30108,
+                 'youtube.video.play_with': 30540,
                  'youtube.live': 30539}
 
     def __init__(self):
