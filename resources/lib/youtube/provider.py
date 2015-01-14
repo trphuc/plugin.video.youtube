@@ -324,13 +324,14 @@ class Provider(kodion.AbstractProvider):
 
         page_token = context.get_param('page_token', '')
         search_type = context.get_param('search_type', 'video')
+        event_type = context.get_param('event_type', '')
         page = int(context.get_param('page', 1))
 
         if search_type == 'video':
             self.set_content_type(context, kodion.constants.content_type.EPISODES)
             pass
 
-        if page == 1 and search_type == 'video':
+        if page == 1 and search_type == 'video' and not event_type:
             channel_params = {}
             channel_params.update(context.get_params())
             channel_params['search_type'] = 'channel'
@@ -348,10 +349,21 @@ class Provider(kodion.AbstractProvider):
                                           image=context.create_resource_path('media', 'playlist.png'))
             playlist_item.set_fanart(self.get_fanart(context))
             result.append(playlist_item)
+
+            # live
+            live_params = {}
+            live_params.update(context.get_params())
+            live_params['search_type'] = 'video'
+            live_params['event_type'] = 'live'
+            live_item = DirectoryItem('[B]%s[/B]' % context.localize(self.LOCAL_MAP['youtube.live']),
+                                      context.create_uri([context.get_path()], live_params),
+                                      image=context.create_resource_path('media', 'live.png'))
+            result.append(live_item)
             pass
 
         json_data = context.get_function_cache().get(FunctionCache.ONE_MINUTE * 10, self.get_client(context).search,
-                                                     q=search_text, search_type=search_type, page_token=page_token)
+                                                     q=search_text, search_type=search_type, event_type=event_type,
+                                                     page_token=page_token)
         if not v3.handle_error(self, context, json_data):
             return False
         result.extend(v3.response_to_items(self, context, json_data))

@@ -377,13 +377,14 @@ class YouTube(LoginClient):
 
         return self._perform_v3_request(method='GET', path='search', params=params)
 
-    def search(self, q, search_type=['video', 'channel', 'playlist'], page_token=''):
+    def search(self, q, search_type=['video', 'channel', 'playlist'], event_type='', page_token=''):
         """
         Returns a collection of search results that match the query parameters specified in the API request. By default,
         a search result set identifies matching video, channel, and playlist resources, but you can also configure
         queries to only retrieve a specific type of resource.
         :param q:
         :param search_type: acceptable values are: 'video' | 'channel' | 'playlist'
+        :param event_type: 'live', 'completed', 'upcoming'
         :param page_token: can be ''
         :return:
         """
@@ -407,6 +408,9 @@ class YouTube(LoginClient):
                   'regionCode': self._country,
                   'hl': self._language,
                   'maxResults': str(self._max_results)}
+        if event_type and event_type in ['live', 'upcoming', 'completed']:
+            params['eventType'] = event_type
+            pass
         if search_type:
             params['type'] = search_type
             pass
