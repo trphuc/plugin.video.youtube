@@ -1,4 +1,5 @@
 5.0.4~beta6 (2015-01-14)
+ADD: 'Live' in search
 ADD: 'Play with...' for supporting external/alternative player
 FIX: settings for hiding 'Live' menu
 
