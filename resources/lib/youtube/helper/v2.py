@@ -55,6 +55,6 @@ def response_to_items(provider, context, json_data):
             pass
         pass
     else:
-        raise kodion.KodimonException("Couldn't find feed")
+        raise kodion.KodionException("Couldn't find feed")
 
     return result

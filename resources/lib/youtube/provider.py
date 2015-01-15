@@ -122,8 +122,10 @@ class Provider(kodion.AbstractProvider):
                 self._is_logged_in = access_token != ''
                 self._client = YouTube(items_per_page=items_per_page, access_token=access_token,
                                        language=language)
+                self._client.set_log_error(context.log_error)
             else:
                 self._client = YouTube(items_per_page=items_per_page, language=language)
+                self._client.set_log_error(context.log_error)
                 pass
             pass
 

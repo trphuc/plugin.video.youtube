@@ -5,7 +5,7 @@ import xbmcgui
 import xbmcplugin
 
 from ..abstract_provider_runner import AbstractProviderRunner
-from ...exceptions import KodimonException
+from ...exceptions import KodionException
 from ...items import *
 from ... import constants, AbstractProvider
 from . import info_labels
@@ -21,7 +21,7 @@ class XbmcRunner(AbstractProviderRunner):
         results = None
         try:
             results = provider.navigate(context)
-        except KodimonException, ex:
+        except KodionException, ex:
             if provider.handle_exception(context, ex):
                 context.log_error(ex.__str__())
                 xbmcgui.Dialog().ok("Exception in ContentProvider", ex.__str__())

@@ -110,6 +110,6 @@ def process(category, provider, context, re_match):
         result.extend(_process_live_events(provider, context, re_match))
         pass
     else:
-        raise kodion.KodimonException("YouTube special category '%s' not found" % category)
+        raise kodion.KodionException("YouTube special category '%s' not found" % category)
 
     return result
