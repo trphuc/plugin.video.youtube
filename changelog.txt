@@ -1,3 +1,5 @@
+5.0.5~beta1 (2015-01-16)
+
 5.0.4 (2015-01-15)
 ADD: 'Live' in search
 ADD: 'Play with...' for supporting external/alternative player
