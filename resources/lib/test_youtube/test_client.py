@@ -136,7 +136,7 @@ class TestClient(unittest.TestCase):
         context = kodion.Context()
 
         #Live
-        streams = client.get_video_streams(context, 'y1knc30OqKQ')
+        #streams = client.get_video_streams(context, 'y1knc30OqKQ')
         #streams = client.get_video_streams(context, '7UFbGKo21lc')
         #streams = client.get_video_streams(context, 'RqbyYOCAFJU')
         #streams = client.get_video_streams(context, 'pvEWZY3Eqsg')
@@ -154,7 +154,7 @@ class TestClient(unittest.TestCase):
         #streams = client.get_video_streams(context, 'U4DbJWA9JEw')
 
         # VEVO (Restricted)
-        #streams = client.get_video_streams(context, 'O-zpOMYRi0w')
+        streams = client.get_video_streams(context, 'O-zpOMYRi0w')
         #streams = client.get_video_streams(context, 'NmugSMBh_iI')
 
         # VEVO Gema
