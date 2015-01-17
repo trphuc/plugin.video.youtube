@@ -25,11 +25,9 @@ def play_video(provider, context, re_match):
         video_id_dict = {video_id: video_item}
         utils.update_video_infos(provider, context, video_id_dict)
 
-        # Auto-Remove video from 'Watch Later' playlist - this should run asynchronous
-        if provider.is_logged_in() and context.get_settings().get_bool('youtube.playlist.watchlater.autoremove',
-                                                                       True):
-            command = 'RunPlugin(%s)' % context.create_uri(['internal', 'auto_remove_watch_later'],
-                                                           {'video_id': video_id})
+        # Trigger post play events
+        if provider.is_logged_in():
+            command = 'RunPlugin(%s)' % context.create_uri(['events', 'post_play'], {'video_id': video_id})
             context.execute(command)
             pass
 
