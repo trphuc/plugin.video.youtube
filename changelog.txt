@@ -1,3 +1,6 @@
+5.0.5~beta2 (2015-01-18)
+FIX: Add playing video to the 'Watch History'
+
 5.0.5~beta1 (2015-01-16)
 FIX: Vevo signature
 
