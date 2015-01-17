@@ -135,6 +135,9 @@ class TestClient(unittest.TestCase):
 
         context = kodion.Context()
 
+        # some videos
+        streams = client.get_video_streams(context, 'niBvN80Jqkg')
+
         #Live
         #streams = client.get_video_streams(context, 'y1knc30OqKQ')
         #streams = client.get_video_streams(context, '7UFbGKo21lc')

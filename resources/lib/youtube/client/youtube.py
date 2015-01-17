@@ -41,7 +41,13 @@ class YouTube(LoginClient):
                    'Accept-Language': 'en-US,en;q=0.8,de;q=0.6'}
         params = {'noflv': '1',
                   'html5': '1',
-                  'video_id': video_id}
+                  'video_id': video_id,
+                  'referrer': '',
+                  'eurl': 'https://www.youtube.com/tv#/watch?v=%s' % video_id,
+                  'skl': 'false',
+                  'ns': 'yt',
+                  'el': 'leanback',
+                  'ps': 'leanback'}
         if self._access_token:
             params['access_token'] = self._access_token
             pass
