@@ -30,6 +30,27 @@ class YouTube(LoginClient):
     def get_language(self):
         return self._language
 
+    def update_watch_history(self, video_id):
+        headers = {'Host': 'www.youtube.com',
+                   'Connection': 'keep-alive',
+                   'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.36 Safari/537.36',
+                   'Accept': 'image/webp,*/*;q=0.8',
+                   'DNT': '1',
+                   'Referer': 'https://www.youtube.com/tv',
+                   'Accept-Encoding': 'gzip, deflate',
+                   'Accept-Language': 'en-US,en;q=0.8,de;q=0.6'}
+        params = {'noflv': '1',
+                  'html5': '1',
+                  'video_id': video_id}
+        if self._access_token:
+            params['access_token'] = self._access_token
+            pass
+
+        url = 'https://www.youtube.com/user_watch'
+
+        result = requests.get(url, params=params, headers=headers, verify=False, allow_redirects=True)
+        pass
+
     def get_video_streams(self, context, video_id):
         video_info = VideoInfo(context, access_token=self._access_token, language=self._language)
         return video_info.load_stream_infos(video_id)

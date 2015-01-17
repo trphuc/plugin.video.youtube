@@ -77,7 +77,7 @@ class VideoInfo(object):
                    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.36 Safari/537.36',
                    'Accept': '*/*',
                    'DNT': '1',
-                   'Referer': 'https://www._old_youtube.com',
+                   'Referer': 'https://www.youtube.com',
                    'Accept-Encoding': 'gzip, deflate',
                    'Accept-Language': 'en-US,en;q=0.8,de;q=0.6'}
 
@@ -202,7 +202,7 @@ class VideoInfo(object):
                    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.36 Safari/537.36',
                    'Accept': '*/*',
                    'DNT': '1',
-                   'Referer': 'https://www._old_youtube.com/tv',
+                   'Referer': 'https://www.youtube.com/tv',
                    'Accept-Encoding': 'gzip, deflate',
                    'Accept-Language': 'en-US,en;q=0.8,de;q=0.6'}
         params = {'video_id': video_id,

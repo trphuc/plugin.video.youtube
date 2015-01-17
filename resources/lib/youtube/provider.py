@@ -303,7 +303,7 @@ class Provider(kodion.AbstractProvider):
             client = self.get_client(context)
             if self.is_logged_in():
                 # first: update history
-                #client.update_history(video_id)
+                client.update_watch_history(video_id)
 
                 # second: remove video from 'Watch Later' playlist
                 if context.get_settings().get_bool('youtube.playlist.watchlater.autoremove', True):
