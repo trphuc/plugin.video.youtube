@@ -134,9 +134,9 @@ class TestClient(unittest.TestCase):
         client = YouTube()
 
         context = kodion.Context()
-
         # some videos
-        streams = client.get_video_streams(context, 'niBvN80Jqkg')
+        streams = client.get_video_streams(context, 'vUMv3cRacrI')
+        #streams = client.get_video_streams(context, 'niBvN80Jqkg')
 
         #Live
         #streams = client.get_video_streams(context, 'y1knc30OqKQ')
