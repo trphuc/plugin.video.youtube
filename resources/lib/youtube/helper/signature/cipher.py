@@ -1,13 +1,12 @@
+__author__ = 'bromix'
+
 import json
 import os
 import re
 
-import requests
-
+from resources.lib.kodion import simple_requests as requests
 from resources.lib.kodion.utils import FunctionCache
 from .json_script_engine import JsonScriptEngine
-
-__author__ = 'bromix'
 
 
 class Cipher(object):

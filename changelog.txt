@@ -1,3 +1,6 @@
+5.0.5~beta3 (2015-01-25)
+UPD: dropped dependency of 'requests'-module because of performance issues
+
 5.0.5~beta2 (2015-01-18)
 FIX: Add playing video to the 'Watch History'
 

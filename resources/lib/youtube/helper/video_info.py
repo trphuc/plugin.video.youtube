@@ -4,16 +4,7 @@ import urllib
 import urlparse
 import re
 
-import requests
-# Verify is disabled and to avoid warnings we disable the warnings. Behind a proxy request isn't working correctly all
-# the time and if so can't validate the hosts correctly resulting in a exception and the addon won't work properly.
-try:
-    from requests.packages import urllib3
-    urllib3.disable_warnings()
-except:
-    # do nothing
-    pass
-
+from resources.lib.kodion import simple_requests as requests
 from ..youtube_exceptions import YouTubeException
 from .signature.cipher import Cipher
 
