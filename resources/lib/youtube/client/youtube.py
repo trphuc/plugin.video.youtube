@@ -462,33 +462,29 @@ class YouTube(LoginClient):
 
         result = None
 
-        try:
-            if method == 'GET':
-                result = requests.get(_url, params=_params, headers=_headers, verify=False, allow_redirects=allow_redirects)
-                pass
-            elif method == 'POST':
-                _headers['content-type'] = 'application/json'
-                result = requests.post(_url, data=json.dumps(post_data), params=_params, headers=_headers, verify=False,
-                                       allow_redirects=allow_redirects)
-                pass
-            elif method == 'PUT':
-                _headers['content-type'] = 'application/json'
-                result = requests.put(_url, data=json.dumps(post_data), params=_params, headers=_headers, verify=False,
-                                      allow_redirects=allow_redirects)
-                pass
-            elif method == 'DELETE':
-                result = requests.delete(_url, params=_params, headers=_headers, verify=False,
-                                         allow_redirects=allow_redirects)
-                pass
+        if method == 'GET':
+            result = requests.get(_url, params=_params, headers=_headers, verify=False, allow_redirects=allow_redirects)
+            pass
+        elif method == 'POST':
+            _headers['content-type'] = 'application/json'
+            result = requests.post(_url, json=post_data, params=_params, headers=_headers, verify=False,
+                                   allow_redirects=allow_redirects)
+            pass
+        elif method == 'PUT':
+            _headers['content-type'] = 'application/json'
+            result = requests.put(_url, json=post_data, params=_params, headers=_headers, verify=False,
+                                  allow_redirects=allow_redirects)
+            pass
+        elif method == 'DELETE':
+            result = requests.delete(_url, params=_params, headers=_headers, verify=False,
+                                     allow_redirects=allow_redirects)
+            pass
 
-            if result is None:
-                return {}
+        if result is None:
+            return {}
 
-            if result.headers.get('content-type', '').startswith('application/json'):
-                return result.json()
-        except Exception, ex:
-            self._log_error(str(ex))
-            raise kodion.KodionException("Client request failed please see log for information")
+        if result.headers.get('content-type', '').startswith('application/json'):
+            return result.json()
         pass
 
     def _perform_v2_request(self, method='GET', headers=None, path=None, post_data=None, params=None,
@@ -517,19 +513,15 @@ class YouTube(LoginClient):
         url = 'https://gdata.youtube.com/%s/' % path.strip('/')
 
         result = None
-        try:
-            if method == 'GET':
-                result = requests.get(url, params=_params, headers=_headers, verify=False, allow_redirects=allow_redirects)
-                pass
+        if method == 'GET':
+            result = requests.get(url, params=_params, headers=_headers, verify=False, allow_redirects=allow_redirects)
+            pass
 
-            if result is None:
-                return {}
+        if result is None:
+            return {}
 
-            if method != 'DELETE' and result.text:
-                return result.json()
-        except Exception, ex:
-            self._log_error(str(ex))
-            raise kodion.KodionException("Client request failed please see log for information")
+        if method != 'DELETE' and result.text:
+            return result.json()
         pass
 
     pass

@@ -117,6 +117,9 @@ def _request(method, url,
             request.data = data
             pass
         pass
+    elif method.upper() in ['POST', 'PUT']:
+        request.data = "null"
+        pass
     request.get_method = lambda: method
     result = Response()
     response = None
