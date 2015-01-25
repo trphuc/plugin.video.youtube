@@ -13,7 +13,7 @@ class TestClient(unittest.TestCase):
     def test_get_live_events(self):
         client = YouTube()
 
-        json_data = client.get_live_events(event_type='active')
+        json_data = client.get_live_events(event_type='live')
         pass
 
     def test_get_channel_by_username(self):
