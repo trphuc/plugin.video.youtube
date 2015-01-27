@@ -1,3 +1,6 @@
+5.0.5~beta4 (2015-01-27)
+FIX: VEVO signature
+
 5.0.5~beta3 (2015-01-25)
 UPD: dropped dependency of 'requests'-module because of performance issues
 
