@@ -114,7 +114,7 @@ class VideoInfo(object):
                 pass
             pass
 
-        re_match = re.match('.+\"js\": \"(?P<js>.+?)\".+', html)
+        re_match = re.search(r'\"js\"[^:]*:[^"]*\"(?P<js>.+?)\"', html)
         js = ''
         cipher = None
         if re_match:
@@ -122,7 +122,7 @@ class VideoInfo(object):
             cipher = Cipher(self._context, java_script_url=js)
             pass
 
-        re_match = re.match('.+\"url_encoded_fmt_stream_map\": \"(?P<url_encoded_fmt_stream_map>.+?)\".+', html)
+        re_match = re.search(r'\"url_encoded_fmt_stream_map\"[^:]*:[^"]*\"(?P<url_encoded_fmt_stream_map>[^"]*\")', html)
         if re_match:
             url_encoded_fmt_stream_map = re_match.group('url_encoded_fmt_stream_map')
             url_encoded_fmt_stream_map = url_encoded_fmt_stream_map.split(',')
