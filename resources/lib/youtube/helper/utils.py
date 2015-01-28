@@ -101,7 +101,7 @@ def update_video_infos(provider, context, video_id_dict, playlist_item_id_dict=N
             pass
 
         context_menu = []
-        replace_context_menu = True
+        replace_context_menu = False
 
         # Queue Video
         yt_context_menu.append_queue_video(context_menu, provider, context)
