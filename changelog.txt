@@ -1,5 +1,5 @@
 5.0.5~beta5 (2015-01-XX)
-
+UPD: replace context menu not everywhere
 
 5.0.5~beta4 (2015-01-27)
 FIX: VEVO signature
