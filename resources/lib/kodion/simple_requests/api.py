@@ -7,6 +7,13 @@ import urllib2
 from StringIO import StringIO
 import gzip
 
+class ErrorHandler(urllib2.HTTPDefaultErrorHandler):
+    def http_error_default(self, req, fp, code, msg, hdrs):
+        infourl = urllib.addinfourl(fp, hdrs, req.get_full_url())
+        infourl.status = code
+        infourl.code = code
+        return infourl
+
 
 class NoRedirectHandler(urllib2.HTTPRedirectHandler):
     def http_error_302(self, req, fp, code, msg, headers):
@@ -59,6 +66,7 @@ def _request(method, url,
 
     handlers = []
     handlers.append(urllib2.HTTPCookieProcessor())
+    handlers.append(ErrorHandler)
     if not allow_redirects:
         handlers.append(NoRedirectHandler)
         pass
