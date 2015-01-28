@@ -13,7 +13,8 @@ def _process_related_videos(provider, context, re_match):
     video_id = context.get_param('video_id', '')
     if video_id:
         json_data = provider.get_client(context).get_related_videos(video_id=video_id, page_token=page_token)
-        result.extend(v3.response_to_items(provider, context, json_data, process_next_page=False))
+        # we process the page token for some test
+        result.extend(v3.response_to_items(provider, context, json_data, process_next_page=True))
         pass
 
     return result

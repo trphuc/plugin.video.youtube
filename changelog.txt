@@ -1,4 +1,5 @@
 5.0.5~beta5 (2015-01-XX)
+FIX: pagination for "Related Video" - we compensate the page token bug of APIv3 (FUYU Google)
 UPD: replace context menu not everywhere
 
 5.0.5~beta4 (2015-01-27)

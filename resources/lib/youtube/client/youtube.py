@@ -15,6 +15,9 @@ class YouTube(LoginClient):
         self._max_results = items_per_page
         pass
 
+    def get_max_results(self):
+        return self._max_results
+
     def get_language(self):
         return self._language
 
