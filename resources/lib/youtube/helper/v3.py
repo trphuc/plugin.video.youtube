@@ -264,12 +264,6 @@ def response_to_items(provider, context, json_data, sort=None, reverse_sort=Fals
         result = sorted(result, key=sort, reverse=reverse_sort)
         pass
 
-    # We better double check. The API has some bugs in some categories. Even it there are no more results
-    # the API returns sometimes a "nextPageToken"
-    if len(result) < provider.get_client(context).get_max_results() and process_next_page:
-        process_next_page = False
-        pass
-
     # next page
     yt_next_page_token = json_data.get('nextPageToken', '')
     if process_next_page and yt_next_page_token:
