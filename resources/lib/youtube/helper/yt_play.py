@@ -99,6 +99,10 @@ def play_playlist(provider, context, re_match):
     if order == 'reverse':
         videos = videos[::-1]
         pass
+    elif order == 'shuffle':
+        # we have to shuffle the playlist by our self. The implementation of XBMC/KODI is quite weak :(
+        random.shuffle(videos)
+        pass
 
     playlist_position = 0
     # check if we have a video as starting point for the playlist
@@ -116,15 +120,22 @@ def play_playlist(provider, context, re_match):
     playlist = context.get_video_playlist()
     playlist.clear()
 
+    # select unshuffle
+    if order == 'shuffle':
+        playlist.unshuffle()
+        pass
+
     # add videos to playlist
     for video in videos:
         playlist.add(video)
         pass
 
     # we use the shuffle implementation of the playlist
+    """
     if order == 'shuffle':
         playlist.shuffle()
         pass
+    """
 
     if context.get_param('play', '') == '1':
         player.play(playlist_index=playlist_position)
