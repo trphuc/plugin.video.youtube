@@ -1,4 +1,5 @@
 5.0.5~beta6 (2015-01-29)
+FIX: maybe a fix for a problem (again!) on unix systems while handling HTTPErrors via a handler
 FIX: removed pagination for "Related Videos" - the fix before produced some nasty side-effects
 
 5.0.5~beta5 (2015-01-28)

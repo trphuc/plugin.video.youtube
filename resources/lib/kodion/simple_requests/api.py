@@ -65,8 +65,8 @@ def _request(method, url,
         pass
 
     handlers = []
-    handlers.append(urllib2.HTTPCookieProcessor())
-    handlers.append(ErrorHandler)
+    #handlers.append(urllib2.HTTPCookieProcessor())
+    #handlers.append(ErrorHandler)
     if not allow_redirects:
         handlers.append(NoRedirectHandler)
         pass
@@ -133,14 +133,16 @@ def _request(method, url,
     response = None
     try:
         response = opener.open(request)
-        result.headers.update(response.headers)
-        result.status_code = response.getcode()
     except urllib2.HTTPError, e:
-        from .. import logging
-
-        logging.log_error(e.__str__())
+        # HTTPError implements addinfourl, so we can use the exception to construct a response
+        if isinstance(e, urllib2.addinfourl):
+            response = e
+            pass
         pass
 
+    # process response
+    result.headers.update(response.headers)
+    result.status_code = response.getcode()
     if response.headers.get('Content-Encoding', '').startswith('gzip'):
         buf = StringIO(response.read())
         f = gzip.GzipFile(fileobj=buf)
