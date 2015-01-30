@@ -7,6 +7,7 @@ import urllib2
 from StringIO import StringIO
 import gzip
 
+
 class ErrorHandler(urllib2.HTTPDefaultErrorHandler):
     def http_error_default(self, req, fp, code, msg, hdrs):
         infourl = urllib.addinfourl(fp, hdrs, req.get_full_url())
@@ -65,8 +66,20 @@ def _request(method, url,
         pass
 
     handlers = []
-    #handlers.append(urllib2.HTTPCookieProcessor())
-    #handlers.append(ErrorHandler)
+
+    import sys
+    # starting with python 2.7.9 urllib verifies every https request
+    if False == verify and sys.version_info >= (2, 7, 9):
+        import ssl
+
+        ssl_context = ssl.create_default_context()
+        ssl_context.check_hostname = False
+        ssl_context.verify_mode = ssl.CERT_NONE
+        handlers.append(urllib2.HTTPSHandler(context=ssl_context))
+        pass
+
+    # handlers.append(urllib2.HTTPCookieProcessor())
+    # handlers.append(ErrorHandler)
     if not allow_redirects:
         handlers.append(NoRedirectHandler)
         pass
