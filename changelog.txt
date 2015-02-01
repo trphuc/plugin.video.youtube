@@ -1,22 +1,10 @@
-5.0.5~beta6 (2015-01-29)
+5.0.5 (2015-02-01)
 ADD: clear search history items
-FIX: maybe a fix for a problem (again!) on unix systems while using python 2.7.9 + certificate verification
-FIX: maybe a fix for a problem (again!) on unix systems while handling HTTPErrors via a handler
-FIX: removed pagination for "Related Videos" - the fix before produced some nasty side-effects
-
-5.0.5~beta5 (2015-01-28)
 UPD: replace context menu not everywhere
-
-5.0.5~beta4 (2015-01-27)
-FIX: VEVO signature
-
-5.0.5~beta3 (2015-01-25)
 UPD: dropped dependency of 'requests'-module because of performance issues
-
-5.0.5~beta2 (2015-01-18)
 FIX: Add playing video to the 'Watch History'
-
-5.0.5~beta1 (2015-01-16)
+FIX: maybe a fix for a problem (again!) on unix systems while using python 2.7.9 + certificate verification
+FIX: removed pagination for "Related Videos" - the fix before produced some nasty side-effects
 FIX: Vevo signature
 
 5.0.4 (2015-01-15)
