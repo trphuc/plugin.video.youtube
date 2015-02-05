@@ -137,13 +137,20 @@ class TestClient(unittest.TestCase):
 
         # VEVO
         streams = client.get_video_streams(context, 'nfWlot6h_JM')
+        self.assertGreater(len(streams), 0)
 
         # VEVO (Restricted)
-        #streams = client.get_video_streams(context, 'O-zpOMYRi0w')
-        #streams = client.get_video_streams(context, 'NmugSMBh_iI')
+        streams = client.get_video_streams(context, 'O-zpOMYRi0w')
+        self.assertGreater(len(streams), 0)
+
+        streams = client.get_video_streams(context, 'NmugSMBh_iI')
+        self.assertGreater(len(streams), 0)
 
         # VEVO Gema
+        # blocked (gema)
         #streams = client.get_video_streams(context, 'XbiH6pQI7pU')
+        #self.assertGreater(len(streams), 0)
+
         pass
 
     def test_get_streams_live_streams(self):
@@ -152,10 +159,23 @@ class TestClient(unittest.TestCase):
         context = kodion.Context()
 
         #Live
+        # blocked
         #streams = client.get_video_streams(context, 'y1knc30OqKQ')
+        #self.assertGreater(len(streams), 0)
+
+        # blocked
         #streams = client.get_video_streams(context, '7UFbGKo21lc')
+        #self.assertGreater(len(streams), 0)
+
+        # private
         #streams = client.get_video_streams(context, 'RqbyYOCAFJU')
-        #streams = client.get_video_streams(context, 'pvEWZY3Eqsg')
+        #self.assertGreater(len(streams), 0)
+
+        streams = client.get_video_streams(context, 'P8-yDTXnXAI')
+        self.assertGreater(len(streams), 0)
+
+        streams = client.get_video_streams(context, 'pvEWZY3Eqsg')
+        self.assertGreater(len(streams), 0)
         pass
 
     def test_get_video_streams_mixed(self):
@@ -163,17 +183,23 @@ class TestClient(unittest.TestCase):
 
         context = kodion.Context()
         # some videos
-        #streams = client.get_video_streams(context, 'vUMv3cRacrI')
-        #streams = client.get_video_streams(context, 'niBvN80Jqkg')
+        streams = client.get_video_streams(context, 'vUMv3cRacrI')
+        self.assertGreater(len(streams), 0)
+
+        streams = client.get_video_streams(context, 'niBvN80Jqkg')
+        self.assertGreater(len(streams), 0)
 
         # 60fps
-        # streams = client.get_video_streams(context, '_zPm3SSj6W8')
+        streams = client.get_video_streams(context, '_zPm3SSj6W8')
+        self.assertGreater(len(streams), 0)
 
         # 1080p ?!?
-        # streams = client.get_video_streams(context, 'qfPUVz_Hpqo')
+        streams = client.get_video_streams(context, 'qfPUVz_Hpqo')
+        self.assertGreater(len(streams), 0)
 
         # Restricted?
-        #streams = client.get_video_streams(context, 'U4DbJWA9JEw')
+        streams = client.get_video_streams(context, 'U4DbJWA9JEw')
+        self.assertGreater(len(streams), 0)
         pass
 
     def test_get_playlists(self):
