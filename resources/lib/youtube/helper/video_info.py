@@ -325,13 +325,18 @@ class VideoInfo(object):
             pass
         """
 
-        re_match = re.search(r'\"js\"[^:]*:[^"]*\"(?P<js>.+?)\"', html)
+        re_match_js = re.search(r'\"js\"[^:]*:[^"]*\"(?P<js>.+?)\"', html)
         js = ''
         cipher = None
-        if re_match:
-            js = re_match.group('js').replace('\\', '').strip('//')
+        if re_match_js:
+            js = re_match_js.group('js').replace('\\', '').strip('//')
             cipher = Cipher(self._context, java_script_url=js)
             pass
+
+        re_match_hlsvp = re.search(r'\"hlsvp\"[^:]*:[^"]*\"(?P<hlsvp>[^"]*\")', html)
+        if re_match_hlsvp:
+            hlsvp = urllib.unquote(re_match_hlsvp.group('hlsvp')).replace('\/', '/')
+            return self._load_manifest(hlsvp, video_id)
 
         re_match = re.search(r'\"url_encoded_fmt_stream_map\"[^:]*:[^"]*\"(?P<url_encoded_fmt_stream_map>[^"]*\")',
                              html)

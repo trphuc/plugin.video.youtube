@@ -158,6 +158,9 @@ class TestClient(unittest.TestCase):
 
         context = kodion.Context()
 
+        # working with old addon
+        streams = client.get_video_streams(context, 'Hrc4rwZ29y4')
+
         #Live
         # blocked
         #streams = client.get_video_streams(context, 'y1knc30OqKQ')
@@ -171,11 +174,11 @@ class TestClient(unittest.TestCase):
         #streams = client.get_video_streams(context, 'RqbyYOCAFJU')
         #self.assertGreater(len(streams), 0)
 
-        streams = client.get_video_streams(context, 'P8-yDTXnXAI')
-        self.assertGreater(len(streams), 0)
+        #streams = client.get_video_streams(context, 'P8-yDTXnXAI')
+        #self.assertGreater(len(streams), 0)
 
-        streams = client.get_video_streams(context, 'pvEWZY3Eqsg')
-        self.assertGreater(len(streams), 0)
+        #streams = client.get_video_streams(context, 'pvEWZY3Eqsg')
+        #self.assertGreater(len(streams), 0)
         pass
 
     def test_get_video_streams_mixed(self):
