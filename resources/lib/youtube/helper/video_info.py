@@ -27,7 +27,7 @@ class VideoInfo(object):
                'video': {'resolution': 144, 'encoding': 'mpeg-4'},
                'audio': {'bitrate': 24, 'encoding': 'aac'}},
         '18': {'container': 'mp4',
-               'video': {'resolution': 260, 'encoding': 'h.264'},
+               'video': {'resolution': 360, 'encoding': 'h.264'},
                'audio': {'bitrate': 96, 'encoding': 'aac'}},
         '22': {'container': 'mp4',
                'video': {'resolution': 720, 'encoding': 'h.264'},
