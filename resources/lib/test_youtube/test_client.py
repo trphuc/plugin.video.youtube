@@ -62,10 +62,14 @@ class TestClient(unittest.TestCase):
         pass
 
     def test_video_category(self):
-        client = YouTube(language='de-DE')
+        client = YouTube(language='en-US')
 
-        # 10 Music
-        json_data = client.get_video_category(10)
+        json_data = client.get_video_category(20)
+        pass
+
+    def test_guide_categories(self):
+        client = YouTube(language='en-US')
+        json_data = client.get_guide_categories()
         pass
 
     """
@@ -96,14 +100,6 @@ class TestClient(unittest.TestCase):
 
         # Best of YouTube
         json_data = client.get_guide_category('GCQmVzdCBvZiBZb3VUdWJl')
-        pass
-
-    def test_guide_categories(self):
-        client = YouTube(language='de-DE')
-
-        token, expires = client.authenticate(self.USERNAME, self.PASSWORD)
-        client = YouTube(access_token=token)
-        json_data = client.get_guide_categories()
         pass
 
     def test_authenticate(self):
