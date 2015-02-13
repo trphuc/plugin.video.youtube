@@ -57,7 +57,8 @@ class Provider(kodion.AbstractProvider):
                  'youtube.video.rate.dislike': 30530,
                  'youtube.video.rate.none': 30108,
                  'youtube.video.play_with': 30540,
-                 'youtube.live': 30539}
+                 'youtube.live': 30539,
+                 'youtube.error.rtmpe_not_supported': 30542}
 
     def __init__(self):
         kodion.AbstractProvider.__init__(self)

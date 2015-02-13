@@ -181,10 +181,23 @@ class TestClient(unittest.TestCase):
         #self.assertGreater(len(streams), 0)
         pass
 
+    def test_get_video_streams_rtmpe(self):
+        client = YouTube()
+
+        context = kodion.Context()
+        # #190 - viewster video
+        streams = client.get_video_streams(context, 'xq2aaB_Awno')
+        self.assertGreater(len(streams), 0)
+
+        streams = client.get_video_streams(context, 'ZCBlKMZLxZA')
+        self.assertGreater(len(streams), 0)
+        pass
+
     def test_get_video_streams_mixed(self):
         client = YouTube()
 
         context = kodion.Context()
+
         # some videos
         streams = client.get_video_streams(context, 'OSUy2uA6fbw')
         self.assertGreater(len(streams), 0)

@@ -15,12 +15,10 @@ class VideoInfo(object):
         '5': {'container': 'flv',
               'video': {'resolution': 240, 'encoding': 'h.263'},
               'audio': {'bitrate': 64, 'encoding': 'mp3'}},
-        # Discontinued
-        '6': {'container': 'flv',
+        '6': {'container': 'flv',  # Discontinued
               'video': {'resolution': 270, 'encoding': 'h.263'},
               'audio': {'bitrate': 64, 'encoding': 'mp3'}},
-        # Discontinued
-        '13': {'container': '3gp',
+        '13': {'container': '3gp',  # Discontinued
                'video': {'encoding': 'mpeg-4'},
                'audio': {'encoding': 'aac'}},
         '17': {'container': '3gp',
@@ -32,12 +30,10 @@ class VideoInfo(object):
         '22': {'container': 'mp4',
                'video': {'resolution': 720, 'encoding': 'h.264'},
                'audio': {'bitrate': 192, 'encoding': 'aac'}},
-        # Discontinued
-        '34': {'container': 'flv',
+        '34': {'container': 'flv',  # Discontinued
                'video': {'resolution': 360, 'encoding': 'h.264'},
                'audio': {'bitrate': 128, 'encoding': 'aac'}},
-        # Discontinued
-        '35': {'container': 'flv',
+        '35': {'container': 'flv',  # Discontinued
                'video': {'resolution': 480, 'encoding': 'h.264'},
                'audio': {'bitrate': 128, 'encoding': 'aac'}},
         '36': {'container': '3gp',
@@ -52,19 +48,22 @@ class VideoInfo(object):
         '43': {'container': 'webm',
                'video': {'resolution': 360, 'encoding': 'vp8'},
                'audio': {'bitrate': 128, 'encoding': 'vorbis'}},
-        # Discontinued
-        '44': {'container': 'webm',
+        '44': {'container': 'webm',  # Discontinued
                'video': {'resolution': 480, 'encoding': 'vp8'},
                'audio': {'bitrate': 128, 'encoding': 'vorbis'}},
-        # Discontinued
-        '45': {'container': 'webm',
+        '45': {'container': 'webm',  # Discontinued
                'video': {'resolution': 720, 'encoding': 'vp8'},
                'audio': {'bitrate': 192, 'encoding': 'vorbis'}},
-        # Discontinued
-        '46': {'container': 'webm',
+        '46': {'container': 'webm',  # Discontinued
                'video': {'resolution': 1080, 'encoding': 'vp8'},
                'audio': {'bitrate': 192, 'encoding': 'vorbis'}},
-        # 3D
+        '59': {'container': 'mp4',
+               'video': {'resolution': 480, 'encoding': 'h.264'},
+               'audio': {'bitrate': 96, 'encoding': 'aac'}},
+        '78': {'container': 'mp4',
+               'video': {'resolution': 360, 'encoding': 'h.264'},
+               'audio': {'bitrate': 96, 'encoding': 'aac'}},
+        # === 3D ===
         '82': {'container': 'mp4',
                '3D': True,
                'video': {'resolution': 360, 'encoding': 'h.264'},
@@ -85,13 +84,11 @@ class VideoInfo(object):
                 '3D': True,
                 'video': {'resolution': 360, 'encoding': 'vp8'},
                 'audio': {'bitrate': 128, 'encoding': 'vorbis'}},
-        # Discontinued
-        '101': {'container': 'webm',
+        '101': {'container': 'webm',  # Discontinued
                 '3D': True,
                 'video': {'resolution': 360, 'encoding': 'vp8'},
                 'audio': {'bitrate': 192, 'encoding': 'vorbis'}},
-        # Discontinued
-        '102': {'container': 'webm',
+        '102': {'container': 'webm',  # Discontinued
                 '3D': True,
                 'video': {'resolution': 720, 'encoding': 'vp8'},
                 'audio': {'bitrate': 192, 'encoding': 'vorbis'}},
@@ -116,8 +113,7 @@ class VideoInfo(object):
                'Live': True,
                'video': {'resolution': 1080, 'encoding': 'h.264'},
                'audio': {'bitrate': 256, 'encoding': 'aac'}},
-        # Discontinued
-        '120': {'container': 'flv',
+        '120': {'container': 'flv',  # Discontinued
                 'Live': True,
                 'video': {'resolution': 720, 'encoding': 'h.264'},
                 'audio': {'bitrate': 128, 'encoding': 'aac'}},
@@ -151,8 +147,7 @@ class VideoInfo(object):
         '137': {'container': 'mp4',
                 'dash/video': True,
                 'video': {'resolution': 1080, 'encoding': 'h.264'}},
-        # Discontinued
-        '138': {'container': 'mp4',
+        '138': {'container': 'mp4',  # Discontinued
                 'dash/video': True,
                 'video': {'resolution': 2160, 'encoding': 'h.264'}},
         '160': {'container': 'mp4',
@@ -349,28 +344,44 @@ class VideoInfo(object):
                 attr = dict(urlparse.parse_qsl(value))
 
                 try:
-                    url = urllib.unquote(attr['url'])
+                    url = attr.get('url', None)
+                    conn = attr.get('conn', None)
+                    if url:
+                        url = urllib.unquote(attr['url'])
 
-                    signature = ''
-                    if attr.get('s', ''):
-                        signature = cipher.get_signature(attr['s'])
+                        signature = ''
+                        if attr.get('s', ''):
+                            signature = cipher.get_signature(attr['s'])
+                            pass
+                        elif attr.get('sig', ''):
+                            signature = attr.get('sig', '')
+                            pass
+
+                        if signature:
+                            url += '&signature=%s' % signature
+                            pass
+
+                        itag = attr['itag']
+                        format = self.FORMAT.get(itag, None)
+                        if not format:
+                            raise Exception('unknown format for itag "%s"' % itag)
+                        video_stream = {'url': url,
+                                        'format': format}
+
+                        stream_list.append(video_stream)
                         pass
-                    elif attr.get('sig', ''):
-                        signature = attr.get('sig', '')
+                    elif conn:  # rtmpe
+                        url = '%s?%s' % (conn, urllib.unquote(attr['stream']))
+                        itag = attr['itag']
+                        format = self.FORMAT.get(itag, None)
+                        format['rtmpe'] = True
+                        if not format:
+                            raise Exception('unknown format for itag "%s"' % itag)
+                        video_stream = {'url': url,
+                                        'format': format}
+
+                        stream_list.append(video_stream)
                         pass
-
-                    if signature:
-                        url += '&signature=%s' % signature
-                        pass
-
-                    itag = attr['itag']
-                    format = self.FORMAT.get(itag, None)
-                    if not format:
-                        raise Exception('unknown format for itag "%s"' % itag)
-                    video_stream = {'url': url,
-                                    'format': format}
-
-                    stream_list.append(video_stream)
                 except Exception, ex:
                     x = 0
                     pass
@@ -452,20 +463,13 @@ class VideoInfo(object):
                 return self._load_manifest(url, video_id)
             pass
 
-
         """
-        itag_map = {}
-        itag_map.update(self.DEFAULT_ITAG_MAP)
-        # update itag map
         fmt_list = params.get('fmt_list', '')
         if fmt_list:
             fmt_list = fmt_list.split(',')
             for item in fmt_list:
                 data = item.split('/')
-
                 size = data[1].split('x')
-                itag_map[data[0]] = {'width': int(size[0]),
-                                     'height': int(size[1])}
                 pass
             pass
         """
@@ -492,22 +496,36 @@ class VideoInfo(object):
             for item in url_encoded_fmt_stream_map:
                 stream_map = dict(urlparse.parse_qsl(item))
 
-                url = stream_map['url']
-                if 'sig' in stream_map:
-                    url += '&signature=%s' % stream_map['sig']
-                elif 's' in stream_map:
-                    # fuck!!! in this case we must call the web page
-                    return self._method_watch(video_id)
+                url = stream_map.get('url', None)
+                conn = stream_map.get('conn', None)
+                if url:
+                    if 'sig' in stream_map:
+                        url += '&signature=%s' % stream_map['sig']
+                    elif 's' in stream_map:
+                        # fuck!!! in this case we must call the web page
+                        return self._method_watch(video_id)
 
-                itag = stream_map['itag']
-                format = self.FORMAT.get(itag, None)
-                if not format:
-                    raise Exception('unknown format for itag "%s"' % itag)
+                    itag = stream_map['itag']
+                    format = self.FORMAT.get(itag, None)
+                    if not format:
+                        raise Exception('unknown format for itag "%s"' % itag)
 
-                video_stream = {'url': url,
-                                'format': format}
+                    video_stream = {'url': url,
+                                    'format': format}
+                    stream_list.append(video_stream)
+                    pass
+                elif conn:
+                    url = '%s?%s' % (conn, urllib.unquote(stream_map['stream']))
+                    itag = stream_map['itag']
+                    format = self.FORMAT.get(itag, None)
+                    format['rtmpe'] = True
+                    if not format:
+                        raise Exception('unknown format for itag "%s"' % itag)
+                    video_stream = {'url': url,
+                                    'format': format}
 
-                stream_list.append(video_stream)
+                    stream_list.append(video_stream)
+                    pass
                 pass
             pass
 
