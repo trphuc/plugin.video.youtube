@@ -255,6 +255,18 @@ class YouTube(LoginClient):
 
         return self._perform_v3_request(method='GET', path='activities', params=params)
 
+    def get_channel_sections(self, channel_id):
+        params = {'part': 'snippet,contentDetails',
+                  'regionCode': self._country,
+                  'hl': self._language}
+        if channel_id == 'mine':
+            params['mine'] = 'true'
+            pass
+        else:
+            params['channelId'] = channel_id
+            pass
+        return self._perform_v3_request(method='GET', path='channelSections', params=params)
+
     def get_playlists(self, channel_id, page_token=''):
         params = {'part': 'snippet,contentDetails',
                   'maxResults': str(self._max_results)}
