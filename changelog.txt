@@ -1,5 +1,6 @@
 5.0.6~beta6 (2015-02-16)
 ADD: uk-UA (thx 2 posledov)
+UPD: show 'Watch History' (default)
 UPD: Russian (thx 2 BytEvil)
 
 5.0.6~beta5 (2015-02-12)
