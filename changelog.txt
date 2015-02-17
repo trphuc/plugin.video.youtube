@@ -1,21 +1,14 @@
-5.0.6~beta6 (2015-02-16)
-ADD: uk-UA (thx 2 posledov)
+5.0.6 (2015-02-17)
+ADD: setting for hiding the channel name in the description
+ADD: Ukrainian (thx 2 posledov)
 UPD: show 'Watch History' (default)
 UPD: Russian (thx 2 BytEvil)
-
-5.0.6~beta5 (2015-02-12)
-FIX: 'What to watch' => 'Popular right now'
-FIX: don't crash while trying to play rtmpe
-
-5.0.6~beta4 (2015-02-08)
-FIX: corrected ITAG 18 in 360p instead of 260p
-
-5.0.6~beta3 (2015-02-05)
 UPD: improved support for live streams
 UPD: improved stream selection based on container
+FIX: 'What to watch' => 'Popular right now'
+FIX: don't crash while trying to play rtmpe
+FIX: corrected ITAG 18 in 360p instead of 260p
 
-5.0.6~beta1 (2015-02-03)
-ADD: setting for hiding the channel name in the description
 
 5.0.5 (2015-02-01)
 ADD: clear search history items
