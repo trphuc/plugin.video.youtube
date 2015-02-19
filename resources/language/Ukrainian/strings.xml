@@ -6,7 +6,7 @@
 	<string id="30002">Пароль</string>
 	<string id="30010">Якість відео</string>
 	<string id="30011">480p</string>
-	<string id="30012">720p (HD)</string>
+	<string id="30012">1111720p (HD)</string>
 	<string id="30013">1080p (HD)</string>
 	<string id="30014">2160p (4k)</string>
 	<string id="30015">4320p (8k)</string>
@@ -56,7 +56,7 @@
 	<!-- YouTube -->
 	<string id="30500">Канали</string>
 	<string id="30501">Плейлисты</string>
-	<string id="30502">Перейти до /string>
+	<string id="30502">Перейти до</string>
 	<string id="30503">Показувати фанарты каналів</string>
 	<string id="30504">Підписки</string>
 	<string id="30505">Відмінити підписку</string>
@@ -71,7 +71,7 @@
 	<string id="30514">Схоже відео</string>
 	<string id="30515">Автомат. видал. з "Відкладеного перегляду"</string>
 	<string id="30516">Елементи меню</string>
-	<string id="30517">Підписатися /string>
+	<string id="30517">Підписатися</string>
 	<string id="30518">Перейдіть по посиланню '</string>
 	<string id="30519">і введіть наступний код:</string>
 	<string id="30520">Додати в...</string>
