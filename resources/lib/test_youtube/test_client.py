@@ -69,7 +69,7 @@ class TestClient(unittest.TestCase):
     def test_video_category(self):
         client = YouTube(language='en-US')
 
-        json_data = client.get_video_category(17)
+        json_data = client.get_video_category('17')
         pass
 
     def test_guide_categories(self):
