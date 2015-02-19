@@ -200,6 +200,9 @@ class TestClient(unittest.TestCase):
         context = kodion.Context()
 
         # some videos
+        streams = client.get_video_streams(context, 'ZDX8SoYMizA')
+        self.assertGreater(len(streams), 0)
+
         streams = client.get_video_streams(context, 'OSUy2uA6fbw')
         self.assertGreater(len(streams), 0)
 

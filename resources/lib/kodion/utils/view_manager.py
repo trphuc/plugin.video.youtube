@@ -68,24 +68,32 @@ class ViewManager(object):
         'skin.1080xf': {
             'default': [
                 {'name': 'List', 'id': 50},
+                {'name': 'Thumbnail', 'id': 500},
+            ],
+            'episodes': [
+                {'name': 'List', 'id': 50},
                 {'name': 'Info list', 'id': 52},
-                {'name': 'Panel', 'id': 53},
+                {'name': 'Fanart', 'id': 502},
                 {'name': 'Landscape', 'id': 54},
                 {'name': 'Poster', 'id': 55},
                 {'name': 'Thumbnail', 'id': 500},
                 {'name': 'Banner', 'id': 60}
-            ]
+            ],
         },
         'skin.xperience1080': {
             'default': [
                 {'name': 'List', 'id': 50},
+                {'name': 'Thumbnail', 'id': 500},
+            ],
+            'episodes': [
+                {'name': 'List', 'id': 50},
                 {'name': 'Info list', 'id': 52},
-                {'name': 'Panel', 'id': 53},
+                {'name': 'Fanart', 'id': 502},
                 {'name': 'Landscape', 'id': 54},
                 {'name': 'Poster', 'id': 55},
                 {'name': 'Thumbnail', 'id': 500},
                 {'name': 'Banner', 'id': 60}
-            ]
+            ],
         }
     }
 
