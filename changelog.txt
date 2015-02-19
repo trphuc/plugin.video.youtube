@@ -1,3 +1,6 @@
+5.0.7 (2015-02-19)
+FIX: unicode trouble
+
 5.0.6 (2015-02-17)
 ADD: setting for hiding the channel name in the description
 ADD: Ukrainian (thx 2 posledov)
