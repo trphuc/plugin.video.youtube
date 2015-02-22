@@ -1,4 +1,7 @@
-5.0.7 (2015-02-19)
+5.0.7~beta2 (2015-02-22)
+UPD: Ukrainian (thx 2 posledov)
+
+5.0.7~beta1 (2015-02-19)
 FIX: unicode trouble
 
 5.0.6 (2015-02-17)
