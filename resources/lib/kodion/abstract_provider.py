@@ -296,7 +296,7 @@ class AbstractProvider(object):
             if result:
                 context.execute(
                     'Container.Update(%s)' % context.create_uri([constants.paths.SEARCH, 'query'], {'q': query}))
-                return True
+                pass
 
             return True
         elif command == 'query':
