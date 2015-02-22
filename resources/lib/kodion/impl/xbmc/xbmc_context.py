@@ -13,6 +13,8 @@ from .xbmc_context_ui import XbmcContextUI
 from .xbmc_system_version import XbmcSystemVersion
 from .xbmc_playlist import XbmcPlaylist
 from .xbmc_player import XbmcPlayer
+from ... import utils
+
 
 class XbmcContext(AbstractContext):
     def __init__(self, path='/', params=None, plugin_name=u'', plugin_id=u'', override=True):
@@ -143,15 +145,15 @@ class XbmcContext(AbstractContext):
             if text_id >= 0 and (text_id < 30000 or text_id > 30999):
                 result = xbmc.getLocalizedString(text_id)
                 if result is not None and result:
-                    return result
+                    return utils.to_unicode(result)
                 pass
             pass
 
         result = self._addon.getLocalizedString(int(text_id))
         if result is not None and result:
-            return result
+            return utils.to_unicode(result)
 
-        return default_text
+        return utils.to_unicode(default_text)
 
     def set_content_type(self, content_type):
         self.log_debug('Setting content-type: "%s" for "%s"' % (content_type, self.get_path()))
