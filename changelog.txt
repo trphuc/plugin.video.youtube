@@ -1,6 +1,8 @@
 5.0.7~beta2 (2015-02-22)
+ADD: rename search history item
 UPD: Ukrainian (thx 2 posledov)
 UPD: Spanish (thx 2 PatOso)
+FIX: optimized logging
 
 5.0.7~beta1 (2015-02-19)
 FIX: unicode trouble
