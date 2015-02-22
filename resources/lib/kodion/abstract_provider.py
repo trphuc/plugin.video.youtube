@@ -28,7 +28,7 @@ class AbstractProvider(object):
         self.register_path('^/' + constants.paths.WATCH_LATER + '/(?P<command>add|remove|list)/?$',
                            '_internal_watch_later')
         self.register_path('^/' + constants.paths.FAVORITES + '/(?P<command>add|remove|list)/?$', '_internal_favorite')
-        self.register_path('^/' + constants.paths.SEARCH + '/(?P<command>input|query|list|remove|clear)/?$',
+        self.register_path('^/' + constants.paths.SEARCH + '/(?P<command>input|query|list|remove|clear|rename)/?$',
                            '_internal_search')
         self.register_path('(?P<path>.*\/)extrafanart\/([\?#].+)?$', '_internal_on_extra_fanart')
 
@@ -277,6 +277,15 @@ class AbstractProvider(object):
             query = params['q']
             search_history.remove(query)
             context.get_ui().refresh_container()
+            return True
+        elif command == 'rename':
+            query = params['q']
+            result, new_query = context.get_ui().on_keyboard_input(context.localize(constants.localize.SEARCH_RENAME),
+                                                                   query)
+            if result:
+                search_history.rename(query, new_query)
+                context.get_ui().refresh_container()
+                pass
             return True
         elif command == 'clear':
             search_history.clear()
