@@ -19,6 +19,8 @@
         <description lang="es">YouTube es un uno de los mayores sitios web de intercambio de vídeos del mundo.</description>
         <summary lang="ru">Видеодополнение YouTube</summary>
         <description lang="ru">Данное дополнение позволяет находить и смотреть видео на всеми любимом сайте.</description>
+        <summary lang="fr">Plugin pour YouTube</summary>
+        <description lang="fr">YouTube est l'un des plus grands sites de partage vidéos du monde.</description>
 		<disclaimer lang="en"></disclaimer>
 		<language></language>
 		<platform>all</platform>

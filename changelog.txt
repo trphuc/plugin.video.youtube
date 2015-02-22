@@ -1,5 +1,5 @@
 5.0.7~beta3 (2015-02-22)
-
+UPD: French (thx 2 Trilip)
 
 5.0.7~beta2 (2015-02-22)
 ADD: rename search history item
