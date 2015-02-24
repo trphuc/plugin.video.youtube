@@ -29,9 +29,30 @@ class TestClient(unittest.TestCase):
         json_data = client.get_channels(['UCDbAn9LEzqONk__uXA6a9jQ', 'UC8i4HhaJSZhm-fu84Bl72TA'])
         pass
 
+    def test_false_language_id(self):
+        # empty => 'en-US'
+        client = YouTube(language='')
+        self.assertEquals('en_US', client.get_language())
+        self.assertEquals('US', client.get_country())
+
+        # 'en','de' => 'en-US'
+        client = YouTube(language='de')
+        self.assertEquals('en_US', client.get_language())
+        self.assertEquals('US', client.get_country())
+
+        # 'de-DE-UTF8' => 'en-US'
+        client = YouTube(language='de-DE-UTF8')
+        self.assertEquals('en_US', client.get_language())
+        self.assertEquals('US', client.get_country())
+
+        # 'de-DE' => 'de-DE'
+        client = YouTube(language='de-DE')
+        self.assertEquals('de_DE', client.get_language())
+        self.assertEquals('DE', client.get_country())
+        pass
+
     def test_playlist_item_id_of_video_id(self):
         client = YouTube(language='de-DE')
-
         json_data = client.get_playlist_item_id_of_video_id(playlist_id='PL3tRBEVW0hiBMoF9ihuu-x_aQVXvFYHIH', video_id='KpjgZ8xAeLI')
         pass
 
@@ -200,6 +221,9 @@ class TestClient(unittest.TestCase):
         context = kodion.Context()
 
         # some videos
+        streams = client.get_video_streams(context, 'Hp0gI8KJw20')
+        self.assertGreater(len(streams), 0)
+
         streams = client.get_video_streams(context, 'ZDX8SoYMizA')
         self.assertGreater(len(streams), 0)
 
