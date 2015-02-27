@@ -1,4 +1,5 @@
 5.0.7~beta5 (2015-02-27)
+ADD: 'Refresh' in 'My Subscriptions' and all my playlists
 
 5.0.7~beta4 (2015-02-24)
 FIX: possible crash on not well formed language ids
