@@ -1,19 +1,11 @@
-5.0.7~beta5 (2015-02-27)
+5.0.7 (2015-02-27)
 ADD: 'Refresh' in 'My Subscriptions' and all my playlists
-
-5.0.7~beta4 (2015-02-24)
-FIX: possible crash on not well formed language ids
-
-5.0.7~beta3 (2015-02-22)
-UPD: French (thx 2 Trilip)
-
-5.0.7~beta2 (2015-02-22)
 ADD: rename search history item
+UPD: French (thx 2 Trilip)
 UPD: Ukrainian (thx 2 posledov)
 UPD: Spanish (thx 2 PatOso)
+FIX: possible crash on not well formed language ids
 FIX: optimized logging
-
-5.0.7~beta1 (2015-02-19)
 FIX: unicode trouble
 
 5.0.6 (2015-02-17)
