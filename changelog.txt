@@ -1,5 +1,6 @@
 5.0.8~beta1 (2015-03-03)
 UPD: Russian (thx 2 BytEvil)
+FIX: improved playback
 
 5.0.7 (2015-02-27)
 ADD: 'Refresh' in 'My Subscriptions' and all my playlists
