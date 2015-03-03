@@ -1,4 +1,4 @@
-5.0.8~beta1 (2015-03-03)
+5.0.8~beta2 (2015-03-03)
 UPD: Russian (thx 2 BytEvil)
 FIX: improved playback
 
