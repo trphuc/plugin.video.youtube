@@ -1,4 +1,5 @@
-5.0.8~beta2 (2015-03-03)
+5.0.8 (2015-03-05)
+UPD: Polish (thx 2 Etharr)
 UPD: Russian (thx 2 BytEvil)
 FIX: improved playback
 
