@@ -1,14 +1,11 @@
 __author__ = 'bromix'
 
 import xbmc
-import re
 from ..abstract_system_version import AbstractSystemVersion
 
 
 class XbmcSystemVersion(AbstractSystemVersion):
     def __init__(self):
-        major = 0
-        minor = 0
         try:
             self._version = tuple(map(int, (xbmc.__version__.split("."))))
         except:
@@ -22,8 +19,11 @@ class XbmcSystemVersion(AbstractSystemVersion):
         if self._version > (2, 0):
             self._name = 'Gotham'
             pass
-        if self._version > (2, 14):
+        if self._version > (2, 14, 0):
             self._name = 'Helix'
+            pass
+        if self._version > (2, 19, 0):
+            self._name = 'Isengard'
             pass
         pass
 
