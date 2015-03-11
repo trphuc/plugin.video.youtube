@@ -1,4 +1,7 @@
 5.0.9~beta1 (2015-03-11)
+UPD: switched back the thumbnail size to 480x360 (fallback 320x180 and 120x90)
+
+5.0.9~beta1 (2015-03-11)
 UPD: reduced thumbnail size to 320x180 (fallback 120x90 and 480x360)
 UPD: use gzip for all http transfer
 
