@@ -142,6 +142,23 @@ class Provider(kodion.AbstractProvider):
     def get_fanart(self, context):
         return context.create_resource_path('media', 'fanart.jpg')
 
+    @kodion.RegisterProviderPath('^/playlist/(?P<playlist_id>.*)/$')
+    def _on_playlist(self, context, re_match):
+        self.set_content_type(context, kodion.constants.content_type.EPISODES)
+
+        result = []
+
+        playlist_id = re_match.group('playlist_id')
+        page_token = context.get_param('page_token', '')
+
+        # no caching
+        json_data = self.get_client(context).get_playlist_items(playlist_id=playlist_id, page_token=page_token)
+        if not v3.handle_error(self, context, json_data):
+            return False
+        result.extend(v3.response_to_items(self, context, json_data))
+
+        return result
+
     """
     Lists the videos of a playlist.
     path       : '/channel/(?P<channel_id>.*)/playlist/(?P<playlist_id>.*)/'
