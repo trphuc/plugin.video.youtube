@@ -1,3 +1,6 @@
+5.0.9~beta3 (2015-03-13)
+ADD: support for duration in seconds (KODI 15.0)
+
 5.0.9~beta2 (2015-03-11)
 ADD: EndPoint for listing the videos of a playlist: "plugin://plugin.video.youtube/playlist/<PLAYLIST_ID>/"
 UPD: switched back the thumbnail size to 480x360 (fallback 320x180 and 120x90)
