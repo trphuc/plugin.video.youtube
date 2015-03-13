@@ -122,12 +122,23 @@ class Provider(kodion.AbstractProvider):
                     pass
 
                 self._is_logged_in = access_token != ''
+
+                # in debug log the login status
+                if self._is_logged_in:
+                    context.log_debug('User is logged in')
+                else:
+                    context.log_debug('User is not logged in')
+                    pass
+
                 self._client = YouTube(items_per_page=items_per_page, access_token=access_token,
                                        language=language)
                 self._client.set_log_error(context.log_error)
             else:
                 self._client = YouTube(items_per_page=items_per_page, language=language)
                 self._client.set_log_error(context.log_error)
+
+                # in debug log the login status
+                context.log_debug('User is not logged in')
                 pass
             pass
 
