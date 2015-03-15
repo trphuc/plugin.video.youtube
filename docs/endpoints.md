@@ -13,7 +13,7 @@ plugin://plugin.video.youtube/playlist/[PID]/
 ```
 plugin://plugin.video.youtube/play/?playlist_id=[PID]
 ```
-### Play a playlist in a specified order:
+### Play a playlist in a predetermined order
 ```
 plugin://plugin.video.youtube/play/?playlist_id=[PID]&order=[default|reverse|shuffle]
 ```
