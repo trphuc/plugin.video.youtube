@@ -2,10 +2,10 @@
 
 ## Missing/not Supported
 ### Collections
-At the moment the APIv3 by Google doesn't supports for collections.
+At the moment the APIv3 by Google doesn't supports collections.
 
 ## Liked/Saved Playlists
-At the moment the APIv3 by Google doesn't supports for liked/saved playlists.
+At the moment the APIv3 by Google doesn't supports liked/saved playlists.
 
 ## Broken
 ### Watch History
