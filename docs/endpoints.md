@@ -1,9 +1,16 @@
 # ENDPOINTS
 ## Videos
 ### Play a video via ID
+####Syntax
 ```
 plugin://plugin.video.youtube/play/?video_id=[VID]
 ```
+####Example
+https://www.youtube.com/watch?v=eWATHgcn2QE or https://youtu.be/eWATHgcn2QE
+```
+plugin://plugin.video.youtube/play/?video_id=eWATHgcn2QE
+```
+
 ## Playlists
 ### Show videos of a playlist
 ```
