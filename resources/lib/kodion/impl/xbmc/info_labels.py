@@ -51,19 +51,7 @@ def _process_video_dateadded(info_labels, param):
 
 def _process_video_duration(context, info_labels, param):
     if param is not None:
-        # Starting with KODI 15.0 (Isengard) we can use seconds
-        if context.get_system_version().get_version() >= (15, 0):
-            info_labels['duration'] = int(param)
-            return
-
-        # fallback for all system before KODI 15.0 (Isengard)
-        if int(param) < 60:
-            param = 60
-            pass
-
-        minutes = int(param) / 60
-        seconds = int(param) % 60
-        info_labels['duration'] = '%d' % minutes
+        info_labels['duration'] = '%d' % param
         pass
     pass
 
