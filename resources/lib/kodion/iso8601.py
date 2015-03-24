@@ -1,6 +1,6 @@
 __author__ = 'bromix'
 
-from datetime import date, datetime, timedelta, tzinfo, time
+from datetime import date, datetime, timedelta, time
 import re
 
 from .exceptions import KodionException
