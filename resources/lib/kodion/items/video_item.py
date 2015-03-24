@@ -3,6 +3,8 @@ import re
 from .base_item import BaseItem
 import datetime
 
+__RE_IMDB__ = re.compile(r'(http(s)?://)?www.imdb.(com|de)/title/(?P<imdbid>[t0-9]+)(/)?')
+
 
 class VideoItem(BaseItem):
     def __init__(self, name, uri, image=u'', fanart=u''):
@@ -120,7 +122,7 @@ class VideoItem(BaseItem):
         return self._cast
 
     def set_imdb_id(self, url_or_id):
-        re_match = re.match('(http\:\/\/)?www.imdb.(com|de)\/title\/(?P<imdbid>[t0-9]+)(\/)?', url_or_id)
+        re_match = __RE_IMDB__.match(url_or_id)
         if re_match:
             self._imdb_id = re_match.group('imdbid')
         else:
