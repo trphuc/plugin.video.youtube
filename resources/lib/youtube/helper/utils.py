@@ -7,6 +7,15 @@ from resources.lib.kodion import utils
 from resources.lib.youtube.helper import yt_context_menu
 
 
+__RE_SEASON_EPISODE_MATCHES__ = [re.compile(r'Part (?P<episode>\d+)'),
+                                 re.compile(r'#(?P<episode>\d+)'),
+                                 re.compile(r'Ep.[^\w]?(?P<episode>\d+)'),
+                                 re.compile(r'\[(?P<episode>\d+)\]'),
+                                 re.compile(r'S(?P<season>\d+)E(?P<episode>\d+)'),
+                                 re.compile(r'Season (?P<season>\d+)(.+)Episode (?P<episode>\d+)'),
+                                 re.compile(r'Episode (?P<episode>\d+)')]
+
+
 def update_video_infos(provider, context, video_id_dict, playlist_item_id_dict=None, channel_id_dict=None):
     settings = context.get_settings()
 
@@ -42,15 +51,8 @@ def update_video_infos(provider, context, video_id_dict, playlist_item_id_dict=N
         """
         video_item.set_season(1)
         video_item.set_episode(1)
-        season_episode_regex = ['Part (?P<episode>\d+)',
-                                '#(?P<episode>\d+)',
-                                'Ep.[^\w]?(?P<episode>\d+)',
-                                '\[(?P<episode>\d+)\]',
-                                'S(?P<season>\d+)E(?P<episode>\d+)',
-                                'Season (?P<season>\d+)(.+)Episode (?P<episode>\d+)',
-                                'Episode (?P<episode>\d+)']
-        for regex in season_episode_regex:
-            re_match = re.search(regex, video_item.get_name())
+        for regex in __RE_SEASON_EPISODE_MATCHES__:
+            re_match = regex.search(video_item.get_name())
             if re_match:
                 if 'season' in re_match.groupdict():
                     video_item.set_season(int(re_match.group('season')))
@@ -83,7 +85,7 @@ def update_video_infos(provider, context, video_id_dict, playlist_item_id_dict=N
         duration = yt_item.get('contentDetails', {}).get('duration', '')
         duration = utils.datetime_parser.parse(duration)
         # we subtract 1 seconds because YouTube returns +1 second to much
-        video_item.set_duration_from_seconds(duration.seconds-1)
+        video_item.set_duration_from_seconds(duration.seconds - 1)
 
         # try to find a better resolution for the image
         thumbnails = snippet.get('thumbnails', {})
