@@ -3,7 +3,7 @@ __author__ = 'bromix'
 import re
 
 from resources.lib import kodion
-from resources.lib.kodion import iso8601
+from resources.lib.kodion import utils
 from resources.lib.youtube.helper import yt_context_menu
 
 
@@ -74,15 +74,16 @@ def update_video_infos(provider, context, video_id_dict, playlist_item_id_dict=N
         video_item.set_plot(description)
 
         # date time
-        datetime = iso8601.parse(snippet['publishedAt'])
+        datetime = utils.datetime_parser.parse(snippet['publishedAt'])
         video_item.set_year_from_datetime(datetime)
         video_item.set_aired_from_datetime(datetime)
         video_item.set_premiered_from_datetime(datetime)
 
         # duration
         duration = yt_item.get('contentDetails', {}).get('duration', '')
-        duration = iso8601.parse(duration)
-        video_item.set_duration_from_seconds(duration.seconds)
+        duration = utils.datetime_parser.parse(duration)
+        # we subtract 1 seconds because YouTube returns +1 second to much
+        video_item.set_duration_from_seconds(duration.seconds-1)
 
         # try to find a better resolution for the image
         thumbnails = snippet.get('thumbnails', {})
