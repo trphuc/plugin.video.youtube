@@ -1,7 +1,7 @@
 import re
+import datetime
 
 from .base_item import BaseItem
-import datetime
 
 __RE_IMDB__ = re.compile(r'(http(s)?://)?www.imdb.(com|de)/title/(?P<imdbid>[t0-9]+)(/)?')
 
