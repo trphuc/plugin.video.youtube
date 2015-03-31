@@ -1,3 +1,6 @@
+5.1.0~beta4 (2015-03-31)
+UPD: French (thx 2 eauland)
+
 5.1.0~beta3 (2015-03-25)
 UPD: regex optimizations for season and expisode extraction
 UPD: kodion 1.2.0 tests (regex optimizations)
