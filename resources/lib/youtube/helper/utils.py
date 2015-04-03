@@ -5,6 +5,7 @@ import re
 from resources.lib import kodion
 from resources.lib.kodion import utils
 from resources.lib.youtube.helper import yt_context_menu
+import resources.lib.kodion.simple_requests as requests
 
 
 __RE_SEASON_EPISODE_MATCHES__ = [re.compile(r'Part (?P<episode>\d+)'),
@@ -14,6 +15,36 @@ __RE_SEASON_EPISODE_MATCHES__ = [re.compile(r'Part (?P<episode>\d+)'),
                                  re.compile(r'S(?P<season>\d+)E(?P<episode>\d+)'),
                                  re.compile(r'Season (?P<season>\d+)(.+)Episode (?P<episode>\d+)'),
                                  re.compile(r'Episode (?P<episode>\d+)')]
+
+
+def extract_urls(text):
+    result = []
+
+    re_url = re.compile(r'(http(s)?://[^\s]+)')
+    matches = re_url.findall(text)
+    for match in matches:
+        result.append(match[0])
+        pass
+
+    return result
+
+
+def resolve_url(url):
+    def _loop(_url, tries=5):
+        if tries == 0:
+            return _url
+
+        response = requests.head(url, allow_redirects=False)
+        headers = response.headers
+        location = headers.get('location', '')
+        if location:
+            return _loop(location, tries=tries-1)
+
+        return _url
+
+    resolved_url = _loop(url)
+
+    return resolved_url
 
 
 def update_video_infos(provider, context, video_id_dict, playlist_item_id_dict=None, channel_id_dict=None):
