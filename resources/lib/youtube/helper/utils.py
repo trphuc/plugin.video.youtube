@@ -29,24 +29,6 @@ def extract_urls(text):
     return result
 
 
-def resolve_url(url):
-    def _loop(_url, tries=5):
-        if tries == 0:
-            return _url
-
-        response = requests.head(url, allow_redirects=False)
-        headers = response.headers
-        location = headers.get('location', '')
-        if location:
-            return _loop(location, tries=tries-1)
-
-        return _url
-
-    resolved_url = _loop(url)
-
-    return resolved_url
-
-
 def update_video_infos(provider, context, video_id_dict, playlist_item_id_dict=None, channel_id_dict=None):
     settings = context.get_settings()
 

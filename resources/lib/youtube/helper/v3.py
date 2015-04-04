@@ -1,7 +1,6 @@
-from resources.lib.youtube.helper import yt_context_menu
-
 __author__ = 'bromix'
 
+from resources.lib.youtube.helper import yt_context_menu
 from resources.lib import kodion
 from resources.lib.kodion import items
 from . import utils
