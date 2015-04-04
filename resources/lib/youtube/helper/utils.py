@@ -29,6 +29,39 @@ def extract_urls(text):
     return result
 
 
+def update_playlist_infos(provider, context, playlist_id_dict, channel_id_dict):
+    playlist_ids = list(playlist_id_dict.keys())
+    if len(playlist_ids) == 0:
+        return
+
+    resource_manager = provider.get_resource_manager(context)
+    playlist_data = resource_manager.get_playlists(playlist_ids)
+
+    for playlist_id in playlist_data.keys():
+        yt_item = playlist_data[playlist_id]
+        playlist_item = playlist_id_dict[playlist_id]
+
+        snippet = yt_item['snippet']
+        playlist_item.set_name(snippet['title'])
+        playlist_item.set_image(snippet.get('thumbnails', {}).get('medium', {}).get('url', ''))
+
+        # play all videos of the playlist
+        context_menu = []
+        yt_context_menu.append_play_all_from_playlist(context_menu, provider, context, playlist_id)
+        playlist_item.set_context_menu(context_menu)
+
+        # update context menu and channel mapping
+        channel_id = snippet['channelId']
+        if channel_id_dict is not None:
+            if not channel_id in channel_id_dict:
+                channel_id_dict[channel_id] = []
+            channel_id_dict[channel_id].append(playlist_item)
+            pass
+        pass
+
+    return None
+
+
 def update_video_infos(provider, context, video_id_dict, playlist_item_id_dict=None, channel_id_dict=None):
     settings = context.get_settings()
 
@@ -109,6 +142,9 @@ def update_video_infos(provider, context, video_id_dict, playlist_item_id_dict=N
                 video_item.set_image(image)
                 break
             pass
+
+        # set fanart
+        video_item.set_fanart(provider.get_fanart(context))
 
         # update context menu and channel mapping
         channel_id = snippet.get('channelId', '')

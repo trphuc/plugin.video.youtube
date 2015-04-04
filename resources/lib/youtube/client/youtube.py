@@ -377,6 +377,20 @@ class YouTube(LoginClient):
                   'id': video_id}
         return self._perform_v3_request(method='GET', path='videos', params=params)
 
+    def get_playlists(self, playlist_id):
+        """
+        Returns a list of videos that match the API request parameters
+        :param video_id: list of video ids
+        :return:
+        """
+        if isinstance(playlist_id, list):
+            playlist_id = ','.join(playlist_id)
+            pass
+
+        params = {'part': 'snippet,contentDetails',
+                  'id': playlist_id}
+        return self._perform_v3_request(method='GET', path='playlists', params=params)
+
     def get_live_events(self, event_type='live', order='relevance', page_token=''):
         """
 

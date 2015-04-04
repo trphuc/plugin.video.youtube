@@ -106,12 +106,13 @@ def _process_list_response(provider, context, json_data):
             playlist_item.set_fanart(provider.get_fanart(context))
 
             channel_name = snippet.get('channelTitle', '')
+
+
+            context_menu = []
+            # play all videos of the playlist
+            yt_context_menu.append_play_all_from_playlist(context_menu, provider, context, playlist_id)
+
             if provider.is_logged_in():
-                context_menu = []
-
-                # play all videos of the playlist
-                yt_context_menu.append_play_all_from_playlist(context_menu, provider, context, playlist_id)
-
                 if channel_id != 'mine':
                     # subscribe to the channel via the playlist item
                     yt_context_menu.append_subscribe_to_channel(context_menu, provider, context, channel_id,
@@ -124,7 +125,9 @@ def _process_list_response(provider, context, json_data):
                     # rename playlist
                     yt_context_menu.append_rename_playlist(context_menu, provider, context, playlist_id, title)
                     pass
+                pass
 
+            if len(context_menu) > 0:
                 playlist_item.set_context_menu(context_menu)
                 pass
 

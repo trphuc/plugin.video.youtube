@@ -9,6 +9,7 @@ class ResourceManager(object):
         self._youtube_client = youtube_client
         self._channel_data = {}
         self._video_data = {}
+        self._playlist_data = {}
         self._enable_channel_fanart = context.get_settings().get_bool('youtube.channel.fanart.show', True)
         pass
 
@@ -21,6 +22,9 @@ class ResourceManager(object):
 
     def _get_video_data(self, video_id):
         return self._video_data.get(video_id, {})
+
+    def _get_playlist_data(self, playlist_id):
+        return self._playlist_data.get(playlist_id, {})
 
     def _update_channels(self, channel_ids):
         result = {}
@@ -90,6 +94,43 @@ class ResourceManager(object):
 
     def get_videos(self, video_ids):
         return self._update_videos(video_ids)
+
+    def _update_playlists(self, playlists_ids):
+        result = {}
+
+        playlist_ids_to_update = []
+        function_cache = self._context.get_function_cache()
+        for playlist_id in playlists_ids:
+            playlist_data = function_cache.get_cached_only(self._get_playlist_data, unicode(playlist_id))
+            if playlist_data is None:
+                self._context.log_debug("No data for playlist '%s' cached" % playlist_id)
+                playlist_ids_to_update.append(playlist_id)
+                pass
+            else:
+                self._context.log_debug("Found cached data for playlist '%s'" % playlist_id)
+                result[playlist_id] = playlist_data
+                pass
+            pass
+
+        if len(playlist_ids_to_update) > 0:
+            json_data = self._context.get_function_cache().get(FunctionCache.ONE_DAY,
+                                                               self._youtube_client.get_playlists,
+                                                               playlist_ids_to_update)
+            yt_items = json_data.get('items', [])
+            for yt_item in yt_items:
+                playlist_id = unicode(yt_item['id'])
+                self._playlist_data[playlist_id] = yt_item
+
+                # this will cache the channel data
+                result[playlist_id] = self._context.get_function_cache().get(FunctionCache.ONE_DAY,
+                                                                             self._get_playlist_data, playlist_id)
+                pass
+            pass
+
+        return result
+
+    def get_playlists(self, playlists_ids):
+        return self._update_playlists(playlists_ids)
 
     def get_related_playlists(self, channel_id):
         result = self._update_channels([channel_id])
