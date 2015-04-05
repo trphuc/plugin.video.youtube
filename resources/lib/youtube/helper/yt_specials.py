@@ -1,8 +1,9 @@
 __author__ = 'bromix'
 
 from resources.lib import kodion
+from resources.lib.kodion.items import DirectoryItem
 from resources.lib.youtube.helper import v2, v3, extract_urls, UrlResolver, UrlToItemConverter
-
+from . import utils
 
 def _process_related_videos(provider, context, re_match):
     result = []
@@ -89,18 +90,18 @@ def _process_live_events(provider, context, re_match):
 
 
 def _process_description_links(provider, context, re_match):
-    provider.set_content_type(context, kodion.constants.content_type.EPISODES)
+    def _extract(_video_id):
+        provider.set_content_type(context, kodion.constants.content_type.EPISODES)
 
-    result = []
+        result = []
 
-    progress_dialog = context.get_ui().create_progress_dialog(
-        heading=context.localize(kodion.constants.localize.COMMON_PLEASE_WAIT), background=False)
+        progress_dialog = context.get_ui().create_progress_dialog(
+            heading=context.localize(kodion.constants.localize.COMMON_PLEASE_WAIT), background=False)
 
-    resource_manager = provider.get_resource_manager(context)
-    video_id = context.get_param('video_id', '')
-    if video_id:
-        video_data = resource_manager.get_videos([video_id])
-        yt_item = video_data[video_id]
+        resource_manager = provider.get_resource_manager(context)
+
+        video_data = resource_manager.get_videos([_video_id])
+        yt_item = video_data[_video_id]
         snippet = yt_item['snippet']  # crash if not conform
         description = kodion.utils.strip_html_from_text(snippet['description'])
 
@@ -118,21 +119,47 @@ def _process_description_links(provider, context, re_match):
         url_to_item_converter = UrlToItemConverter()
         url_to_item_converter.add_urls(res_urls, provider, context)
 
-        result.extend(url_to_item_converter.get_playlist_items(provider, context))
-        result.extend(url_to_item_converter.get_video_items(provider, context))
-    else:
-        context.log_error('Missing video_id for extracting description links')
-        pass
+        result.extend(url_to_item_converter.get_items(provider, context))
 
-    progress_dialog.close()
-
-    if len(result) == 0:
         progress_dialog.close()
-        context.get_ui().on_ok(title=context.localize(provider.LOCAL_MAP['youtube.video.description.links']),
-                               text=context.localize(provider.LOCAL_MAP['youtube.video.description.links.not_found']))
-        return False
 
-    return result
+        if len(result) == 0:
+            progress_dialog.close()
+            context.get_ui().on_ok(title=context.localize(provider.LOCAL_MAP['youtube.video.description.links']),
+                                   text=context.localize(provider.LOCAL_MAP['youtube.video.description.links.not_found']))
+            return False
+
+        return result
+
+    def _playlist_ids(_playlist_ids):
+        _playlist_id_dict = {}
+        _result = []
+
+        for playlist_id in _playlist_ids:
+            playlist_item = DirectoryItem('', context.create_uri(['playlist', playlist_id]))
+            playlist_item.set_fanart(provider.get_fanart(context))
+            _playlist_id_dict[playlist_id] = playlist_item
+            _result.append(playlist_item)
+
+            channel_id_dict = {}
+            utils.update_playlist_infos(provider, context, _playlist_id_dict, channel_id_dict)
+            utils.update_channel_infos(provider, context, channel_id_dict)
+
+            pass
+        return _result
+
+    video_id = context.get_param('video_id', '')
+    if video_id:
+        return _extract(video_id)
+
+    playlist_ids = context.get_param('playlist_ids', '')
+    playlist_ids = playlist_ids.split(',')
+    if len(playlist_ids) > 0:
+        return _playlist_ids(playlist_ids)
+
+    context.log_error('Missing video_id or playlist_ids for description links')
+
+    return False
 
 
 def process(category, provider, context, re_match):

@@ -9,11 +9,14 @@ from . import utils
 
 class UrlToItemConverter(object):
     def __init__(self):
+        self._flatten = True
+
         self._video_id_dict = {}
         self._video_items = []
 
         self._playlist_id_dict = {}
         self._playlist_items = []
+        self._playlist_ids = []
 
         self._channel_id_dict = {}
         self._channel_items = []
@@ -33,17 +36,27 @@ class UrlToItemConverter(object):
 
                 playlist_id = params.get('list', '')
                 if playlist_id:
-                    playlist_item = DirectoryItem('', context.create_uri(['playlist', playlist_id]))
-                    playlist_item.set_fanart(provider.get_fanart(context))
-                    self._playlist_id_dict[playlist_id] = playlist_item
+                    if self._flatten:
+                        self._playlist_ids.append(playlist_id)
+                        pass
+                    else:
+                        playlist_item = DirectoryItem('', context.create_uri(['playlist', playlist_id]))
+                        playlist_item.set_fanart(provider.get_fanart(context))
+                        self._playlist_id_dict[playlist_id] = playlist_item
+                        pass
                     pass
                 pass
             elif url_components.path.lower() == '/playlist':
                 playlist_id = params.get('list', '')
                 if playlist_id:
-                    playlist_item = DirectoryItem('', context.create_uri(['playlist', playlist_id]))
-                    playlist_item.set_fanart(provider.get_fanart(context))
-                    self._playlist_id_dict[playlist_id] = playlist_item
+                    if self._flatten:
+                        self._playlist_ids.append(playlist_id)
+                        pass
+                    else:
+                        playlist_item = DirectoryItem('', context.create_uri(['playlist', playlist_id]))
+                        playlist_item.set_fanart(provider.get_fanart(context))
+                        self._playlist_id_dict[playlist_id] = playlist_item
+                        pass
                     pass
                 pass
             else:
@@ -57,6 +70,27 @@ class UrlToItemConverter(object):
             self.add_url(url, provider, context)
             pass
         pass
+
+    def get_items(self, provider, context):
+        result = []
+
+        if self._flatten and len(self._playlist_ids) > 0:
+            playlists_item = DirectoryItem('[B]' + context.localize(provider.LOCAL_MAP['youtube.playlists']) + '[/B]',
+                                           context.create_uri(['special', 'description_links'],
+                                                              {'playlist_ids': ','.join(self._playlist_ids)}),
+                                           context.create_resource_path('media', 'playlist.png'))
+            playlists_item.set_fanart(provider.get_fanart(context))
+            result.append(playlists_item)
+            pass
+
+        if not self._flatten:
+            result.extend(self.get_playlist_items(provider, context))
+            pass
+
+        # add videos
+        result.extend(self.get_video_items(provider, context))
+
+        return result
 
     def get_video_items(self, provider, context):
         if len(self._video_items) == 0:
