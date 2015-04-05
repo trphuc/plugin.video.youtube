@@ -1,3 +1,5 @@
+5.1.0~beta6 (2015-04-05)
+
 5.1.0~beta5 (2015-04-03)
 ADD: 'More Links from the description' - extracts furthur links from the description
 
