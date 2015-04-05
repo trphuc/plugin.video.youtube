@@ -243,8 +243,7 @@ class Provider(kodion.AbstractProvider):
         if method == 'user':
             context.log_debug('Trying to get channel id for user "%s"' % channel_id)
 
-            # the data should be valid for at least a week
-            json_data = context.get_function_cache().get(FunctionCache.ONE_WEEK,
+            json_data = context.get_function_cache().get(FunctionCache.ONE_DAY,
                                                          self.get_client(context).get_channel_by_username, channel_id)
             if not v3.handle_error(self, context, json_data):
                 return False

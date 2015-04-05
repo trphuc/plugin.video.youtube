@@ -8,6 +8,8 @@ from . import utils
 
 
 class UrlToItemConverter(object):
+    RE_CHANNEL_ID = re.compile(r'^/channel/(?P<channel_id>.+)$')
+
     def __init__(self):
         self._flatten = True
 
@@ -20,6 +22,7 @@ class UrlToItemConverter(object):
 
         self._channel_id_dict = {}
         self._channel_items = []
+        self._channel_ids = []
         pass
 
     def add_url(self, url, provider, context):
@@ -59,6 +62,18 @@ class UrlToItemConverter(object):
                         pass
                     pass
                 pass
+            elif self.RE_CHANNEL_ID.match(url_components.path):
+                re_match = self.RE_CHANNEL_ID.match(url_components.path)
+                channel_id = re_match.group('channel_id')
+                if self._flatten:
+                    self._channel_ids.append(channel_id)
+                    pass
+                else:
+                    channel_item = DirectoryItem('', context.create_uri(['channel', channel_id]))
+                    channel_item.set_fanart(provider.get_fanart(context))
+                    self._channel_id_dict[channel_id] = channel_item
+                    pass
+                pass
             else:
                 context.log_debug('Unknown path "%s"' % url_components.path)
                 pass
@@ -74,6 +89,15 @@ class UrlToItemConverter(object):
     def get_items(self, provider, context):
         result = []
 
+        if self._flatten and len(self._channel_ids) > 0:
+            channels_item = DirectoryItem('[B]' + context.localize(provider.LOCAL_MAP['youtube.channels']) + '[/B]',
+                                           context.create_uri(['special', 'description_links'],
+                                                              {'channel_ids': ','.join(self._channel_ids)}),
+                                           context.create_resource_path('media', 'playlist.png'))
+            channels_item.set_fanart(provider.get_fanart(context))
+            result.append(channels_item)
+            pass
+
         if self._flatten and len(self._playlist_ids) > 0:
             playlists_item = DirectoryItem('[B]' + context.localize(provider.LOCAL_MAP['youtube.playlists']) + '[/B]',
                                            context.create_uri(['special', 'description_links'],
@@ -81,6 +105,10 @@ class UrlToItemConverter(object):
                                            context.create_resource_path('media', 'playlist.png'))
             playlists_item.set_fanart(provider.get_fanart(context))
             result.append(playlists_item)
+            pass
+
+        if not self._flatten:
+            result.extend(self.get_channel_items(provider, context))
             pass
 
         if not self._flatten:

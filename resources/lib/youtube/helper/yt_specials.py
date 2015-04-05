@@ -90,7 +90,7 @@ def _process_live_events(provider, context, re_match):
 
 
 def _process_description_links(provider, context, re_match):
-    def _extract(_video_id):
+    def _extract_urls(_video_id):
         provider.set_content_type(context, kodion.constants.content_type.EPISODES)
 
         result = []
@@ -131,7 +131,24 @@ def _process_description_links(provider, context, re_match):
 
         return result
 
-    def _playlist_ids(_playlist_ids):
+    def _display_channels(_channel_ids):
+        _channel_id_dict = {}
+        _result = []
+
+        for channel_id in _channel_ids:
+            channel_item = DirectoryItem('', context.create_uri(['channel', channel_id]))
+            channel_item.set_fanart(provider.get_fanart(context))
+
+            if not channel_id in _channel_id_dict:
+                _channel_id_dict[channel_id] = []
+            _channel_id_dict[channel_id].append(channel_item)
+            _result.append(channel_item)
+            pass
+
+        utils.update_channel_infos(provider, context, _channel_id_dict)
+        return _result
+
+    def _display_playlists(_playlist_ids):
         _playlist_id_dict = {}
         _result = []
 
@@ -140,22 +157,31 @@ def _process_description_links(provider, context, re_match):
             playlist_item.set_fanart(provider.get_fanart(context))
             _playlist_id_dict[playlist_id] = playlist_item
             _result.append(playlist_item)
-
-            channel_id_dict = {}
-            utils.update_playlist_infos(provider, context, _playlist_id_dict, channel_id_dict)
-            utils.update_channel_infos(provider, context, channel_id_dict)
-
             pass
+
+        _channel_id_dict = {}
+        utils.update_playlist_infos(provider, context, _playlist_id_dict, _channel_id_dict)
+        utils.update_channel_infos(provider, context, _channel_id_dict)
+
         return _result
 
     video_id = context.get_param('video_id', '')
     if video_id:
-        return _extract(video_id)
+        return _extract_urls(video_id)
+
+    channel_ids = context.get_param('channel_ids', '')
+    if channel_ids:
+        channel_ids = channel_ids.split(',')
+        if len(channel_ids) > 0:
+            return _display_channels(channel_ids)
+        pass
 
     playlist_ids = context.get_param('playlist_ids', '')
-    playlist_ids = playlist_ids.split(',')
-    if len(playlist_ids) > 0:
-        return _playlist_ids(playlist_ids)
+    if playlist_ids:
+        playlist_ids = playlist_ids.split(',')
+        if len(playlist_ids) > 0:
+            return _display_playlists(playlist_ids)
+        pass
 
     context.log_error('Missing video_id or playlist_ids for description links')
 
