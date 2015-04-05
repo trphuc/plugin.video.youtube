@@ -21,7 +21,18 @@ class AbstractResolver(object):
 class SkipResolver(AbstractResolver):
     def __init__(self):
         self._skip_domains = [
+            # Google
             'www.google.com',
+            'www.play.google.com',
+            # Apple
+            'www.itunes.apple.com',
+            # microsoft
+            'www.apps.microsoft.com',
+            'www.windowsphone.com',
+            # other
+            'www.amazon.de',
+            'www.amazon.com',
+            'www.amazon.co.uk',
             'www.facebook.com',
             'www.twitch.tv',
             'www.twitter.com',
@@ -45,7 +56,7 @@ class YouTubeResolver(AbstractResolver):
 
     def supports_url(self, url, url_components):
         if url_components.hostname == 'www.youtube.com' or url_components.hostname == 'youtube.com':
-            if url_components.path.lower() in ['/redirect', '/watch', '/playlist']:
+            if url_components.path.lower() in ['/redirect', '/watch', '/playlist']:#, '/user']:
                 return True
             pass
 

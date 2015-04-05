@@ -264,7 +264,7 @@ class TestClient(unittest.TestCase):
     def test_get_videos(self):
         client = YouTube()
 
-        json_data = client.get_videos(['vyD70Huufco', 'AFdezM3_m-c'])
+        json_data = client.get_videos(['uhTYbtZH3Nk'])
         pass
 
     def test_get_related_videos(self):
