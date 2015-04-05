@@ -51,6 +51,8 @@ class Provider(kodion.AbstractProvider):
                  'youtube.setup_wizard.adjust.language_and_region': 30527,
                  'youtube.video.add_to_playlist': 30520,
                  'youtube.video.liked': 30508,
+                 'youtube.video.description.links': 30544,
+                 'youtube.video.description.links.not_found': 30545,
                  'youtube.video.disliked': 30538,
                  'youtube.video.queue': 30511,
                  'youtube.video.rate': 30528,
@@ -320,11 +322,8 @@ class Provider(kodion.AbstractProvider):
 
     @kodion.RegisterProviderPath('^/special/(?P<category>.*)/$')
     def _on_yt_specials(self, context, re_match):
-        result = []
-
         category = re_match.group('category')
-        result.extend(yt_specials.process(category, self, context, re_match))
-        return result
+        return yt_specials.process(category, self, context, re_match)
 
     @kodion.RegisterProviderPath('^/events/post_play/$')
     def _on_post_play(self, context, re_match):

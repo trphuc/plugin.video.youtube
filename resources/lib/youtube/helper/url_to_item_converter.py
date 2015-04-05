@@ -1,3 +1,5 @@
+import re
+
 __author__ = 'bromix'
 
 import urlparse
@@ -14,6 +16,10 @@ class UrlToItemConverter(object):
         self._playlist_id_dict = {}
         self._playlist_items = []
         self._playlist_items_updated = False
+
+        self._channel_id_dict = {}
+        self._channel_items = []
+        self._channel_items_updated = False
         pass
 
     def add_url(self, url, provider, context):
@@ -64,11 +70,29 @@ class UrlToItemConverter(object):
         if not self._video_items_updated:
             channel_id_dict = {}
             utils.update_video_infos(provider, context, self._video_id_dict, None, channel_id_dict)
-            utils.update_playlist_infos(provider, context, self._playlist_id_dict, channel_id_dict)
             utils.update_channel_infos(provider, context, channel_id_dict)
             self._video_items_updated = True
             pass
 
         return self._video_items
+
+    def get_playlist_items(self, provider, context):
+        if not self._playlist_items_updated:
+            channel_id_dict = {}
+            utils.update_playlist_infos(provider, context, self._playlist_id_dict, channel_id_dict)
+            utils.update_channel_infos(provider, context, channel_id_dict)
+            self._playlist_items_updated = True
+            pass
+
+        return self._playlist_items
+
+    def get_channel_items(self, provider, context):
+        if not self._channel_items_updated:
+            channel_id_dict = {}
+            utils.update_channel_infos(provider, context, channel_id_dict)
+            self._channel_items_updated = True
+            pass
+
+        return self._channel_items
 
     pass

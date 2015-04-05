@@ -1,5 +1,5 @@
 5.1.0~beta5 (2015-04-03)
-
+ADD: 'More Links from the description' - extracts furthur links from the description
 
 5.1.0~beta4 (2015-03-31)
 UPD: French (thx 2 eauland)

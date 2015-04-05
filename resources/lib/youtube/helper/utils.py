@@ -195,6 +195,9 @@ def update_video_infos(provider, context, video_id_dict, playlist_item_id_dict=N
                 pass
             pass
 
+        # description links
+        yt_context_menu.append_content_from_description(context_menu, provider, context, video_id)
+
         # find related videos
         yt_context_menu.append_related_videos(context_menu, provider, context, video_id)
 
