@@ -270,7 +270,7 @@ class YouTube(LoginClient):
             pass
         return self._perform_v3_request(method='GET', path='channelSections', params=params)
 
-    def get_playlists(self, channel_id, page_token=''):
+    def get_playlists_of_channel(self, channel_id, page_token=''):
         params = {'part': 'snippet,contentDetails',
                   'maxResults': str(self._max_results)}
         if channel_id != 'mine':
@@ -378,11 +378,6 @@ class YouTube(LoginClient):
         return self._perform_v3_request(method='GET', path='videos', params=params)
 
     def get_playlists(self, playlist_id):
-        """
-        Returns a list of videos that match the API request parameters
-        :param video_id: list of video ids
-        :return:
-        """
         if isinstance(playlist_id, list):
             playlist_id = ','.join(playlist_id)
             pass

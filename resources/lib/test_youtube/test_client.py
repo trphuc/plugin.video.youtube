@@ -258,7 +258,7 @@ class TestClient(unittest.TestCase):
     def test_get_playlists(self):
         client = YouTube()
 
-        json_data = client.get_playlists('UCDbAn9LEzqONk__uXA6a9jQ')
+        json_data = client.get_playlists_of_channel(channel_id='UCDbAn9LEzqONk__uXA6a9jQ')
         pass
 
     def test_get_videos(self):
