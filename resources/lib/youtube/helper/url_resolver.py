@@ -85,26 +85,30 @@ class CommonResolver(AbstractResolver):
             if tries == 0:
                 return _url
 
-            response = requests.head(_url, allow_redirects=False)
-            if response.status_code == 304:
-                return url
+            try:
+                response = requests.head(_url, allow_redirects=False)
+                if response.status_code == 304:
+                    return url
 
-            if response.status_code in [301, 302, 303]:
-                headers = response.headers
-                location = headers.get('location', '')
+                if response.status_code in [301, 302, 303]:
+                    headers = response.headers
+                    location = headers.get('location', '')
 
-                # some server return 301 for HEAD requests
-                # we just compare the new location - if it's equal we can return the url
-                if location == _url or location + '/' == _url or location == _url + '/':
-                    return _url
+                    # some server return 301 for HEAD requests
+                    # we just compare the new location - if it's equal we can return the url
+                    if location == _url or location + '/' == _url or location == _url + '/':
+                        return _url
 
-                if location:
-                    return _loop(location, tries=tries - 1)
+                    if location:
+                        return _loop(location, tries=tries - 1)
 
-                # just to be sure ;)
-                location = headers.get('Location', '')
-                if location:
-                    return _loop(location, tries=tries - 1)
+                    # just to be sure ;)
+                    location = headers.get('Location', '')
+                    if location:
+                        return _loop(location, tries=tries - 1)
+                    pass
+            except:
+                # do nothing
                 pass
 
             return _url
