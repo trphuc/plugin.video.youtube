@@ -1,3 +1,6 @@
+5.1.0~beta7 (2015-04-06)
+
+
 5.1.0~beta6 (2015-04-05)
 UPD: create videos and playlists (if possible) from certain links
 FIX: script error while resolving url fails
