@@ -9,6 +9,7 @@ from . import utils
 def _process_list_response(provider, context, json_data):
     video_id_dict = {}
     channel_id_dict = {}
+    playlist_id_dict = {}
     playlist_item_id_dict = {}
 
     result = []
@@ -70,23 +71,22 @@ def _process_list_response(provider, context, json_data):
             snippet = yt_item['snippet']
             image = snippet.get('thumbnails', {}).get('high', {}).get('url', '')
             channel_id = snippet['resourceId']['channelId']
-            playlist_item = items.DirectoryItem(snippet['title'],
+            channel_item = items.DirectoryItem(snippet['title'],
                                                 context.create_uri(['channel', channel_id]),
                                                 image=image)
-            playlist_item.set_fanart(provider.get_fanart(context))
+            channel_item.set_fanart(provider.get_fanart(context))
 
             # unsubscribe from a channel
             subscription_id = yt_item['id']
             context_menu = []
             yt_context_menu.append_unsubscribe_from_channel(context_menu, provider, context, subscription_id)
-            playlist_item.set_context_menu(context_menu)
+            channel_item.set_context_menu(context_menu)
 
-            result.append(playlist_item)
+            result.append(channel_item)
 
-            # map playlist to channel
             if not channel_id in channel_id_dict:
                 channel_id_dict[channel_id] = []
-            channel_id_dict[channel_id].append(playlist_item)
+            channel_id_dict[channel_id].append(channel_item)
             pass
         elif yt_kind == u'youtube#playlist':
             playlist_id = yt_item['id']
@@ -104,39 +104,8 @@ def _process_list_response(provider, context, json_data):
                                                 context.create_uri(['channel', channel_id, 'playlist', playlist_id]),
                                                 image=image)
             playlist_item.set_fanart(provider.get_fanart(context))
-
-            channel_name = snippet.get('channelTitle', '')
-
-
-            context_menu = []
-            # play all videos of the playlist
-            yt_context_menu.append_play_all_from_playlist(context_menu, provider, context, playlist_id)
-
-            if provider.is_logged_in():
-                if channel_id != 'mine':
-                    # subscribe to the channel via the playlist item
-                    yt_context_menu.append_subscribe_to_channel(context_menu, provider, context, channel_id,
-                                                                channel_name)
-                    pass
-                else:
-                    # remove my playlist
-                    yt_context_menu.append_delete_playlist(context_menu, provider, context, playlist_id, title)
-
-                    # rename playlist
-                    yt_context_menu.append_rename_playlist(context_menu, provider, context, playlist_id, title)
-                    pass
-                pass
-
-            if len(context_menu) > 0:
-                playlist_item.set_context_menu(context_menu)
-                pass
-
             result.append(playlist_item)
-
-            # map playlist to channel
-            if not channel_id in channel_id_dict:
-                channel_id_dict[channel_id] = []
-            channel_id_dict[channel_id].append(playlist_item)
+            playlist_id_dict[playlist_id] = playlist_item
             pass
         elif yt_kind == u'youtube#playlistItem':
             snippet = yt_item['snippet']
@@ -188,28 +157,8 @@ def _process_list_response(provider, context, json_data):
                                                         ['channel', channel_id, 'playlist', playlist_id]),
                                                     image=image)
                 playlist_item.set_fanart(provider.get_fanart(context))
-
-
-                context_menu = []
-
-                # play all videos of the playlist
-                yt_context_menu.append_play_all_from_playlist(context_menu, provider, context, playlist_id)
-
-                if provider.is_logged_in():
-                    # subscribe to the channel of the playlist
-                    yt_context_menu.append_subscribe_to_channel(context_menu, provider, context, channel_id,
-                                                                channel_name)
-                    pass
-                if len(context_menu) > 0:
-                    playlist_item.set_context_menu(context_menu)
-                    pass
-
                 result.append(playlist_item)
-
-                # map playlist to channel
-                if not channel_id in channel_id_dict:
-                    channel_id_dict[channel_id] = []
-                channel_id_dict[channel_id].append(playlist_item)
+                playlist_id_dict[playlist_id] = playlist_item
                 pass
             elif yt_kind == 'youtube#channel':
                 channel_id = yt_item['id']['channelId']
@@ -245,6 +194,7 @@ def _process_list_response(provider, context, json_data):
 
     # this will also update the channel_id_dict with the correct channel id for each video.
     utils.update_video_infos(provider, context, video_id_dict, playlist_item_id_dict, channel_id_dict)
+    utils.update_playlist_infos(provider, context, playlist_id_dict, channel_id_dict)
     utils.update_fanarts(provider, context, channel_id_dict)
     return result
 

@@ -42,16 +42,40 @@ def update_playlist_infos(provider, context, playlist_id_dict, channel_id_dict):
         playlist_item = playlist_id_dict[playlist_id]
 
         snippet = yt_item['snippet']
-        playlist_item.set_name(snippet['title'])
+        title = snippet['title']
+        playlist_item.set_name(title)
         playlist_item.set_image(snippet.get('thumbnails', {}).get('medium', {}).get('url', ''))
 
-        # play all videos of the playlist
+        channel_id = snippet['channelId']
+        # if the path directs to a playlist of our own, we correct the channel id to 'mine'
+        if context.get_path() == '/channel/mine/playlists/':
+            channel_id = 'mine'
+            pass
+        channel_name = snippet.get('channelTitle', '')
         context_menu = []
+        # play all videos of the playlist
         yt_context_menu.append_play_all_from_playlist(context_menu, provider, context, playlist_id)
-        playlist_item.set_context_menu(context_menu)
+
+        if provider.is_logged_in():
+            if channel_id != 'mine':
+                # subscribe to the channel via the playlist item
+                yt_context_menu.append_subscribe_to_channel(context_menu, provider, context, channel_id,
+                                                            channel_name)
+                pass
+            else:
+                # remove my playlist
+                yt_context_menu.append_delete_playlist(context_menu, provider, context, playlist_id, title)
+
+                # rename playlist
+                yt_context_menu.append_rename_playlist(context_menu, provider, context, playlist_id, title)
+                pass
+            pass
+
+        if len(context_menu) > 0:
+            playlist_item.set_context_menu(context_menu)
+            pass
 
         # update channel mapping
-        channel_id = snippet['channelId']
         if channel_id_dict is not None:
             if not channel_id in channel_id_dict:
                 channel_id_dict[channel_id] = []
@@ -146,7 +170,7 @@ def update_video_infos(provider, context, video_id_dict, playlist_item_id_dict=N
         # set fanart
         video_item.set_fanart(provider.get_fanart(context))
 
-        # update context menu and channel mapping
+        # update channel mapping
         channel_id = snippet.get('channelId', '')
         if channel_id_dict is not None:
             if not channel_id in channel_id_dict:
