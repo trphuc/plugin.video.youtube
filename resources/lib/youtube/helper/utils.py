@@ -59,7 +59,7 @@ def update_channel_infos(provider, context, channel_id_dict, subscription_id_dic
             yt_context_menu.append_unsubscribe_from_channel(context_menu, provider, context, subscription_id)
             pass
         # -- subscribe to the channel
-        if provider.is_logged_in():
+        if provider.is_logged_in() and context.get_path() != '/subscriptions/list/':
             yt_context_menu.append_subscribe_to_channel(context_menu, provider, context, channel_id)
             pass
         channel_item.set_context_menu(context_menu)
