@@ -13,21 +13,7 @@ import unittest
 
 class TestUrlExtract(unittest.TestCase):
     def test_complete_sequence(self):
-        description = (
-            'You can play the Forza Horizon 2 Presents Fast & Furious Standalone Pack FOR FREE until April 10! http://bit.ly/1GNrS0a\n'
-            'Sponsored Content. Special consideration provided by XBOX.\n'
-            '\n'
-            'Joven, Ian, and Anthony traverse Southern France in the brand new Standalone Pack from Forza Horizon 2 featuring the cars and missions of the Fast & Furious films. Can you beat our times? Send us a screenshot!\n'
-            '\n'
-            'Subscribe to Smosh Games ►► http://smo.sh/SubscribeSmoshGames\n'
-            'Jovenshire gets Lost in Italy ►► http://smo.sh/LostItaly\n'
-            '\n'
-            'Play with us!\n'
-            'Subscribe: http://smo.sh/SubscribeSmoshGames\n'
-            'Like us on Facebook: http://facebook.com/SmoshGames\n'
-            'Follow us on Twitter: http://twitter.com/SmoshGames\n'
-            'Add us to your circles on Google+: http://google.com/+SmoshGames'
-        )
+        description = 'Subscribe for more Nerdist News: http://nerdi.st/subscribe Watch the last episode: http://nerdi.st/1NHOv6e Find out how you can watch AVENGERS: AGE OF ULTRON early, plus comedy magician Justin Willman performs some Oreo cookie magic on Nerdist News with Jessica Chobot. More Marvel: http://nerdist.com/tag/marvel/ Watch more Nerdist News: http://bit.ly/1qvVVhV Follow Justin on the web: http://www.justinwillman.com/ https://twitter.com/justin_willman Follow Us: Nerdist News https://twitter.com/NerdistNews Nerdist.com https://twitter.com/NerdistDotCom Jessica Chobot https://twitter.com/JessicaChobot Dan Casey https://twitter.com/osteoferocious Malik Forté https://twitter.com/Malik4Play Kyle Hill https://twitter.com/sci_phile Nerdist News 5 days a week, Monday through Friday at 8am PST.'
         urls = extract_urls(description)
         resolver = UrlResolver()
         res_urls = []
@@ -39,10 +25,9 @@ class TestUrlExtract(unittest.TestCase):
         provider = Provider()
         context = kodion.Context()
         context.set_localization(30502, 'Go to %s')
-        url_converter = UrlToItemConverter()
+        url_converter = UrlToItemConverter(flatten=True)
         url_converter.add_urls(res_urls, provider, context)
-        items = url_converter.get_video_items(provider, context)
-        items = url_converter.get_playlist_items(provider, context)
+        items = url_converter.get_items(provider, context)
         pass
 
     pass

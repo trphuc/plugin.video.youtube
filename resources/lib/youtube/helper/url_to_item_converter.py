@@ -10,8 +10,8 @@ from . import utils
 class UrlToItemConverter(object):
     RE_CHANNEL_ID = re.compile(r'^/channel/(?P<channel_id>.+)$')
 
-    def __init__(self):
-        self._flatten = True
+    def __init__(self, flatten=True):
+        self._flatten = flatten
 
         self._video_id_dict = {}
         self._video_items = []
@@ -90,6 +90,9 @@ class UrlToItemConverter(object):
         result = []
 
         if self._flatten and len(self._channel_ids) > 0:
+            # remove duplicates
+            self._channel_ids = list(set(self._channel_ids))
+
             channels_item = DirectoryItem('[B]' + context.localize(provider.LOCAL_MAP['youtube.channels']) + '[/B]',
                                            context.create_uri(['special', 'description_links'],
                                                               {'channel_ids': ','.join(self._channel_ids)}),
@@ -99,6 +102,9 @@ class UrlToItemConverter(object):
             pass
 
         if self._flatten and len(self._playlist_ids) > 0:
+            # remove duplicates
+            self._playlist_ids = list(set(self._playlist_ids))
+
             playlists_item = DirectoryItem('[B]' + context.localize(provider.LOCAL_MAP['youtube.playlists']) + '[/B]',
                                            context.create_uri(['special', 'description_links'],
                                                               {'playlist_ids': ','.join(self._playlist_ids)}),
