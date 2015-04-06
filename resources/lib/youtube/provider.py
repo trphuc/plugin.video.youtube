@@ -204,8 +204,6 @@ class Provider(kodion.AbstractProvider):
 
     @kodion.RegisterProviderPath('^/channel/(?P<channel_id>.*)/playlists/$')
     def _on_channel_playlists(self, context, re_match):
-        self.set_content_type(context, kodion.constants.content_type.EPISODES)
-
         result = []
 
         channel_id = re_match.group('channel_id')
