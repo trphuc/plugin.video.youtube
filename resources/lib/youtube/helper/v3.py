@@ -11,6 +11,7 @@ def _process_list_response(provider, context, json_data):
     channel_id_dict = {}
     playlist_id_dict = {}
     playlist_item_id_dict = {}
+    subscription_id_dict = {}
 
     result = []
 
@@ -51,11 +52,7 @@ def _process_list_response(provider, context, json_data):
                 channel_item.set_context_menu(context_menu)
                 pass
             result.append(channel_item)
-
-            # map channel
-            if not channel_id in channel_id_dict:
-                channel_id_dict[channel_id] = []
-            channel_id_dict[channel_id].append(channel_item)
+            channel_id_dict[channel_id] = channel_item
             pass
         elif yt_kind == u'youtube#guideCategory':
             guide_id = yt_item['id']
@@ -76,17 +73,11 @@ def _process_list_response(provider, context, json_data):
                                                 image=image)
             channel_item.set_fanart(provider.get_fanart(context))
 
-            # unsubscribe from a channel
-            subscription_id = yt_item['id']
-            context_menu = []
-            yt_context_menu.append_unsubscribe_from_channel(context_menu, provider, context, subscription_id)
-            channel_item.set_context_menu(context_menu)
+            # map channel id with subscription id - we need it for the unsubscription
+            subscription_id_dict[channel_id] = yt_item['id']
 
             result.append(channel_item)
-
-            if not channel_id in channel_id_dict:
-                channel_id_dict[channel_id] = []
-            channel_id_dict[channel_id].append(channel_item)
+            channel_id_dict[channel_id] = channel_item
             pass
         elif yt_kind == u'youtube#playlist':
             playlist_id = yt_item['id']
@@ -170,20 +161,8 @@ def _process_list_response(provider, context, json_data):
                                                    context.create_uri(['channel', channel_id]),
                                                    image=image)
                 channel_item.set_fanart(provider.get_fanart(context))
-
-                # subscribe to the channel
-                if provider.is_logged_in():
-                    context_menu = []
-                    yt_context_menu.append_subscribe_to_channel(context_menu, provider, context, channel_id)
-                    channel_item.set_context_menu(context_menu)
-                    pass
-
                 result.append(channel_item)
-
-                # map channel
-                if not channel_id in channel_id_dict:
-                    channel_id_dict[channel_id] = []
-                channel_id_dict[channel_id].append(channel_item)
+                channel_id_dict[channel_id] = channel_item
                 pass
             else:
                 raise kodion.KodionException("Unknown kind '%s'" % yt_kind)
@@ -193,9 +172,11 @@ def _process_list_response(provider, context, json_data):
         pass
 
     # this will also update the channel_id_dict with the correct channel id for each video.
-    utils.update_video_infos(provider, context, video_id_dict, playlist_item_id_dict, channel_id_dict)
-    utils.update_playlist_infos(provider, context, playlist_id_dict, channel_id_dict)
-    utils.update_fanarts(provider, context, channel_id_dict)
+    channel_items_dict = {}
+    utils.update_video_infos(provider, context, video_id_dict, playlist_item_id_dict, channel_items_dict)
+    utils.update_playlist_infos(provider, context, playlist_id_dict, channel_items_dict)
+    utils.update_channel_infos(provider, context, channel_id_dict, subscription_id_dict, channel_items_dict)
+    utils.update_fanarts(provider, context, channel_items_dict)
     return result
 
 

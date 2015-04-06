@@ -151,6 +151,9 @@ class ResourceManager(object):
 
         return item.get('contentDetails', {}).get('relatedPlaylists', {})
 
+    def get_channels(self, channel_ids):
+        return self._update_channels(channel_ids)
+
     def get_fanarts(self, channel_ids):
         if not self._enable_channel_fanart:
             return {}

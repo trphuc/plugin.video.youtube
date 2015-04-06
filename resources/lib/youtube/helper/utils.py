@@ -29,7 +29,52 @@ def extract_urls(text):
     return result
 
 
-def update_playlist_infos(provider, context, playlist_id_dict, channel_id_dict):
+def update_channel_infos(provider, context, channel_id_dict, subscription_id_dict={}, channel_items_dict=None):
+    channel_ids = list(channel_id_dict.keys())
+    if len(channel_ids) == 0:
+        return
+
+    resource_manager = provider.get_resource_manager(context)
+    channel_data = resource_manager.get_channels(channel_ids)
+
+    for channel_id in channel_data.keys():
+        yt_item = channel_data[channel_id]
+        channel_item = channel_id_dict[channel_id]
+
+        snippet = yt_item['snippet']
+
+        # title
+        title = snippet['title']
+        channel_item.set_name(title)
+
+        # image
+        image = snippet.get('thumbnails', {}).get('medium', {}).get('url', '')
+        channel_item.set_image(image)
+
+        # - update context menu
+        context_menu = []
+        # -- unsubscribe from channel
+        subscription_id = subscription_id_dict.get(channel_id, '')
+        if subscription_id:
+            yt_context_menu.append_unsubscribe_from_channel(context_menu, provider, context, subscription_id)
+            pass
+        # -- subscribe to the channel
+        if provider.is_logged_in():
+            yt_context_menu.append_subscribe_to_channel(context_menu, provider, context, channel_id)
+            pass
+        channel_item.set_context_menu(context_menu)
+
+        # update channel mapping
+        if channel_items_dict is not None:
+            if not channel_id in channel_items_dict:
+                channel_items_dict[channel_id] = []
+            channel_items_dict[channel_id].append(channel_item)
+            pass
+        pass
+    pass
+
+
+def update_playlist_infos(provider, context, playlist_id_dict, channel_items_dict=None):
     playlist_ids = list(playlist_id_dict.keys())
     if len(playlist_ids) == 0:
         return
@@ -76,17 +121,17 @@ def update_playlist_infos(provider, context, playlist_id_dict, channel_id_dict):
             pass
 
         # update channel mapping
-        if channel_id_dict is not None:
-            if not channel_id in channel_id_dict:
-                channel_id_dict[channel_id] = []
-            channel_id_dict[channel_id].append(playlist_item)
+        if channel_items_dict is not None:
+            if not channel_id in channel_items_dict:
+                channel_items_dict[channel_id] = []
+            channel_items_dict[channel_id].append(playlist_item)
             pass
         pass
 
-    return None
+    pass
 
 
-def update_video_infos(provider, context, video_id_dict, playlist_item_id_dict=None, channel_id_dict=None):
+def update_video_infos(provider, context, video_id_dict, playlist_item_id_dict=None, channel_items_dict=None):
     settings = context.get_settings()
 
     video_ids = list(video_id_dict.keys())
@@ -172,10 +217,10 @@ def update_video_infos(provider, context, video_id_dict, playlist_item_id_dict=N
 
         # update channel mapping
         channel_id = snippet.get('channelId', '')
-        if channel_id_dict is not None:
-            if not channel_id in channel_id_dict:
-                channel_id_dict[channel_id] = []
-            channel_id_dict[channel_id].append(video_item)
+        if channel_items_dict is not None:
+            if not channel_id in channel_items_dict:
+                channel_items_dict[channel_id] = []
+            channel_items_dict[channel_id].append(video_item)
             pass
 
         context_menu = []
@@ -263,16 +308,16 @@ def update_video_infos(provider, context, video_id_dict, playlist_item_id_dict=N
     pass
 
 
-def update_fanarts(provider, context, channel_id_dict):
+def update_fanarts(provider, context, channel_items_dict):
     # at least we need one channel id
-    channel_ids = list(channel_id_dict.keys())
+    channel_ids = list(channel_items_dict.keys())
     if len(channel_ids) == 0:
         return
 
     fanarts = provider.get_resource_manager(context).get_fanarts(channel_ids)
 
     for channel_id in channel_ids:
-        channel_items = channel_id_dict[channel_id]
+        channel_items = channel_items_dict[channel_id]
         for channel_item in channel_items:
             # only set not empty fanarts
             fanart = fanarts.get(channel_id, '')

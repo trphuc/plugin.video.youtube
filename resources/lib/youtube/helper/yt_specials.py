@@ -139,13 +139,13 @@ def _process_description_links(provider, context, re_match):
             channel_item = DirectoryItem('', context.create_uri(['channel', channel_id]))
             channel_item.set_fanart(provider.get_fanart(context))
 
-            if not channel_id in _channel_id_dict:
-                _channel_id_dict[channel_id] = []
-            _channel_id_dict[channel_id].append(channel_item)
+            _channel_id_dict[channel_id] = channel_item
             _result.append(channel_item)
             pass
 
-        utils.update_fanarts(provider, context, _channel_id_dict)
+        _channel_item_dict = {}
+        utils.update_channel_infos(provider, context, _channel_id_dict, channel_items_dict=_channel_item_dict)
+        utils.update_fanarts(provider, context, _channel_item_dict)
         return _result
 
     def _display_playlists(_playlist_ids):
@@ -159,9 +159,9 @@ def _process_description_links(provider, context, re_match):
             _result.append(playlist_item)
             pass
 
-        _channel_id_dict = {}
-        utils.update_playlist_infos(provider, context, _playlist_id_dict, _channel_id_dict)
-        utils.update_fanarts(provider, context, _channel_id_dict)
+        _channel_item_dict = {}
+        utils.update_playlist_infos(provider, context, _playlist_id_dict, _channel_item_dict)
+        utils.update_fanarts(provider, context, _channel_item_dict)
 
         return _result
 
