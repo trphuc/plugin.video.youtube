@@ -1,5 +1,6 @@
 5.1.0~beta7 (2015-04-06)
-
+FIX: solved blank items of extracted YouTube relevant links
+UPD: improved YouTube relevant link extraction
 
 5.1.0~beta6 (2015-04-05)
 UPD: create videos and playlists (if possible) from certain links
