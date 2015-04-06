@@ -124,7 +124,7 @@ class UrlToItemConverter(object):
         if len(self._video_items) == 0:
             channel_id_dict = {}
             utils.update_video_infos(provider, context, self._video_id_dict, None, channel_id_dict)
-            utils.update_channel_infos(provider, context, channel_id_dict)
+            utils.update_fanarts(provider, context, channel_id_dict)
 
             for key in self._video_id_dict:
                 video_item = self._video_id_dict[key]
@@ -140,7 +140,7 @@ class UrlToItemConverter(object):
         if len(self._playlist_items) == 0:
             channel_id_dict = {}
             utils.update_playlist_infos(provider, context, self._playlist_id_dict, channel_id_dict)
-            utils.update_channel_infos(provider, context, channel_id_dict)
+            utils.update_fanarts(provider, context, channel_id_dict)
 
             for key in self._playlist_id_dict:
                 playlist_item = self._playlist_id_dict[key]
@@ -155,7 +155,7 @@ class UrlToItemConverter(object):
     def get_channel_items(self, provider, context):
         if len(self._channel_items) == 0:
             channel_id_dict = {}
-            utils.update_channel_infos(provider, context, channel_id_dict)
+            utils.update_fanarts(provider, context, channel_id_dict)
 
             for key in self._channel_id_dict:
                 channel_item = self._channel_id_dict[key]

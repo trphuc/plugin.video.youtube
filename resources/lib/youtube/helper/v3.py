@@ -245,7 +245,7 @@ def _process_list_response(provider, context, json_data):
 
     # this will also update the channel_id_dict with the correct channel id for each video.
     utils.update_video_infos(provider, context, video_id_dict, playlist_item_id_dict, channel_id_dict)
-    utils.update_channel_infos(provider, context, channel_id_dict)
+    utils.update_fanarts(provider, context, channel_id_dict)
     return result
 
 

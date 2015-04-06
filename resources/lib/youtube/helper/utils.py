@@ -50,7 +50,7 @@ def update_playlist_infos(provider, context, playlist_id_dict, channel_id_dict):
         yt_context_menu.append_play_all_from_playlist(context_menu, provider, context, playlist_id)
         playlist_item.set_context_menu(context_menu)
 
-        # update context menu and channel mapping
+        # update channel mapping
         channel_id = snippet['channelId']
         if channel_id_dict is not None:
             if not channel_id in channel_id_dict:
@@ -239,7 +239,7 @@ def update_video_infos(provider, context, video_id_dict, playlist_item_id_dict=N
     pass
 
 
-def update_channel_infos(provider, context, channel_id_dict):
+def update_fanarts(provider, context, channel_id_dict):
     # at least we need one channel id
     channel_ids = list(channel_id_dict.keys())
     if len(channel_ids) == 0:

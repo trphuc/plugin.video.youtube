@@ -145,7 +145,7 @@ def _process_description_links(provider, context, re_match):
             _result.append(channel_item)
             pass
 
-        utils.update_channel_infos(provider, context, _channel_id_dict)
+        utils.update_fanarts(provider, context, _channel_id_dict)
         return _result
 
     def _display_playlists(_playlist_ids):
@@ -161,7 +161,7 @@ def _process_description_links(provider, context, re_match):
 
         _channel_id_dict = {}
         utils.update_playlist_infos(provider, context, _playlist_id_dict, _channel_id_dict)
-        utils.update_channel_infos(provider, context, _channel_id_dict)
+        utils.update_fanarts(provider, context, _channel_id_dict)
 
         return _result
 
