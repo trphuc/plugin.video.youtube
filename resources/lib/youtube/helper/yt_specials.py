@@ -109,7 +109,7 @@ def _process_description_links(provider, context, re_match):
 
         progress_dialog.set_total(len(urls))
 
-        url_resolver = UrlResolver()
+        url_resolver = UrlResolver(context)
         res_urls = []
         for url in urls:
             progress_dialog.update(steps=1, text=url)

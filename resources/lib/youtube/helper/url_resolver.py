@@ -1,7 +1,7 @@
-import urlparse
-
 __author__ = 'bromix'
 
+import urlparse
+from resources.lib.kodion.utils import FunctionCache
 import resources.lib.kodion.simple_requests as requests
 
 
@@ -36,7 +36,8 @@ class SkipResolver(AbstractResolver):
             'www.facebook.com',
             'www.twitch.tv',
             'www.twitter.com',
-            'www.instagram.com'
+            'www.instagram.com',
+            'www.reddit.com'
         ]
         pass
 
@@ -72,7 +73,7 @@ class YouTubeResolver(AbstractResolver):
     pass
 
 
-class CommonResolver(AbstractResolver):
+class CommonResolver(AbstractResolver, list):
     def __init__(self):
         AbstractResolver.__init__(self)
         pass
@@ -121,7 +122,8 @@ class CommonResolver(AbstractResolver):
 
 
 class UrlResolver(object):
-    def __init__(self):
+    def __init__(self, context):
+        self._context = context
         self._cache = {}
         self._resolver = [
             YouTubeResolver(),
@@ -130,12 +132,7 @@ class UrlResolver(object):
         ]
         pass
 
-    def resolve(self, url):
-        # first test the simple cache
-        resolved_url = self._cache.get(url, '')
-        if resolved_url:
-            return resolved_url
-
+    def _resolve(self, url):
         # try one of the resolver
         url_components = urlparse.urlparse(url)
         for resolver in self._resolver:
@@ -144,9 +141,14 @@ class UrlResolver(object):
                 self._cache[url] = resolved_url
                 return resolved_url
             pass
+        pass
 
-        # nothing to do
-        self._cache[url] = url
-        return url
+    def resolve(self, url):
+        function_cache = self._context.get_function_cache()
+        resolved_url = function_cache.get(FunctionCache.ONE_DAY, self._resolve, url)
+        if not resolved_url:
+            return url
+
+        return resolved_url
 
     pass
