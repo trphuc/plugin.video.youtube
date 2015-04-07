@@ -1,3 +1,5 @@
+5.1.0~beta8 (2015-04-07)
+
 5.1.0~beta7 (2015-04-06)
 FIX: solved blank items of extracted YouTube relevant links
 UPD: improved YouTube relevant link extraction
