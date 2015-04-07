@@ -1,3 +1,5 @@
+import re
+
 __author__ = 'bromix'
 
 import urlparse
@@ -51,22 +53,63 @@ class SkipResolver(AbstractResolver):
 
 
 class YouTubeResolver(AbstractResolver):
+    RE_USER_NAME = re.compile(r'http(s)?://(www.)?youtube.com/(?P<user_name>[a-zA-Z0-9]+)$')
+
     def __init__(self):
         AbstractResolver.__init__(self)
         pass
 
     def supports_url(self, url, url_components):
         if url_components.hostname == 'www.youtube.com' or url_components.hostname == 'youtube.com':
-            if url_components.path.lower() in ['/redirect', '/watch', '/playlist']:#, '/user']:
+            if url_components.path.lower() in ['/redirect', '/user']:
                 return True
+
+            if url_components.path.lower().startswith('/user'):
+                return True
+
+            re_match = self.RE_USER_NAME.match(url)
+            if re_match:
+                return True
+
             pass
 
         return False
 
     def resolve(self, url, url_components):
+        def _load_page(_url):
+            # we try to extract the channel id from the html content. With the channel id we can construct a url we
+            # already work with.
+            # https://www.youtube.com/channel/<CHANNEL_ID>
+            try:
+                headers = {'Cache-Control': 'max-age=0',
+                           'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                           'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36',
+                           'DNT': '1',
+                           'Accept-Encoding': 'gzip, deflate',
+                           'Accept-Language': 'en-US,en;q=0.8,de;q=0.6'}
+                response = requests.get(url, headers=headers)
+                if response.status_code == 200:
+                    re_match = re.search(r'<meta itemprop="channelId" content="(?P<channel_id>.+)">', response.text)
+                    if re_match:
+                        channel_id = re_match.group('channel_id')
+                        return 'https://www.youtube.com/channel/%s' % channel_id
+                    pass
+            except:
+                # do nothing
+                pass
+
+            return _url
+
         if url_components.path.lower() == '/redirect':
             params = dict(urlparse.parse_qsl(url_components.query))
             return params['q']
+
+        if url_components.path.lower().startswith('/user'):
+            return _load_page(url)
+
+        re_match = self.RE_USER_NAME.match(url)
+        if re_match:
+            return _load_page(url)
 
         return url
 
@@ -125,11 +168,16 @@ class UrlResolver(object):
     def __init__(self, context):
         self._context = context
         self._cache = {}
+        self._youtube_resolver = YouTubeResolver()
         self._resolver = [
-            YouTubeResolver(),
+            self._youtube_resolver,
             SkipResolver(),
             CommonResolver()
         ]
+        pass
+
+    def clear(self):
+        self._context.get_function_cache().clear()
         pass
 
     def _resolve(self, url):
@@ -139,6 +187,14 @@ class UrlResolver(object):
             if resolver.supports_url(url, url_components):
                 resolved_url = resolver.resolve(url, url_components)
                 self._cache[url] = resolved_url
+
+                # one last check...sometimes the resolved url is YouTube-specific and can be resolved again or
+                # simplified.
+                url_components = urlparse.urlparse(resolved_url)
+                if resolver is not self._youtube_resolver and self._youtube_resolver.supports_url(resolved_url,
+                                                                                                  url_components):
+                    return self._youtube_resolver.resolve(resolved_url, url_components)
+
                 return resolved_url
             pass
         pass

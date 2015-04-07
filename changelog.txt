@@ -1,4 +1,5 @@
 5.1.0~beta8 (2015-04-07)
+UPD: YouTube relevant description links - improved extraction and resolving of user/channel urls
 UPD: YouTube relevant description links - improved performance resolving urls with caching
 
 5.1.0~beta7 (2015-04-06)
