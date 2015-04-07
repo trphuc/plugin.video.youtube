@@ -65,6 +65,7 @@ class Provider(kodion.AbstractProvider):
 
     def __init__(self):
         kodion.AbstractProvider.__init__(self)
+        self._resource_manager = None
 
         self._client = None
         self._is_logged_in = False
@@ -147,7 +148,11 @@ class Provider(kodion.AbstractProvider):
         return self._client
 
     def get_resource_manager(self, context):
-        return ResourceManager(weakref.proxy(context), weakref.proxy(self.get_client(context)))
+        if not self._resource_manager:
+            #self._resource_manager = ResourceManager(weakref.proxy(context), weakref.proxy(self.get_client(context)))
+            self._resource_manager = ResourceManager(context, self.get_client(context))
+            pass
+        return self._resource_manager
 
     def get_alternative_fanart(self, context):
         return self.get_fanart(context)
@@ -227,7 +232,7 @@ class Provider(kodion.AbstractProvider):
     def _on_channel(self, context, re_match):
         self.set_content_type(context, kodion.constants.content_type.EPISODES)
 
-        resource_manager = ResourceManager(context, self.get_client(context))
+        resource_manager = self.get_resource_manager(context)
 
         result = []
 

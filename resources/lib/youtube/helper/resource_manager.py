@@ -1,6 +1,6 @@
-from resources.lib.kodion.utils import FunctionCache
-
 __author__ = 'bromix'
+
+from resources.lib.kodion.utils import FunctionCache
 
 
 class ResourceManager(object):
