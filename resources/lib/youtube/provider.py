@@ -408,6 +408,14 @@ class Provider(kodion.AbstractProvider):
         result.extend(v3.response_to_items(self, context, json_data))
         return result
 
+    def tear_down(self, context):
+        settings = context.get_settings()
+        quota = settings.get_int('youtube.quota', 0)
+        client = self.get_client(context)
+        quota += client.get_quota()
+        settings.set_int('youtube.quota', quota)
+        pass
+
     def on_root(self, context, re_match):
         """
         Support old YouTube url calls, but also log a deprecation warnings.
