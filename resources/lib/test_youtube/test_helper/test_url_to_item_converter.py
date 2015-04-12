@@ -13,7 +13,7 @@ import unittest
 
 class TestUrlExtract(unittest.TestCase):
     def test_complete_sequence(self):
-        description = 'Subscribe for more Nerdist News: http://nerdi.st/subscribe Watch the last episode: http://nerdi.st/1NHOv6e Find out how you can watch AVENGERS: AGE OF ULTRON early, plus comedy magician Justin Willman performs some Oreo cookie magic on Nerdist News with Jessica Chobot. More Marvel: http://nerdist.com/tag/marvel/ Watch more Nerdist News: http://bit.ly/1qvVVhV Follow Justin on the web: http://www.justinwillman.com/ https://twitter.com/justin_willman Follow Us: Nerdist News https://twitter.com/NerdistNews Nerdist.com https://twitter.com/NerdistDotCom Jessica Chobot https://twitter.com/JessicaChobot Dan Casey https://twitter.com/osteoferocious Malik Forté https://twitter.com/Malik4Play Kyle Hill https://twitter.com/sci_phile Nerdist News 5 days a week, Monday through Friday at 8am PST.'
+        description = "Even lovable animated superhero movies have sins. And believe it or not, this is one of the most requested movies we haven't done yet. So here we are to rain on Big Hero 6. Jeremy wrote a book: http://theablesbook.com Thursday, Romance sins. Remember, no movie is without sin. Which movie's sins do YOU want to see recounted? Tweet us: http://twitter.com/cinemasins Tumble us: http://cinema-sins.tumblr.com Call us: 405-459-7466 Reddit with us: http://reddit.com/r/cinemasins"
         urls = extract_urls(description)
         context = kodion.Context()
         resolver = UrlResolver(context)

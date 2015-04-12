@@ -20,38 +20,6 @@ class AbstractResolver(object):
     pass
 
 
-class SkipResolver(AbstractResolver):
-    def __init__(self):
-        self._skip_domains = [
-            # Google
-            'www.google.com',
-            'www.play.google.com',
-            # Apple
-            'www.itunes.apple.com',
-            # microsoft
-            'www.apps.microsoft.com',
-            'www.windowsphone.com',
-            # other
-            'www.amazon.de',
-            'www.amazon.com',
-            'www.amazon.co.uk',
-            'www.facebook.com',
-            'www.twitch.tv',
-            'www.twitter.com',
-            'www.instagram.com',
-            'www.reddit.com'
-        ]
-        pass
-
-    def supports_url(self, url, url_components):
-        return url_components.hostname.lower() in self._skip_domains or 'www.' + url_components.hostname.lower() in self._skip_domains
-
-    def resolve(self, url, url_components):
-        return url
-
-    pass
-
-
 class YouTubeResolver(AbstractResolver):
     RE_USER_NAME = re.compile(r'http(s)?://(www.)?youtube.com/(?P<user_name>[a-zA-Z0-9]+)$')
 
@@ -130,13 +98,24 @@ class CommonResolver(AbstractResolver, list):
                 return _url
 
             try:
-                response = requests.head(_url, allow_redirects=False)
+                headers = {'Cache-Control': 'max-age=0',
+                           'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                           'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36',
+                           'DNT': '1',
+                           'Accept-Encoding': 'gzip, deflate',
+                           'Accept-Language': 'en-US,en;q=0.8,de;q=0.6'}
+                response = requests.head(_url, headers=headers, allow_redirects=False)
                 if response.status_code == 304:
                     return url
 
                 if response.status_code in [301, 302, 303]:
                     headers = response.headers
                     location = headers.get('location', '')
+
+                    # validate the location - some server returned garbage
+                    _url_components = urlparse.urlparse(location)
+                    if not _url_components.scheme and not _url_components.hostname:
+                        return url
 
                     # some server return 301 for HEAD requests
                     # we just compare the new location - if it's equal we can return the url
@@ -171,7 +150,6 @@ class UrlResolver(object):
         self._youtube_resolver = YouTubeResolver()
         self._resolver = [
             self._youtube_resolver,
-            SkipResolver(),
             CommonResolver()
         ]
         pass
@@ -202,7 +180,7 @@ class UrlResolver(object):
     def resolve(self, url):
         function_cache = self._context.get_function_cache()
         resolved_url = function_cache.get(FunctionCache.ONE_DAY, self._resolve, url)
-        if not resolved_url:
+        if not resolved_url or resolved_url == '/':
             return url
 
         return resolved_url

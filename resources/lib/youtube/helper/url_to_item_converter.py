@@ -94,9 +94,9 @@ class UrlToItemConverter(object):
             self._channel_ids = list(set(self._channel_ids))
 
             channels_item = DirectoryItem('[B]' + context.localize(provider.LOCAL_MAP['youtube.channels']) + '[/B]',
-                                           context.create_uri(['special', 'description_links'],
-                                                              {'channel_ids': ','.join(self._channel_ids)}),
-                                           context.create_resource_path('media', 'playlist.png'))
+                                          context.create_uri(['special', 'description_links'],
+                                                             {'channel_ids': ','.join(self._channel_ids)}),
+                                          context.create_resource_path('media', 'playlist.png'))
             channels_item.set_fanart(provider.get_fanart(context))
             result.append(channels_item)
             pass

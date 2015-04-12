@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*
+import time
 from resources.lib import kodion
 
 __author__ = 'bromix'
@@ -45,29 +46,19 @@ class TestUrlExtract(unittest.TestCase):
         pass
 
     def test_resolve_urls_1(self):
-        description = (
-            'You can play the Forza Horizon 2 Presents Fast & Furious Standalone Pack FOR FREE until April 10! http://bit.ly/1GNrS0a\n'
-            'Sponsored Content. Special consideration provided by XBOX.\n'
-            '\n'
-            'Joven, Ian, and Anthony traverse Southern France in the brand new Standalone Pack from Forza Horizon 2 featuring the cars and missions of the Fast & Furious films. Can you beat our times? Send us a screenshot!\n'
-            '\n'
-            'Subscribe to Smosh Games ►► http://smo.sh/SubscribeSmoshGames\n'
-            'Jovenshire gets Lost in Italy ►► http://smo.sh/LostItaly\n'
-            '\n'
-            'Play with us!\n'
-            'Subscribe: http://smo.sh/SubscribeSmoshGames\n'
-            'Like us on Facebook: http://facebook.com/SmoshGames\n'
-            'Follow us on Twitter: http://twitter.com/SmoshGames\n'
-            'Add us to your circles on Google+: http://google.com/+SmoshGames'
-        )
+        description = "Even lovable animated superhero movies have sins. And believe it or not, this is one of the most requested movies we haven't done yet. So here we are to rain on Big Hero 6. Jeremy wrote a book: http://theablesbook.com Thursday, Romance sins. Remember, no movie is without sin. Which movie's sins do YOU want to see recounted? Tweet us: http://twitter.com/cinemasins Tumble us: http://cinema-sins.tumblr.com Call us: 405-459-7466 Reddit with us: http://reddit.com/r/cinemasins"
 
         res_urls = []
         urls = extract_urls(description)
         context = kodion.Context()
         resolver = UrlResolver(context)
+        resolver.clear()
+        start = time.clock()
         for url in urls:
             res_urls.append(resolver.resolve(url))
             pass
+        end = time.clock()
+        print end-start
         pass
 
     def test_resolve_urls_2(self):
