@@ -1,4 +1,5 @@
 5.1.0~beta9 (2015-04-12)
+UPD: YouTube relevant description links - improved extraction and resolving of video/playlist urls
 FIX: YouTube relevant description links - script error while some server return garbage for a location
 
 5.1.0~beta8 (2015-04-07)

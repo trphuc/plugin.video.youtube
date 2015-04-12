@@ -133,35 +133,46 @@ def _process_description_links(provider, context, re_match):
 
     def _display_channels(_channel_ids):
         _channel_id_dict = {}
-        _result = []
 
         for channel_id in _channel_ids:
             channel_item = DirectoryItem('', context.create_uri(['channel', channel_id]))
             channel_item.set_fanart(provider.get_fanart(context))
-
             _channel_id_dict[channel_id] = channel_item
-            _result.append(channel_item)
             pass
 
         _channel_item_dict = {}
         utils.update_channel_infos(provider, context, _channel_id_dict, channel_items_dict=_channel_item_dict)
         utils.update_fanarts(provider, context, _channel_item_dict)
+
+        # clean up - remove empty entries
+        _result = []
+        for key in _channel_id_dict:
+            _channel_item = _channel_id_dict[key]
+            if _channel_item.get_name():
+                _result.append(_channel_item)
+                pass
+            pass
         return _result
 
     def _display_playlists(_playlist_ids):
         _playlist_id_dict = {}
-        _result = []
-
         for playlist_id in _playlist_ids:
             playlist_item = DirectoryItem('', context.create_uri(['playlist', playlist_id]))
             playlist_item.set_fanart(provider.get_fanart(context))
             _playlist_id_dict[playlist_id] = playlist_item
-            _result.append(playlist_item)
             pass
 
         _channel_item_dict = {}
         utils.update_playlist_infos(provider, context, _playlist_id_dict, _channel_item_dict)
         utils.update_fanarts(provider, context, _channel_item_dict)
+
+        # clean up - remove empty entries
+        _result = []
+        for key in _playlist_id_dict:
+            _playlist_item = _playlist_id_dict[key]
+            if _playlist_item.get_name():
+                _result.append(_playlist_item)
+            pass
 
         return _result
 
