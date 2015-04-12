@@ -178,7 +178,7 @@ class YouTube(LoginClient):
         return self._perform_v3_request(method='POST', path='subscriptions', params=params, post_data=post_data)
 
     def get_subscription(self, channel_id, order='alphabetical', page_token=''):
-        self._quota += 5
+        self._quota += 3
         """
 
         :param channel_id: [channel-id|'mine']
@@ -186,7 +186,7 @@ class YouTube(LoginClient):
         :param page_token:
         :return:
         """
-        params = {'part': 'snippet,contentDetails',
+        params = {'part': 'snippet',
                   'maxResults': str(self._max_results),
                   'order': order}
         if channel_id == 'mine':
@@ -229,8 +229,8 @@ class YouTube(LoginClient):
         return self._perform_v3_request(method='GET', path='guideCategories', params=params)
 
     def get_popular_videos(self, page_token=''):
-        self._quota += 5
-        params = {'part': 'snippet,contentDetails',
+        self._quota += 3
+        params = {'part': 'snippet',
                   'maxResults': str(self._max_results),
                   'regionCode': self._country,
                   'hl': self._language,
@@ -302,8 +302,8 @@ class YouTube(LoginClient):
         return self._perform_v3_request(method='GET', path='channelSections', params=params)
 
     def get_playlists_of_channel(self, channel_id, page_token=''):
-        self._quota += 5
-        params = {'part': 'snippet,contentDetails',
+        self._quota += 3
+        params = {'part': 'snippet',
                   'maxResults': str(self._max_results)}
         if channel_id != 'mine':
             params['channelId'] = channel_id
@@ -383,14 +383,14 @@ class YouTube(LoginClient):
         return self._perform_v3_request(method='GET', path='channels', params=params)
 
     def get_disliked_videos(self, page_token=''):
-        self._quota += 5
+        self._quota += 3
         # prepare page token
         if not page_token:
             page_token = ''
             pass
 
         # prepare params
-        params = {'part': 'snippet,contentDetails',
+        params = {'part': 'snippet',
                   'myRating': 'dislike',
                   'maxResults': str(self._max_results)}
         if page_token:
