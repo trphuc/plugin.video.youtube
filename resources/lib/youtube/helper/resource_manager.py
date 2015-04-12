@@ -92,8 +92,23 @@ class ResourceManager(object):
 
         return result
 
+    def _make_list_of_50(self, list_of_ids):
+        list_of_50 = []
+        pos = 0
+        while pos < len(list_of_ids):
+            list_of_50.append(list_of_ids[pos:pos+50])
+            pos += 50
+            pass
+        return list_of_50
+
     def get_videos(self, video_ids):
-        return self._update_videos(video_ids)
+        list_of_50s = self._make_list_of_50(video_ids)
+
+        result = {}
+        for list_of_50 in list_of_50s:
+            result.update(self._update_videos(list_of_50))
+            pass
+        return result
 
     def _update_playlists(self, playlists_ids):
         result = {}
@@ -130,7 +145,13 @@ class ResourceManager(object):
         return result
 
     def get_playlists(self, playlists_ids):
-        return self._update_playlists(playlists_ids)
+        list_of_50s = self._make_list_of_50(playlists_ids)
+
+        result = {}
+        for list_of_50 in list_of_50s:
+            result.update(self._update_playlists(list_of_50))
+            pass
+        return result
 
     def get_related_playlists(self, channel_id):
         result = self._update_channels([channel_id])
@@ -152,7 +173,13 @@ class ResourceManager(object):
         return item.get('contentDetails', {}).get('relatedPlaylists', {})
 
     def get_channels(self, channel_ids):
-        return self._update_channels(channel_ids)
+        list_of_50s = self._make_list_of_50(channel_ids)
+
+        result = {}
+        for list_of_50 in list_of_50s:
+            result.update(self._update_channels(list_of_50))
+            pass
+        return result
 
     def get_fanarts(self, channel_ids):
         if not self._enable_channel_fanart:
