@@ -120,8 +120,15 @@ class Provider(kodion.AbstractProvider):
                     pass
                 """
                 if not access_token and refresh_token:
-                    access_token, expires = YouTube(language=language).refresh_token(refresh_token)
-                    access_manager.update_access_token(access_token, expires)
+                    try:
+                        access_token, expires = YouTube(language=language).refresh_token(refresh_token)
+                        access_manager.update_access_token(access_token, expires)
+                    except LoginException, ex:
+                        # reset access_token
+                        access_manager.update_access_token('')
+                        # we clear the cache, so none cached data of an old account will be displayed.
+                        context.get_function_cache().clear()
+                        pass
                     pass
 
                 self._is_logged_in = access_token != ''
@@ -407,14 +414,6 @@ class Provider(kodion.AbstractProvider):
             return False
         result.extend(v3.response_to_items(self, context, json_data))
         return result
-
-    def tear_down(self, context):
-        settings = context.get_settings()
-        quota = settings.get_int('youtube.quota', 0)
-        client = self.get_client(context)
-        quota += client.get_quota()
-        settings.set_int('youtube.quota', quota)
-        pass
 
     def on_root(self, context, re_match):
         """

@@ -8,18 +8,25 @@ from resources.lib.youtube.youtube_exceptions import LoginException
 
 
 class LoginClient(object):
-    YOUTUBE_TV_KEY = 'AIzaSyAd-YEOqZz9nXVzGtn3KWzYLbLaajhqIDA'
-    YOUTUBE_TV_CLIENT_ID = '861556708454-d6dlm3lh05idd8npek18k6be8ba3oc68.apps.googleusercontent.com'
-    YOUTUBE_TV_CLIENT_SECRET = 'SboVhoG9s0rNafixCSGGKXAT'
+    CONFIGS = {
+        'youtube-tv': {
+            'key': 'AIzaSyAd-YEOqZz9nXVzGtn3KWzYLbLaajhqIDA',
+            'id': '861556708454-d6dlm3lh05idd8npek18k6be8ba3oc68.apps.googleusercontent.com',
+            'secret': 'SboVhoG9s0rNafixCSGGKXAT'
+        },
+        'youtube-for-kodi-access': {
+            'key': 'AIzaSyBCwBLShUEzXiOceNuliClY0icE6M4AddU',
+            'id': '308268426735-ph3ukr2flbaila2jt73b329724mpar0g.apps.googleusercontent.com',
+            'secret': '3m2krCjOT16wxgwErsAglOaS'
+        }
+    }
 
-    YOUTUBE_APP_KEY = 'AIzaSyA8eiZmM1FaDVjRy-df2KTyQ_vz_yYM39w'
-    # YOUTUBE_WEB_KEY = 'AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8'
-
-    def __init__(self, key='', language='en-US', access_token=''):
-        self._key = self.YOUTUBE_TV_KEY
-        if key:
-            self._key = key
+    def __init__(self, config={}, language='en-US', access_token=''):
+        if not config:
+            config = self.CONFIGS['youtube-for-kodi-access']
             pass
+
+        self._config = config
 
         # the default language is always en_US (like YouTube on the WEB)
         if not language:
@@ -88,11 +95,11 @@ class LoginClient(object):
 
         _client_id = client_id
         if not client_id:
-            _client_id = self.YOUTUBE_TV_CLIENT_ID
+            _client_id = self._config['id']
             pass
         _client_secret = client_secret
         if not _client_secret:
-            _client_secret = self.YOUTUBE_TV_CLIENT_SECRET
+            _client_secret = self._config['secret']
             pass
         post_data = {'client_id': _client_id,
                      'client_secret': _client_secret,
@@ -128,11 +135,11 @@ class LoginClient(object):
 
         _client_id = client_id
         if not client_id:
-            _client_id = self.YOUTUBE_TV_CLIENT_ID
+            _client_id = self._config['id']
             pass
         _client_secret = client_secret
         if not _client_secret:
-            _client_secret = self.YOUTUBE_TV_CLIENT_SECRET
+            _client_secret = self._config['secret']
             pass
         post_data = {'client_id': _client_id,
                      'client_secret': _client_secret,
@@ -165,9 +172,10 @@ class LoginClient(object):
 
         _client_id = client_id
         if not client_id:
-            _client_id = self.YOUTUBE_TV_CLIENT_ID
+            _client_id = self._config['id']
         post_data = {'client_id': _client_id,
-                     'scope': 'http://gdata.youtube.com https://www.googleapis.com/auth/youtube-paid-content'}
+                     'scope': 'https://www.googleapis.com/auth/youtube'}
+                     #'scope': 'http://gdata.youtube.com https://www.googleapis.com/auth/youtube-paid-content'}
 
         # url
         url = 'https://www.youtube.com/o/oauth2/device/code'
@@ -206,7 +214,7 @@ class LoginClient(object):
                      'app': 'com.google.android.youtube',
                      # 'client_sig': '24bb24c05e47e0aefa68a58a766179d9b613a600',
                      'callerPkg': 'com.google.android.youtube',
-                     #'callerSig': '24bb24c05e47e0aefa68a58a766179d9b613a600',
+                     # 'callerSig': '24bb24c05e47e0aefa68a58a766179d9b613a600',
                      'Passwd': password.encode('utf-8')}
 
         # url
@@ -224,4 +232,5 @@ class LoginClient(object):
             raise LoginException('Failed to get token')
 
         return token, expires
+
     pass

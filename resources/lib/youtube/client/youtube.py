@@ -9,15 +9,11 @@ from ..helper.video_info import VideoInfo
 
 
 class YouTube(LoginClient):
-    def __init__(self, key='', language='en-US', items_per_page=50, access_token=''):
-        LoginClient.__init__(self, key=key, language=language, access_token=access_token)
+    def __init__(self, config={}, language='en-US', items_per_page=50, access_token=''):
+        LoginClient.__init__(self, config=config, language=language, access_token=access_token)
 
         self._max_results = items_per_page
-        self._quota = 0
         pass
-
-    def get_quota(self):
-        return self._quota
 
     def get_max_results(self):
         return self._max_results
@@ -81,13 +77,11 @@ class YouTube(LoginClient):
                                         params=params)
 
     def remove_playlist(self, playlist_id):
-        self._quota += 51
         params = {'id': playlist_id,
                   'mine': 'true'}
         return self._perform_v3_request(method='DELETE', path='playlists', params=params)
 
     def get_supported_languages(self, language=None):
-        self._quota += 1
         _language = language
         if not _language:
             _language = self._language
@@ -95,12 +89,9 @@ class YouTube(LoginClient):
         _language = _language.replace('-', '_')
         params = {'part': 'snippet',
                   'hl': _language.split('_')[0]}
-        # because of snippet we have to add an additional quoata of 1 unit
-        self._quota += 1
         return self._perform_v3_request(method='GET', path='i18nLanguages', params=params)
 
     def get_supported_regions(self, language=None):
-        self._quota += 1
         _language = language
         if not _language:
             _language = self._language
@@ -108,12 +99,9 @@ class YouTube(LoginClient):
         _language = _language.replace('-', '_')
         params = {'part': 'snippet',
                   'hl': _language}
-        # because of snippet we have to add an additional quoata of 1 unit
-        self._quota += 1
         return self._perform_v3_request(method='GET', path='i18nRegions', params=params)
 
     def rename_playlist(self, playlist_id, new_title, privacy_status='private'):
-        self._quota += 55
         params = {'part': 'snippet,id,status'}
         post_data = {'kind': 'youtube#playlist',
                      'id': playlist_id,
@@ -122,7 +110,6 @@ class YouTube(LoginClient):
         return self._perform_v3_request(method='PUT', path='playlists', params=params, post_data=post_data)
 
     def create_playlist(self, title, privacy_status='private'):
-        self._quota += 55
         params = {'part': 'snippet,status'}
         post_data = {'kind': 'youtube#playlist',
                      'snippet': {'title': title},
@@ -138,7 +125,6 @@ class YouTube(LoginClient):
         return self._perform_v3_request(method='GET', path='videos/getRating', params=params)
 
     def rate_video(self, video_id, rating='like'):
-        self._quota += 50
         """
         Rate a video
         :param video_id: if of the video
@@ -150,7 +136,6 @@ class YouTube(LoginClient):
         return self._perform_v3_request(method='POST', path='videos/rate', params=params)
 
     def add_video_to_playlist(self, playlist_id, video_id):
-        self._quota += 53
         params = {'part': 'snippet',
                   'mine': 'true'}
         post_data = {'kind': 'youtube#playlistItem',
@@ -160,17 +145,14 @@ class YouTube(LoginClient):
         return self._perform_v3_request(method='POST', path='playlistItems', params=params, post_data=post_data)
 
     def remove_video_from_playlist(self, playlist_id, playlist_item_id):
-        self._quota += 51
         params = {'id': playlist_item_id}
         return self._perform_v3_request(method='DELETE', path='playlistItems', params=params)
 
     def unsubscribe(self, subscription_id):
-        self._quota += 51
         params = {'id': subscription_id}
         return self._perform_v3_request(method='DELETE', path='subscriptions', params=params)
 
     def subscribe(self, channel_id):
-        self._quota += 53
         params = {'part': 'snippet'}
         post_data = {'kind': 'youtube#subscription',
                      'snippet': {'resourceId': {'kind': 'youtube#channel',
@@ -178,7 +160,6 @@ class YouTube(LoginClient):
         return self._perform_v3_request(method='POST', path='subscriptions', params=params, post_data=post_data)
 
     def get_subscription(self, channel_id, order='alphabetical', page_token=''):
-        self._quota += 3
         """
 
         :param channel_id: [channel-id|'mine']
@@ -202,22 +183,17 @@ class YouTube(LoginClient):
         return self._perform_v3_request(method='GET', path='subscriptions', params=params)
 
     def get_guide_category(self, guide_category_id, page_token=''):
-        self._quota += 3
         params = {'part': 'snippet,contentDetails,brandingSettings',
                   'maxResults': str(self._max_results),
                   'categoryId': guide_category_id,
                   'regionCode': self._country,
                   'hl': self._language}
-        self._quota += 2  # for snippet
-        self._quota += 2  # for contentDetails
-        self._quota += 2  # for brandingSettings
         if page_token:
             params['pageToken'] = page_token
             pass
         return self._perform_v3_request(method='GET', path='channels', params=params)
 
     def get_guide_categories(self, page_token=''):
-        self._quota += 3
         params = {'part': 'snippet',
                   'maxResults': str(self._max_results),
                   'regionCode': self._country,
@@ -229,7 +205,6 @@ class YouTube(LoginClient):
         return self._perform_v3_request(method='GET', path='guideCategories', params=params)
 
     def get_popular_videos(self, page_token=''):
-        self._quota += 3
         params = {'part': 'snippet',
                   'maxResults': str(self._max_results),
                   'regionCode': self._country,
@@ -241,7 +216,6 @@ class YouTube(LoginClient):
         return self._perform_v3_request(method='GET', path='videos', params=params)
 
     def get_video_category(self, video_category_id, page_token=''):
-        self._quota += 5
         params = {'part': 'snippet,contentDetails',
                   'maxResults': str(self._max_results),
                   'videoCategoryId': video_category_id,
@@ -254,7 +228,6 @@ class YouTube(LoginClient):
         return self._perform_v3_request(method='GET', path='videos', params=params)
 
     def get_video_categories(self, page_token=''):
-        self._quota += 3
         params = {'part': 'snippet',
                   'maxResults': str(self._max_results),
                   'regionCode': self._country,
@@ -266,7 +239,6 @@ class YouTube(LoginClient):
         return self._perform_v3_request(method='GET', path='videoCategories', params=params)
 
     def get_activities(self, channel_id, page_token=''):
-        self._quota += 5
         params = {'part': 'snippet,contentDetails',
                   'maxResults': str(self._max_results),
                   'regionCode': self._country,
@@ -287,12 +259,9 @@ class YouTube(LoginClient):
         return self._perform_v3_request(method='GET', path='activities', params=params)
 
     def get_channel_sections(self, channel_id):
-        self._quota += 1
         params = {'part': 'snippet,contentDetails',
                   'regionCode': self._country,
                   'hl': self._language}
-        self._quota += 2  # for snippet
-        self._quota += 2  # for contentDetails
         if channel_id == 'mine':
             params['mine'] = 'true'
             pass
@@ -302,7 +271,6 @@ class YouTube(LoginClient):
         return self._perform_v3_request(method='GET', path='channelSections', params=params)
 
     def get_playlists_of_channel(self, channel_id, page_token=''):
-        self._quota += 3
         params = {'part': 'snippet',
                   'maxResults': str(self._max_results)}
         if channel_id != 'mine':
@@ -339,7 +307,6 @@ class YouTube(LoginClient):
         return None
 
     def get_playlist_items(self, playlist_id, page_token=''):
-        self._quota += 3
         # prepare params
         params = {'part': 'snippet',
                   'maxResults': str(self._max_results),
@@ -351,7 +318,6 @@ class YouTube(LoginClient):
         return self._perform_v3_request(method='GET', path='playlistItems', params=params)
 
     def get_channel_by_username(self, username):
-        self._quota += 1
         """
         Returns a collection of zero or more channel resources that match the request criteria.
         :param channel_id: list or comma-separated list of the YouTube channel ID(s)
@@ -363,7 +329,6 @@ class YouTube(LoginClient):
         return self._perform_v3_request(method='GET', path='channels', params=params)
 
     def get_channels(self, channel_id):
-        self._quota += 7
         """
         Returns a collection of zero or more channel resources that match the request criteria.
         :param channel_id: list or comma-separated list of the YouTube channel ID(s)
@@ -383,7 +348,6 @@ class YouTube(LoginClient):
         return self._perform_v3_request(method='GET', path='channels', params=params)
 
     def get_disliked_videos(self, page_token=''):
-        self._quota += 3
         # prepare page token
         if not page_token:
             page_token = ''
@@ -400,7 +364,6 @@ class YouTube(LoginClient):
         return self._perform_v3_request(method='GET', path='videos', params=params)
 
     def get_videos(self, video_id):
-        self._quota += 5
         """
         Returns a list of videos that match the API request parameters
         :param video_id: list of video ids
@@ -415,7 +378,6 @@ class YouTube(LoginClient):
         return self._perform_v3_request(method='GET', path='videos', params=params)
 
     def get_playlists(self, playlist_id):
-        self._quota += 5
         if isinstance(playlist_id, list):
             playlist_id = ','.join(playlist_id)
             pass
@@ -425,7 +387,6 @@ class YouTube(LoginClient):
         return self._perform_v3_request(method='GET', path='playlists', params=params)
 
     def get_live_events(self, event_type='live', order='relevance', page_token=''):
-        self._quota += 100
         """
 
         :param event_type: one of: 'live', 'completed', 'upcoming'
@@ -453,7 +414,6 @@ class YouTube(LoginClient):
         return self._perform_v3_request(method='GET', path='search', params=params)
 
     def get_related_videos(self, video_id, page_token=''):
-        self._quota += 100
         # prepare page token
         if not page_token:
             page_token = ''
@@ -473,7 +433,6 @@ class YouTube(LoginClient):
         return self._perform_v3_request(method='GET', path='search', params=params)
 
     def search(self, q, search_type=['video', 'channel', 'playlist'], event_type='', page_token=''):
-        self._quota += 100
         """
         Returns a collection of search results that match the query parameters specified in the API request. By default,
         a search result set identifies matching video, channel, and playlist resources, but you can also configure
@@ -522,7 +481,7 @@ class YouTube(LoginClient):
         if not params:
             params = {}
             pass
-        _params = {'key': self._key}
+        _params = {'key': self._config['key']}
         _params.update(params)
 
         # headers
@@ -574,7 +533,7 @@ class YouTube(LoginClient):
         if not params:
             params = {}
             pass
-        _params = {'key': self._key}
+        _params = {'key': self._config['key']}
         _params.update(params)
 
         # headers
@@ -582,7 +541,7 @@ class YouTube(LoginClient):
             headers = {}
             pass
         _headers = {'Host': 'gdata.youtube.com',
-                    'X-GData-Key': 'key=%s' % self._key,
+                    'X-GData-Key': 'key=%s' % self._config['key'],
                     'GData-Version': '2.1',
                     'Accept-Encoding': 'gzip, deflate',
                     'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.36 Safari/537.36'}
