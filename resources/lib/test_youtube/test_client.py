@@ -1,5 +1,6 @@
 from resources.lib import kodion
 from resources.lib.youtube.client import YouTube
+from resources.lib.youtube.helper.video_info import VideoInfo
 
 __author__ = 'bromix'
 
@@ -223,6 +224,15 @@ class TestClient(unittest.TestCase):
 
         streams = client.get_video_streams(context, 'oRSijEW_cDM')
         self.assertGreater(len(streams), 0)
+
+    def test_extract_meta_info(self):
+        client = YouTube()
+        context = kodion.Context()
+
+        # some via 'get_video_info'
+        video_info = VideoInfo(context)
+        video_streams = video_info._method_get_video_info('d5i0ZMMbkZY')
+        pass
 
     def test_get_video_streams_mixed(self):
         client = YouTube()
