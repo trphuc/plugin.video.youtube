@@ -21,12 +21,13 @@ class LoginClient(object):
         }
     }
 
-    def __init__(self, config={}, language='en-US', access_token=''):
+    def __init__(self, config={}, language='en-US', access_token='', access_token_tv=''):
         if not config:
             config = self.CONFIGS['youtube-for-kodi-access']
             pass
 
         self._config = config
+        self._config_tv = self.CONFIGS['youtube-tv']
 
         # the default language is always en_US (like YouTube on the WEB)
         if not language:
@@ -42,6 +43,7 @@ class LoginClient(object):
         self._language = language
         self._country = language.split('_')[1]
         self._access_token = access_token
+        self._access_token_tv = access_token_tv
         self._log_error_callback = None
         pass
 
@@ -80,6 +82,11 @@ class LoginClient(object):
             raise LoginException('Logout Failed')
 
         pass
+
+    def refresh_token_tv(self, refresh_token, grant_type=''):
+        client_id = self.CONFIGS['youtube-tv']['id']
+        client_secret = self.CONFIGS['youtube-tv']['secret']
+        return self.refresh_token(refresh_token, client_id=client_id, client_secret=client_secret, grant_type=grant_type)
 
     def refresh_token(self, refresh_token, client_id='', client_secret='', grant_type=''):
         headers = {'Host': 'www.youtube.com',
@@ -121,6 +128,11 @@ class LoginClient(object):
 
         return '', ''
 
+    def get_device_token_tv(self, code, client_id='', client_secret='', grant_type=''):
+        client_id = self.CONFIGS['youtube-tv']['id']
+        client_secret = self.CONFIGS['youtube-tv']['secret']
+        return self.get_device_token(code, client_id=client_id, client_secret=client_secret, grant_type=grant_type)
+
     def get_device_token(self, code, client_id='', client_secret='', grant_type=''):
         headers = {'Host': 'www.youtube.com',
                    'Connection': 'keep-alive',
@@ -157,6 +169,10 @@ class LoginClient(object):
             return result.json()
 
         return None
+
+    def generate_user_code_tv(self):
+        client_id = self.CONFIGS['youtube-tv']['id']
+        return self.generate_user_code(client_id=client_id)
 
     def generate_user_code(self, client_id=''):
         headers = {'Host': 'www.youtube.com',

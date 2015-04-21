@@ -35,6 +35,8 @@ class Provider(kodion.AbstractProvider):
                  'youtube.sign.out': 30112,
                  'youtube.sign.go_to': 30518,
                  'youtube.sign.enter_code': 30519,
+                 'youtube.sign.twice.title': 30546,
+                 'youtube.sign.twice.text': 30547,
                  'youtube.playlist.select': 30521,
                  'youtube.playlist.play.all': 30531,
                  'youtube.playlist.play.default': 30532,
@@ -89,8 +91,9 @@ class Provider(kodion.AbstractProvider):
         items_per_page = context.get_settings().get_items_per_page()
 
         access_manager = context.get_access_manager()
-        access_token = access_manager.get_access_token()
-        if access_manager.is_new_login_credential() or not access_token or access_manager.is_access_token_expired():
+        access_tokens = access_manager.get_access_token().split('|')
+        if access_manager.is_new_login_credential() or len(
+                access_tokens) != 2 or access_manager.is_access_token_expired():
             # reset access_token
             access_manager.update_access_token('')
             # we clear the cache, so none cached data of an old account will be displayed.
@@ -108,9 +111,16 @@ class Provider(kodion.AbstractProvider):
                 pass
 
             if access_manager.has_login_credentials() or access_manager.has_refresh_token():
-                username, password = access_manager.get_login_credentials()
-                access_token = access_manager.get_access_token()
-                refresh_token = access_manager.get_refresh_token()
+                # username, password = access_manager.get_login_credentials()
+                access_tokens = access_manager.get_access_token()
+                if access_tokens:
+                    access_tokens = access_tokens.split('|')
+                    pass
+
+                refresh_tokens = access_manager.get_refresh_token()
+                if refresh_tokens:
+                    refresh_tokens = refresh_tokens.split('|')
+                    pass
 
                 # create a new access_token
                 """
@@ -119,11 +129,18 @@ class Provider(kodion.AbstractProvider):
                     access_manager.update_access_token(access_token, expires)
                     pass
                 """
-                if not access_token and refresh_token:
+                if len(access_tokens) != 2 and len(refresh_tokens) == 2:
                     try:
-                        access_token, expires = YouTube(language=language).refresh_token(refresh_token)
-                        access_manager.update_access_token(access_token, expires)
+                        access_token_tv, expires_in_tv = YouTube(language=language).refresh_token_tv(refresh_tokens[0])
+                        access_token_kodi, expires_in_kodi = YouTube(language=language).refresh_token(refresh_tokens[1])
+                        access_tokens = [access_token_tv, access_token_kodi]
+
+                        access_token = '%s|%s' % (access_token_tv, access_token_kodi)
+                        expires_in = min(expires_in_tv, expires_in_kodi)
+
+                        access_manager.update_access_token(access_token, expires_in)
                     except LoginException, ex:
+                        access_tokens = ['', '']
                         # reset access_token
                         access_manager.update_access_token('')
                         # we clear the cache, so none cached data of an old account will be displayed.
@@ -131,17 +148,20 @@ class Provider(kodion.AbstractProvider):
                         pass
                     pass
 
-                self._is_logged_in = access_token != ''
-
                 # in debug log the login status
+                self._is_logged_in = len(access_tokens) == 2
                 if self._is_logged_in:
                     context.log_debug('User is logged in')
                 else:
                     context.log_debug('User is not logged in')
                     pass
 
-                self._client = YouTube(items_per_page=items_per_page, access_token=access_token,
-                                       language=language)
+                if len(access_tokens) == 0:
+                    access_tokens = ['', '']
+                    pass
+
+                self._client = YouTube(language=language, items_per_page=items_per_page, access_token=access_tokens[1],
+                                       access_token_tv=access_tokens[0])
                 self._client.set_log_error(context.log_error)
             else:
                 self._client = YouTube(items_per_page=items_per_page, language=language)
@@ -156,7 +176,7 @@ class Provider(kodion.AbstractProvider):
 
     def get_resource_manager(self, context):
         if not self._resource_manager:
-            #self._resource_manager = ResourceManager(weakref.proxy(context), weakref.proxy(self.get_client(context)))
+            # self._resource_manager = ResourceManager(weakref.proxy(context), weakref.proxy(self.get_client(context)))
             self._resource_manager = ResourceManager(context, self.get_client(context))
             pass
         return self._resource_manager
@@ -442,7 +462,15 @@ class Provider(kodion.AbstractProvider):
         if self.is_logged_in() and settings.get_bool('youtube.folder.my_subscriptions.show', True):
             # my subscription
             my_subscriptions_item = DirectoryItem(
-                '[B]' + context.localize(self.LOCAL_MAP['youtube.my_subscriptions']) + '[/B]',
+                '[B]' + context.localize(self.LOCAL_MAP['youtube.my_subscriptions']) + ' (NEW)[/B]',
+                context.create_uri(['special', 'new_uploaded_videos_tv']),
+                context.create_resource_path('media', 'new_uploads.png'))
+            my_subscriptions_item.set_fanart(self.get_fanart(context))
+            result.append(my_subscriptions_item)
+
+            # my subscription
+            my_subscriptions_item = DirectoryItem(
+                '[B]' + context.localize(self.LOCAL_MAP['youtube.my_subscriptions']) + ' (OLD)[/B]',
                 context.create_uri(['special', 'new_uploaded_videos']),
                 context.create_resource_path('media', 'new_uploads.png'))
             my_subscriptions_item.set_fanart(self.get_fanart(context))

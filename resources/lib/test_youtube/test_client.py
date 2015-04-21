@@ -8,8 +8,12 @@ import unittest
 
 
 class TestClient(unittest.TestCase):
-    USERNAME = ''
-    PASSWORD = ''
+    TEST_ACCESS_TOKEN = 'ya29.XAGpChCktCYVHo0YtmqcJMck1lcWm0L5ddnG25_rbLidP0CRs74TDCxXLsux-KdgrrMovLwv3isyXg'
+
+    def test_my_subscriptions_tv(self):
+        client = YouTube(access_token_tv=self.TEST_ACCESS_TOKEN)
+        json_data = client.get_my_subscriptions(page_token=None)
+        pass
 
     def test_get_live_events(self):
         client = YouTube()
