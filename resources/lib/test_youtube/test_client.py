@@ -8,7 +8,7 @@ import unittest
 
 
 class TestClient(unittest.TestCase):
-    TEST_ACCESS_TOKEN = 'ya29.XAGpChCktCYVHo0YtmqcJMck1lcWm0L5ddnG25_rbLidP0CRs74TDCxXLsux-KdgrrMovLwv3isyXg'
+    TEST_ACCESS_TOKEN = ''
 
     def test_my_subscriptions_tv(self):
         client = YouTube(access_token_tv=self.TEST_ACCESS_TOKEN)
