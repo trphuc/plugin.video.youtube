@@ -1,4 +1,5 @@
 5.1.0~beta13 (2015-04-22)
+FIX: support fanart of channel in new implementation of 'My Subscriptions'
 
 5.1.0~beta12 (2015-04-21)
 UPD: Double login to support 'My subscriptions' via YouTube TV API

@@ -1,15 +1,12 @@
-from resources.lib import kodion
-
 __author__ = 'bromix'
 
+from resources.lib import kodion
 from resources.lib.youtube.helper import utils
 
 
 def my_subscriptions_to_items(provider, context, json_data):
-    video_id_dict = {}
-    channel_item_dict = {}
-
     result = []
+    video_id_dict = {}
 
     items = json_data.get('items', [])
     for item in items:
@@ -20,7 +17,8 @@ def my_subscriptions_to_items(provider, context, json_data):
         video_id_dict[video_id] = video_item
         pass
 
-    utils.update_video_infos(provider, context, video_id_dict)
+    channel_item_dict = {}
+    utils.update_video_infos(provider, context, video_id_dict, channel_items_dict=channel_item_dict)
     utils.update_fanarts(provider, context, channel_item_dict)
 
     # next page
