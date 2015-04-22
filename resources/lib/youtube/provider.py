@@ -462,19 +462,23 @@ class Provider(kodion.AbstractProvider):
         if self.is_logged_in() and settings.get_bool('youtube.folder.my_subscriptions.show', True):
             # my subscription
             my_subscriptions_item = DirectoryItem(
-                '[B]' + context.localize(self.LOCAL_MAP['youtube.my_subscriptions']) + ' (NEW)[/B]',
+                '[B]' + context.localize(self.LOCAL_MAP['youtube.my_subscriptions']) + '[/B]',
                 context.create_uri(['special', 'new_uploaded_videos_tv']),
                 context.create_resource_path('media', 'new_uploads.png'))
             my_subscriptions_item.set_fanart(self.get_fanart(context))
             result.append(my_subscriptions_item)
 
             # my subscription
+            """"
+            Deprecated v2 implementation
+
             my_subscriptions_item = DirectoryItem(
                 '[B]' + context.localize(self.LOCAL_MAP['youtube.my_subscriptions']) + ' (OLD)[/B]',
                 context.create_uri(['special', 'new_uploaded_videos']),
                 context.create_resource_path('media', 'new_uploads.png'))
             my_subscriptions_item.set_fanart(self.get_fanart(context))
             result.append(my_subscriptions_item)
+            """
             pass
 
         # what to watch

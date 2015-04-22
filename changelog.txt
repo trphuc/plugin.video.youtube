@@ -1,4 +1,5 @@
 5.1.0~beta13 (2015-04-22)
+UPD: removed old implementation of 'My Subscriptions'
 FIX: support fanart of channel in new implementation of 'My Subscriptions'
 
 5.1.0~beta12 (2015-04-21)
