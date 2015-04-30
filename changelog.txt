@@ -1,6 +1,7 @@
 5.1.1~beta (2015-04-30)
 UPD: Ukrainian (thx 2 Dukobpa3)
 UPD: Russian (thx 2 BytEvil)
+FIX: add 'refresh' again for 'My subscriptions'
 
 5.1.0 (2015-04-22)
 ADD: Double login to support 'My subscriptions' via YouTube TV API
