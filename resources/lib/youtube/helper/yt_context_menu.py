@@ -3,6 +3,19 @@ __author__ = 'bromix'
 from resources.lib import kodion
 
 
+def append_more_for_video(context_menu, provider, context, video_id, is_logged_in=False):
+    _is_logged_in = '0'
+    if is_logged_in:
+        _is_logged_in = '1'
+        pass
+
+    context_menu.append((context.localize(provider.LOCAL_MAP['youtube.video.more']),
+                         'Container.Update(%s)' % context.create_uri(['video', 'more'],
+                                                                     {'video_id': video_id,
+                                                                      'logged_in': _is_logged_in})))
+    pass
+
+
 def append_content_from_description(context_menu, provider, context, video_id):
     context_menu.append((context.localize(provider.LOCAL_MAP['youtube.video.description.links']),
                          'Container.Update(%s)' % context.create_uri(['special', 'description_links'],
