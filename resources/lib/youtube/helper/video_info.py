@@ -289,7 +289,7 @@ class VideoInfo(object):
 
         """
         pos = html.find('ytplayer.config')
-        if pos:
+        if pos >= 0:
             html2 = html[pos:]
             pos = html2.find('</script>')
             if pos:
