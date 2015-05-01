@@ -150,8 +150,11 @@ def make_video_item_from_json_data(context, provider, json_data, playlist_item_i
         pass
 
     # more...
+    refresh_container = context.get_path().startswith(
+        '/channel/mine/playlist/LL') or context.get_path() == '/special/disliked_videos/'
     yt_context_menu.append_more_for_video(context_menu, provider, context, video_id,
-                                          is_logged_in=provider.is_logged_in())
+                                          is_logged_in=provider.is_logged_in(),
+                                          refresh_container=refresh_container)
 
     if len(context_menu) > 0:
         video_item.set_context_menu(context_menu, replace=replace_context_menu)
@@ -429,8 +432,11 @@ def update_video_infos(provider, context, video_id_dict, playlist_item_id_dict=N
             pass
 
         # more...
+        refresh_container = context.get_path().startswith(
+            '/channel/mine/playlist/LL') or context.get_path() == '/special/disliked_videos/'
         yt_context_menu.append_more_for_video(context_menu, provider, context, video_id,
-                                              is_logged_in=provider.is_logged_in())
+                                              is_logged_in=provider.is_logged_in(),
+                                              refresh_container=refresh_container)
 
         if len(context_menu) > 0:
             video_item.set_context_menu(context_menu, replace=replace_context_menu)
