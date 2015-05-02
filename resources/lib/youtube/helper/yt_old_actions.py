@@ -1,6 +1,6 @@
-from resources.lib import kodion
-
 __author__ = 'bromix'
+
+from resources.lib import kodion
 
 
 def _process_play_video(provider, context, re_match):
