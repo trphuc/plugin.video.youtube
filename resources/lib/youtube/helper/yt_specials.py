@@ -5,6 +5,7 @@ from resources.lib.kodion.items import DirectoryItem
 from resources.lib.youtube.helper import v2, v3, tv, extract_urls, UrlResolver, UrlToItemConverter
 from . import utils
 
+
 def _process_related_videos(provider, context, re_match):
     result = []
 
@@ -126,7 +127,8 @@ def _process_description_links(provider, context, re_match):
         if len(result) == 0:
             progress_dialog.close()
             context.get_ui().on_ok(title=context.localize(provider.LOCAL_MAP['youtube.video.description.links']),
-                                   text=context.localize(provider.LOCAL_MAP['youtube.video.description.links.not_found']))
+                                   text=context.localize(
+                                       provider.LOCAL_MAP['youtube.video.description.links.not_found']))
             return False
 
         return result
