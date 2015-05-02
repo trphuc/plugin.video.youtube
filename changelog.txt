@@ -1,3 +1,6 @@
+5.1.1~beta4 (2015-05-02)
+ADD: EndPoint: 'plugin://plugin.video.youtube/search/?q=[URL_ENC_TEXT]'
+
 5.1.1~beta3 (2015-05-01)
 FIX: refresh after rating a video (own playlist only)
 

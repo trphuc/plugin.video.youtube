@@ -386,6 +386,14 @@ class Provider(kodion.AbstractProvider):
         yt_login.process(mode, self, context, re_match)
         return True
 
+    @kodion.RegisterProviderPath('^/search/$')
+    def endpoint_search(self, context, re_match):
+        query = context.get_param('q', '')
+        if not query:
+            return []
+
+        return self.on_search(query, context, re_match)
+
     def on_search(self, search_text, context, re_match):
         result = []
 
