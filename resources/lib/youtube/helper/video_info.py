@@ -388,6 +388,14 @@ class VideoInfo(object):
                 pass
             pass
 
+        # try to find the reason of this page if we've only got 'UNKNOWN'
+        if len(stream_list) == 0 and reason.lower() == 'unknown':
+            reason_match = re.search(r'<h1[^>]*>(?P<reason>[^<]+)', html)
+            if reason_match:
+                reason = reason_match.group('reason').strip()
+                pass
+            pass
+
         # this is a reason from get_video_info. We should at least display the reason why the video couldn't be loaded
         if len(stream_list) == 0 and reason:
             raise YouTubeException(reason)
