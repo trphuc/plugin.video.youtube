@@ -82,7 +82,7 @@ def make_video_item_from_json_data(context, provider, json_data, playlist_item_i
     replace_context_menu = False
 
     # Refresh ('My Subscriptions', all my playlists)
-    if context.get_path() == '/special/new_uploaded_videos/' or context.get_path().startswith(
+    if context.get_path() == '/special/new_uploaded_videos_tv/' or context.get_path().startswith(
             '/channel/mine/playlist/'):
         yt_context_menu.append_refresh(context_menu, provider, context)
         pass
@@ -373,7 +373,8 @@ def update_video_infos(provider, context, video_id_dict, playlist_item_id_dict=N
         replace_context_menu = False
 
         # Refresh ('My Subscriptions')
-        if context.get_path() == '/special/new_uploaded_videos_tv/':  # or context.get_path().startswith('/channel/mine/playlist/'):
+        if context.get_path() == '/special/new_uploaded_videos_tv/' or context.get_path().startswith(
+                '/channel/mine/playlist/'):
             yt_context_menu.append_refresh(context_menu, provider, context)
             pass
 
