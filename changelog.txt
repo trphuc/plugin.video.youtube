@@ -1,3 +1,6 @@
+5.1.1~beta5 (2015-05-04)
+UPD: improved logging (debug only)
+
 5.1.1~beta4 (2015-05-02)
 ADD: show deprecation warning of old plugin calls starting with Isengard
 ADD: EndPoint: 'plugin://plugin.video.youtube/search/?q=[URL_ENC_TEXT]'
