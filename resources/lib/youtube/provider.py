@@ -477,18 +477,6 @@ class Provider(kodion.AbstractProvider):
                 context.create_resource_path('media', 'new_uploads.png'))
             my_subscriptions_item.set_fanart(self.get_fanart(context))
             result.append(my_subscriptions_item)
-
-            # my subscription
-            """"
-            Deprecated v2 implementation
-
-            my_subscriptions_item = DirectoryItem(
-                '[B]' + context.localize(self.LOCAL_MAP['youtube.my_subscriptions']) + ' (OLD)[/B]',
-                context.create_uri(['special', 'new_uploaded_videos']),
-                context.create_resource_path('media', 'new_uploads.png'))
-            my_subscriptions_item.set_fanart(self.get_fanart(context))
-            result.append(my_subscriptions_item)
-            """
             pass
 
         # what to watch
