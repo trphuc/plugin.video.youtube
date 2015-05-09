@@ -1,4 +1,5 @@
 5.1.1~beta6 (2015-05-09)
+ADD: API Key for each major version of KODI
 DEL: removed old v2 API
 
 5.1.1~beta5 (2015-05-04)

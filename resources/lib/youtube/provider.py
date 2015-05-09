@@ -105,6 +105,14 @@ class Provider(kodion.AbstractProvider):
             pass
 
         if not self._client:
+            major_version = context.get_system_version().get_version()[0]
+            youtube_config = YouTube.CONFIGS.get('youtube-for-kodi-%d' % major_version, None)
+            if not youtube_config or youtube_config is None:
+                youtube_config = YouTube.CONFIGS['youtube-for-kodi-fallback']
+                pass
+
+            context.log_debug('Selecting YouTube config "%s"' % youtube_config['system'])
+
             language = context.get_settings().get_string('youtube.language', 'en-US')
 
             # remove the old login.
@@ -125,16 +133,14 @@ class Provider(kodion.AbstractProvider):
                     pass
 
                 # create a new access_token
-                """
-                if not access_token and username and password:
-                    access_token, expires = YouTube(language=language).authenticate(username, password)
-                    access_manager.update_access_token(access_token, expires)
-                    pass
-                """
                 if len(access_tokens) != 2 and len(refresh_tokens) == 2:
                     try:
-                        access_token_tv, expires_in_tv = YouTube(language=language).refresh_token_tv(refresh_tokens[0])
-                        access_token_kodi, expires_in_kodi = YouTube(language=language).refresh_token(refresh_tokens[1])
+                        access_token_tv, expires_in_tv = YouTube(language=language,
+                                                                 config=youtube_config).refresh_token_tv(
+                            refresh_tokens[0])
+                        access_token_kodi, expires_in_kodi = YouTube(language=language,
+                                                                     config=youtube_config).refresh_token(
+                            refresh_tokens[1])
                         access_tokens = [access_token_tv, access_token_kodi]
 
                         access_token = '%s|%s' % (access_token_tv, access_token_kodi)
@@ -163,10 +169,10 @@ class Provider(kodion.AbstractProvider):
                     pass
 
                 self._client = YouTube(language=language, items_per_page=items_per_page, access_token=access_tokens[1],
-                                       access_token_tv=access_tokens[0])
+                                       access_token_tv=access_tokens[0], config=youtube_config)
                 self._client.set_log_error(context.log_error)
             else:
-                self._client = YouTube(items_per_page=items_per_page, language=language)
+                self._client = YouTube(items_per_page=items_per_page, language=language, config=youtube_config)
                 self._client.set_log_error(context.log_error)
 
                 # in debug log the login status
