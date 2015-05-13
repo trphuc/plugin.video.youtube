@@ -24,9 +24,12 @@ def play_video(provider, context, re_match):
             context.get_ui().show_notification(message, time_milliseconds=5000)
             return False
 
-        video_stream = kodion.utils.find_best_fit(video_streams, _compare)
+        video_stream = kodion.utils.select_stream(context, video_streams)
 
-        if video_stream['format'].get('rtmpe', False):
+        if video_stream is None:
+            return False
+
+        if video_stream['video'].get('rtmpe', False):
             message = context.localize(provider.LOCAL_MAP['youtube.error.rtmpe_not_supported'])
             context.get_ui().show_notification(message, time_milliseconds=5000)
             return False
