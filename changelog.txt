@@ -1,4 +1,4 @@
-5.1.2~beta2 (2015-05-15)
+5.1.2 (2015-05-15)
 ADD: ask for video quality (optional)
 UPD: code cleaning
 UPD: Russian (thx 2 BytEvil)
