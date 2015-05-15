@@ -11,10 +11,6 @@ from resources.lib.youtube.helper import utils, v3
 
 
 def play_video(provider, context, re_match):
-    def _compare(item):
-        vq = context.get_settings().get_video_quality()
-        return vq - item['format'].get('video', {}).get('resolution', 0)
-
     try:
         video_id = context.get_param('video_id')
         client = provider.get_client(context)

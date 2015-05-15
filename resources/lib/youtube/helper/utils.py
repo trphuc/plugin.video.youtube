@@ -102,8 +102,13 @@ def make_video_item_from_json_data(context, provider, json_data, playlist_item_i
         yt_context_menu.append_watch_later(context_menu, provider, context, watch_later_playlist_id, video_id)
         pass
 
-    # play all videos of the playlist
-    some_playlist_match = re.match('^/channel/(.+)/playlist/(?P<playlist_id>.*)/$', context.get_path())
+    """
+    Play all videos of the playlist.
+
+    /channel/[CHANNEL_ID]/playlist/[PLAYLIST_ID]/
+    /playlist/[PLAYLIST_ID]/
+    """
+    some_playlist_match = re.match(r'^(/channel/(.+))?/playlist/(?P<playlist_id>.*)/$', context.get_path())
     if some_playlist_match:
         replace_context_menu = True
         playlist_id = some_playlist_match.group('playlist_id')
