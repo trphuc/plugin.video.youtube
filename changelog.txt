@@ -1,5 +1,6 @@
-5.1.2~beta1 (2015-05-13)
+5.1.2~beta2 (2015-05-15)
 ADD: ask for video quality (optional)
+UPD: Russian (thx 2 BytEvil)
 UPD: kodion
 
 5.1.1 (2015-05-10)
