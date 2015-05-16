@@ -3,7 +3,7 @@ __author__ = 'bromix'
 import time
 
 
-def process(mode, provider, context, re_match):
+def process(mode, provider, context, re_match, needs_tv_login=True):
     def _do_login(_for_tv=False):
         _client = provider.get_client(context)
         json_data = {}
@@ -74,16 +74,21 @@ def process(mode, provider, context, re_match):
         context.get_ui().refresh_container()
         pass
     elif mode == 'in':
-        ok_dialog = context.get_ui().on_ok(context.localize(provider.LOCAL_MAP['youtube.sign.twice.title']),
-                                           context.localize(provider.LOCAL_MAP['youtube.sign.twice.text']))
+        access_token_tv = ''
+        expires_in_tv = 0
+        refresh_token_tv = ''
+        if needs_tv_login:
+            ok_dialog = context.get_ui().on_ok(context.localize(provider.LOCAL_MAP['youtube.sign.twice.title']),
+                                               context.localize(provider.LOCAL_MAP['youtube.sign.twice.text']))
 
-        access_token_tv, expires_in_tv, refresh_token_tv = _do_login(_for_tv=True)
-        # abort tv login
-        if not access_token_tv and not refresh_token_tv:
-            provider.reset_client()
-            context.get_access_manager().update_access_token('')
-            context.get_ui().refresh_container()
-            return
+            access_token_tv, expires_in_tv, refresh_token_tv = _do_login(_for_tv=True)
+            # abort tv login
+            if not access_token_tv and not refresh_token_tv:
+                provider.reset_client()
+                context.get_access_manager().update_access_token('')
+                context.get_ui().refresh_container()
+                return
+            pass
 
         access_token_kodi, expires_in_kodi, refresh_token_kodi = _do_login(_for_tv=False)
         # abort kodi login
@@ -93,9 +98,16 @@ def process(mode, provider, context, re_match):
             context.get_ui().refresh_container()
             return
 
-        access_token = '%s|%s' % (access_token_tv, access_token_kodi)
-        refresh_token = '%s|%s' % (refresh_token_tv, refresh_token_kodi)
-        expires_in = min(expires_in_tv, expires_in_kodi)
+        if needs_tv_login:
+            access_token = '%s|%s' % (access_token_tv, access_token_kodi)
+            refresh_token = '%s|%s' % (refresh_token_tv, refresh_token_kodi)
+            expires_in = min(expires_in_tv, expires_in_kodi)
+            pass
+        else:
+            access_token = access_token_kodi
+            refresh_token = refresh_token_kodi
+            expires_in = expires_in_kodi
+            pass
 
         provider.reset_client()
         context.get_access_manager().update_access_token(access_token, expires_in, refresh_token)
