@@ -46,7 +46,7 @@ def process(mode, provider, context, re_match, needs_tv_login=True):
                     dialog.close()
                     return access_token, expires_in, refresh_token
                     # provider.reset_client()
-                    #context.get_access_manager().update_access_token(access_token, expires_in, refresh_token)
+                    # context.get_access_manager().update_access_token(access_token, expires_in, refresh_token)
                     #context.get_ui().refresh_container()
                     break
                 pass
@@ -61,6 +61,9 @@ def process(mode, provider, context, re_match, needs_tv_login=True):
         pass
 
     if mode == 'out':
+        # we clear the cache, so none cached data of an old account will be displayed.
+        context.get_function_cache().clear()
+
         access_manager = context.get_access_manager()
         client = provider.get_client(context)
         if access_manager.has_refresh_token():
@@ -78,8 +81,8 @@ def process(mode, provider, context, re_match, needs_tv_login=True):
         expires_in_tv = 0
         refresh_token_tv = ''
         if needs_tv_login:
-            ok_dialog = context.get_ui().on_ok(context.localize(provider.LOCAL_MAP['youtube.sign.twice.title']),
-                                               context.localize(provider.LOCAL_MAP['youtube.sign.twice.text']))
+            context.get_ui().on_ok(context.localize(provider.LOCAL_MAP['youtube.sign.twice.title']),
+                                   context.localize(provider.LOCAL_MAP['youtube.sign.twice.text']))
 
             access_token_tv, expires_in_tv, refresh_token_tv = _do_login(_for_tv=True)
             # abort tv login
