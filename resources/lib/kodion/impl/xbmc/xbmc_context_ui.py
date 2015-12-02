@@ -45,6 +45,9 @@ class XbmcContextUI(AbstractContextUI):
 
     def on_keyboard_input(self, title, default='', hidden=False):
         # fallback for Frodo
+        try: default = default.encode('utf-8')
+        except: pass
+    
         if self._context.get_system_version().get_version() <= (12, 3):
             keyboard = xbmc.Keyboard(default, title, hidden)
             keyboard.doModal()
