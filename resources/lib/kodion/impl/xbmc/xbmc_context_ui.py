@@ -45,9 +45,6 @@ class XbmcContextUI(AbstractContextUI):
 
     def on_keyboard_input(self, title, default='', hidden=False):
         # fallback for Frodo
-        try: default = default.encode('utf-8')
-        except: pass
-    
         if self._context.get_system_version().get_version() <= (12, 3):
             keyboard = xbmc.Keyboard(default, title, hidden)
             keyboard.doModal()
@@ -60,7 +57,7 @@ class XbmcContextUI(AbstractContextUI):
 
         # Starting with Gotham (13.X > ...)
         dialog = xbmcgui.Dialog()
-        result = dialog.input(title, str(default), type=xbmcgui.INPUT_ALPHANUM)
+        result = dialog.input(title, utils.to_unicode(default), type=xbmcgui.INPUT_ALPHANUM)
         if result:
             text = utils.to_unicode(result)
             return True, text
