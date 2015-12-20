@@ -1,4 +1,5 @@
 5.1.13 (2015-12-20)
+[fix] frodo...DIE FRODO DIE !!!
 [fix] some cleanup for Jarvis
 
 5.1.12 (2015-11-29)
