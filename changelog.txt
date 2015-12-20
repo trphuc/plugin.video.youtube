@@ -1,3 +1,6 @@
+5.1.13 (2015-12-20)
+[fix] some cleanup for Jarvis
+
 5.1.12 (2015-11-29)
 [fix] sort issues with Jarvis (thx 2 guidosarducci)
 
