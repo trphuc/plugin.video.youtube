@@ -1,3 +1,6 @@
+5.1.14 (2015-12-22)
+[fix] VEVO signature calculation
+
 5.1.13 (2015-12-20)
 [fix] frodo...DIE FRODO DIE !!!
 [fix] some cleanup for Jarvis
