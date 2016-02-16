@@ -50,9 +50,9 @@ class LoginClient(object):
         },
         'youtube-for-kodi-15': {
             'system': 'Isengard',
-            'key': 'AIzaSyBAdxZCHbeJwnQ7dDZQJNfcaF46MdqJ24E',
-            'id': '988476436049-l9sfcivj4jtm1f2ppcvvbgsli6kvtis0.apps.googleusercontent.com',
-            'secret': '_BEENv-a3-egDz_QKo5pGZCK'
+            'key': 'AIzaSyB1aONjKBIQjxZAcFbMjrOTDli-aci92NY',
+            'id': '548761172340-fpu0t2r3a0gmo11p6dlaflau57d0b1ql.apps.googleusercontent.com',
+            'secret': 'RojHbgDhYYrh_j-NIhQi5IEB'
         },
         'youtube-for-kodi-16': {
             'system': 'Jarvis',
